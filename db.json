@@ -60,6 +60,16 @@
       "trangthai": "Còn hàng",
       "type": "simple",
       "parent": 0
+    },
+    {
+      "id": 6,
+      "name": "Dương",
+      "price": "200000",
+      "mota": "123",
+      "danhmuc": "2",
+      "trangthai": "Còn hàng",
+      "type": "simple",
+      "parent": 0
     }
   ],
   "variants": [],

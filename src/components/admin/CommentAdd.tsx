@@ -43,9 +43,9 @@ const CommentAdd = () => {
       date: new Date().toLocaleDateString('en-GB'),  
     };
     mutation.mutate(commentData);  
-  };
+ };
   
-  return (
+  return ( 
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Thêm bình luận cho sản phẩm</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -59,8 +59,7 @@ const CommentAdd = () => {
           />
           <span className="text-red-700">{errors.user?.message}</span>
         </div>
-
-        <div>
+        <div>                                                                                                                              
           <label className="block text-sm font-medium text-gray-700 mb-1">Nội dung bình luận</label>
           <textarea
             {...register('content', { required: "Không để trống" })}

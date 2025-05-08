@@ -28,6 +28,7 @@ const App = (props: Props) => {
 
       ]},
       {path:"/admin",element:<AdminLayout/>,children:[
+
       //Router Danh mục
       {path:'category/list',element:<GetListCategory/>},
       {path:'category/add',element:<PostAddCategory/>},
@@ -37,10 +38,8 @@ const App = (props: Props) => {
       {path:'phone/list',element:<GetList/>},
       {path:'phone/add',element:<PostAdd/>}, 
       {path:'phone/:id/edit',element:<PutEdit/>},
-
       
-
-
+      //Router bình luận  
       {path:'comment/list',element:<CommentAdmin/>},
       {path:'comment/add',element:<CommentAdd/>},
       // {path:'login',element:<Login/>},
