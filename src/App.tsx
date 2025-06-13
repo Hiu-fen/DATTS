@@ -17,6 +17,10 @@ import CommentAdd from './components/admin/CommentAdd'
 import OrderList from './components/admin/Order/ListOrder'
 import OrderDetail from './components/admin/Order/OrderDetail'
 import AddOrder from './components/admin/Order/AddOrder'
+import BannerList from './components/admin/BannerList'
+import BannerAdd from './components/admin/BannerAdd'
+import BannerEdit from './components/admin/BannerEdit'
+import BannerDetail from './components/admin/BannerDetail'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
@@ -58,8 +62,11 @@ const App = (props: Props) => {
         { path: "orders/add", element: <AddOrder /> },
         { path: "orders", element: <OrderList /> },
         { path: "orders/:id", element: <OrderDetail /> },
-        
-
+        // router banner
+        {path:'banner/list',element:<BannerList/>},
+        {path:'banner/add',element:<BannerAdd/>},
+       { path: 'banner/:id/edit', element: <BannerEdit /> },
+      { path: 'banner/:id', element: <BannerDetail /> },
       ]},
       
       

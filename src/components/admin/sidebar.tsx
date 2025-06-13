@@ -57,6 +57,15 @@ const AdminSidebar = () => {
         { key: 'comment-add', label: 'Thêm bình luận' },
       ],
     },
+     {
+      key: 'banner-manage',
+      label: 'Quản lý banner',
+      icon: <ReadOutlined />,
+      children: [
+        { key: 'banner-list', label: 'Banner' },
+        { key: 'banner-add', label: 'Thêm banner' },
+      ],
+    },
     {
       key: 'report',
       label: 'Thống kê',
@@ -74,6 +83,8 @@ const AdminSidebar = () => {
       'comment-add': '/admin/comment/add',
       'orders': '/admin/orders',
       'orders/add': '/admin/orders/add',
+      'banner-list': '/admin/banner/list',
+      'banner-add': '/admin/banner/add',
       dashboard: '/admin',
       report: '/admin/report',
     };
