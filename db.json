@@ -15,7 +15,7 @@
       "id": 2
     },
     {
-      "name": "op po",
+      "name": "Oppo",
       "image": "https://png.pngtree.com/png-vector/20201030/ourlarge/pngtree-cute-teddy-bear-png-image_2383062.jpg",
       "mota": "đập thoải moãi :v",
       "id": 3
@@ -26,9 +26,11 @@
       "id": 1,
       "name": "iphone12",
       "price": "9.000000",
-      "mota": "táo",
-      "danhmuc": "1",
-      "trangthai": "Còn hàng",
+      "image": "",
+      "album": "",
+      "description": "táo",
+      "category": "1",
+      "status": "Còn hàng",
       "type": "simple",
       "parent": 0
     },
@@ -36,9 +38,14 @@
       "id": 2,
       "name": "sansung s20",
       "price": "10.000000",
-      "mota": "sansung  đây",
-      "danhmuc": "2",
-      "trangthai": "Hết hàng",
+      "image": "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
+      "album": [
+        "https://tse3.mm.bing.net/th?id=OIP.6NTTmsX107Jn4fgu6YJrkwHaHZ&pid=Api&P=0&h=180",
+        "https://tse1.mm.bing.net/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&P=0&h=180"
+      ],
+      "description": "sansung  đây",
+      "category": "2",
+      "status": "Hết hàng",
       "type": "simple",
       "parent": 0
     },
@@ -46,29 +53,66 @@
       "id": 3,
       "name": "oppo 12",
       "price": "4.000000",
-      "mota": "đập k bể",
-      "danhmuc": "3",
-      "trangthai": "Hết hàng",
+      "image": "",
+      "album": "",
+      "description": "đập k bể",
+      "category": "3",
+      "status": "Hết hàng",
       "type": "simple",
       "parent": 0
     },
     {
       "id": 5,
       "name": "iphone11",
+      "image": "",
+      "album": "",
       "price": "6.000000",
-      "mota": "Điện thoại mới nhất ",
-      "danhmuc": "1",
-      "trangthai": "Còn hàng",
+      "description": "Điện thoại mới nhất ",
+      "category": "1",
+      "status": "Còn hàng",
       "type": "simple",
       "parent": 0
     },
     {
       "id": 6,
       "name": "Dương",
+      "image": "",
+      "album": "",
       "price": "200000",
-      "mota": "123",
-      "danhmuc": "2",
-      "trangthai": "Còn hàng",
+      "description": "123",
+      "category": "2",
+      "status": "Còn hàng",
+      "type": "simple",
+      "parent": 0
+    },
+    {
+      "id": 7,
+      "name": "Iphone 13",
+      "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
+      "album": [
+        ""
+      ],
+      "price": "11",
+      "quantity": "11",
+      "description": "mgoraougaruogurhoh",
+      "category": "1",
+      "status": "Còn hàng",
+      "type": "simple",
+      "parent": 0
+    },
+    {
+      "id": 8,
+      "name": "Apple VIP ",
+      "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
+      "album": [
+        "https://tse2.mm.bing.net/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&P=0&h=180",
+        "https://tse1.mm.bing.net/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&P=0&h=180"
+      ],
+      "price": "11",
+      "quantity": "1",
+      "description": "egshg",
+      "category": "3",
+      "status": "Còn hàng",
       "type": "simple",
       "parent": 0
     }

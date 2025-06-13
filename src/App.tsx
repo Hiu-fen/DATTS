@@ -2,9 +2,11 @@ import React from 'react'
 import { useRoutes } from 'react-router-dom'
 import ClientLayout from './layout/client'
 import AdminLayout from './layout/admin'
-import GetList from './components/admin/GetList'
-import PostAdd from './components/admin/PostAdd'
-import PutEdit from './components/admin/PutEdit'
+import GetListProduct from './components/admin/GetListProduct'
+import PostAddProduct from './components/admin/PostAddProduct'
+import PutEditProduct from './components/admin/PutEditProduct'
+import GetProductDetail from './components/admin/GetProductDetail'
+
 import Register from './components/admin/Register'
 import Login from './components/admin/Login'
 import GetListCategory from './components/admin/GetListCategory'
@@ -13,7 +15,7 @@ import PutEditCategory from './components/admin/PutEditCategory'
 import CommentAdmin from './components/admin/CommentList'
 import CommentAdd from './components/admin/CommentAdd'
 // import Books from './components/test/books'
-import AddBook from './components/test/books'
+// import AddBook from './components/test/books'
 
 
 type Props = {}
@@ -37,16 +39,18 @@ const App = (props: Props) => {
       {path:'category/:id/edit',element:<PutEditCategory/>},
 
       //Router Sản phẩm
-      {path:'phone/list',element:<GetList/>},
-      {path:'phone/add',element:<PostAdd/>}, 
-      {path:'phone/:id/edit',element:<PutEdit/>},
+      {path:'phone/list',element:<GetListProduct/>},
+      {path:'phone/add',element:<PostAddProduct/>}, 
+      {path:'phone/:id/edit',element:<PutEditProduct/>},
+      {path:'phone/:id',element:<GetProductDetail/>},
+
       
       //Router bình luận  
       {path:'comment/list',element:<CommentAdmin/>},
       {path:'comment/add',element:<CommentAdd/>},
       // {path:'login',element:<Login/>},
 
-      {path:'books',element:<AddBook/>},
+      // {path:'books',element:<AddBook/>},
         
 
       ]},

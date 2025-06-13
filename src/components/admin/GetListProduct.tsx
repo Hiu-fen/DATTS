@@ -11,7 +11,7 @@ interface ICategory {
   name: string;
 }
 
-const GetList = () => {
+const GetListProduct = () => {
   const nav = useNavigate();
 
   const { data: products, refetch } = useQuery({
@@ -53,6 +53,13 @@ const GetList = () => {
       key: 'name',
       dataIndex: 'name',
     },
+     {
+      title:"Ảnh sản phẩm",
+      key:'image',
+      dataIndex:'image',
+      render:(img:string)=> <img src={img} width={100}></img>
+    },
+    
     {
       title: "Giá",
       key: 'price',
@@ -62,20 +69,20 @@ const GetList = () => {
     },
     {
       title: "Mô tả",
-      key: 'mota',
-      dataIndex: 'mota',
+      key: 'description',
+      dataIndex: 'description',
     },
     {
       title: "Danh mục",
-      key: 'danhmuc',
-      render: (_: any, record: IProduct) => getCategoryName(Number(record.danhmuc))
+      key: 'category',
+      render: (_: any, record: IProduct) => getCategoryName(Number(record.category))
     },
     {
       title: "Trạng thái",
-      key: 'trangthai',
+      key: 'status',
       render: (_: any, record: IProduct) => (
-        <span style={{ color: record.trangthai === 'Còn hàng' ? 'green' : 'red' }}>
-          {record.trangthai}
+        <span style={{ color: record.status === 'Còn hàng' ? 'green' : 'red' }}>
+          {record.status}
         </span>
       )
     },
@@ -86,7 +93,8 @@ const GetList = () => {
       key: 'id',
       dataIndex: 'id',
       render: (id: string) => <>
-        <Button onClick={() => nav(`/phone/${id}/edit`)}><EditOutlined /></Button>
+        <Button onClick={() => nav(`/admin/phone/${id}/edit`)}><EditOutlined /></Button>
+         <Button onClick={() => nav(`/admin/phone/${id}`)}>Xem</Button>{' '}
         <Popconfirm
           title="Thông báo"
           description="Bạn chắc chắn muốn xóa?"
@@ -113,4 +121,4 @@ const GetList = () => {
   );
 }
 
-export default GetList;
+export default GetListProduct;
