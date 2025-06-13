@@ -16,6 +16,7 @@ import CommentAdmin from './components/admin/CommentList'
 import CommentAdd from './components/admin/CommentAdd'
 import OrderList from './components/admin/Order/ListOrder'
 import OrderDetail from './components/admin/Order/OrderDetail'
+import AddOrder from './components/admin/Order/AddOrder'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
@@ -25,7 +26,7 @@ type Props = {}
 const App = (props: Props) => {
   const routes = useRoutes([
 
-      {path:"/client",element:<ClientLayout/>,children:[
+      {path:"/",element:<ClientLayout/>,children:[
         
       //Router Đăng ký, Đăng nhập
       {path:'login', element:<Login/>},
@@ -54,6 +55,7 @@ const App = (props: Props) => {
 
        //Router Order
         //admin
+        { path: "orders/add", element: <AddOrder /> },
         { path: "orders", element: <OrderList /> },
         { path: "orders/:id", element: <OrderDetail /> },
         

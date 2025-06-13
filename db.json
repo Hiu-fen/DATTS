@@ -1,6 +1,5 @@
 {
   "books": [],
-  "books2": [],
   "category": [
     {
       "name": "Iphone",
@@ -137,7 +136,6 @@
     }
   ],
   "carts": [],
-  
   "orders": [
     {
       "id": "1",
@@ -222,10 +220,73 @@
       "paymentMethod": "COD",
       "returnStatus": "",
       "statusHistory": []
+    },
+    {
+      "id": 4,
+      "userId": 2,
+      "orderCode": "DH0001",
+      "date": "2025-06-13T09:18:21.277Z",
+      "status": "Giao thành công",
+      "isPaid": false,
+      "total": 1000000,
+      "paymentMethod": "COD",
+      "items": []
+    },
+    {
+      "id": 5,
+      "userId": 2,
+      "orderCode": "DHK8CA40",
+      "customerName": "hiếu",
+      "phone": "0987654321",
+      "address": "hà nội",
+      "date": "2025-06-13T09:21:41.991Z",
+      "status": "Chờ xác nhận",
+      "isPaid": false,
+      "paymentMethod": "COD",
+      "notes": "",
+      "total": 2000,
+      "items": [
+        {
+          "soluong": 2,
+          "price": 1000,
+          "snapshot": {
+            "name": "test",
+            "price": 1000,
+            "color": "Red",
+            "storage": "64GB"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "userId": 2,
+      "orderCode": "DHGITFTY",
+      "customerName": "hiếu",
+      "phone": "0987654321",
+      "address": "147 nam từ liêm",
+      "date": "2025-06-13T09:25:23.916Z",
+      "status": "Chờ xác nhận",
+      "isPaid": true,
+      "paymentMethod": "Chuyển khoản",
+      "returnStatus": "",
+      "statusHistory": [],
+      "items": [
+        {
+          "productName": "test",
+          "soluong": 3,
+          "price": 22000000,
+          "snapshot": {
+            "name": "test",
+            "price": 22000000,
+            "color": "blue",
+            "storage": "64GB"
+          }
+        }
+      ],
+      "total": 66000000
     }
-  ]
-
-,
+  ],
   "users": [
     {
       "email": "phamhieu12345@gmail.com",
@@ -233,14 +294,9 @@
       "id": 1
     },
     {
-      "email": "duongtmph50382@gmail.com",
-      "password": "$2a$10$690fbOV2reJKzSQ0i.CCXup/VOeFzcgPpFI9ox/lRDSIOVJSzMo7q",
-      "id": 2
-    },
-    {
       "email": "admin@gmail.com",
       "password": "$2a$10$RstBLW3yU88GxAWcb5vU2O0I2jxsXTES9j3t/1Yk.uWlIx4YqQcC.",
-      "id": 3
+      "id": 2
     }
   ]
 }

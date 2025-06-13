@@ -249,28 +249,45 @@ server.put("/carts",Permission,(req,res)=>{
   db.carts[index]= {...db.carts[index],Items:items}
   res.status(200).json({data:db.carts[index],message:"Cập nhật thành công"}); 
 })
-server.post("/orders",Permission,(req,res)=>{
+server.post("/orders", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const {userId} = req.body
-  const index = db.carts.findIndex(item => item.userId ==userId); 
-  const data = req.body
-  const ItemOrder = data.items.map(item=>item.productId)
-  const orderSet = new Set(ItemOrder)
-  const newItemCart = db.carts[index].Items.filter(item=>{
-    return !orderSet.has(item.productId)
-  })
-  db.carts[index].Items = [...newItemCart]
-  data.items = data.items.map(item=>{
-    return {...item,productId:GetInfoVariantProduct(GetInfoById(item.productId,"products"))}
-  })
-  const neworder = {
-    id:GetMaxID("orders")+1,
-    ...data
+  const userId = req.user.id; // ✅ Lấy từ token decode sẵn
+
+  const index = db.carts.findIndex(item => item.userId == userId);
+
+  const data = req.body;
+  if (!data.items || !Array.isArray(data.items)) {
+    return res.status(400).json({ error: "Thiếu danh sách sản phẩm (items)" });
   }
-  db.orders = [...db.orders,neworder]
+
+  const itemOrder = data.items.map(item => item.productId);
+  const orderSet = new Set(itemOrder);
+
+  if (index >= 0) {
+    const newItemCart = db.carts[index].Items.filter(item => {
+      return !orderSet.has(item.productId);
+    });
+    db.carts[index].Items = [...newItemCart];
+  }
+
+  data.items = data.items.map(item => {
+    return {
+      ...item,
+      productId: GetInfoVariantProduct(GetInfoById(item.productId, "products")),
+    };
+  });
+
+  const newOrder = {
+    id: GetMaxID("orders") + 1,
+    userId, // ✅ Thêm userId vào đơn hàng
+    ...data,
+  };
+
+  db.orders = [...db.orders, newOrder];
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
-  res.status(201).json({message:"Đặt hàng thành công!",data}); 
-})
+  res.status(201).json({ message: "Đặt hàng thành công!", data: newOrder });
+});
+
 server.use(router);
 server.listen(port, () => {
   console.log(`Endpoint: http://localhost:${port}`);

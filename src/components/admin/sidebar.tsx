@@ -44,6 +44,7 @@ const AdminSidebar = () => {
       icon: <HighlightFilled />,
       children: [
         { key: 'orders', label: 'Oders' },
+        { key: 'orders/add', label: 'test add order' },
         // { key: 'category-add', label: 'Thêm danh mục' },
       ],
     },
@@ -72,6 +73,7 @@ const AdminSidebar = () => {
       'comment-list': '/admin/comment/list',
       'comment-add': '/admin/comment/add',
       'orders': '/admin/orders',
+      'orders/add': '/admin/orders/add',
       dashboard: '/admin',
       report: '/admin/report',
     };
