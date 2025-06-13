@@ -39,6 +39,15 @@ const AdminSidebar = () => {
       ],
     },
     {
+      key: 'oders-manage',
+      label: 'Quản lý đơn hàng',
+      icon: <HighlightFilled />,
+      children: [
+        { key: 'orders', label: 'Oders' },
+        // { key: 'category-add', label: 'Thêm danh mục' },
+      ],
+    },
+    {
       key: 'comment-manage',
       label: 'Quản lý bình luận',
       icon: <ReadOutlined />,
@@ -62,6 +71,7 @@ const AdminSidebar = () => {
       'category-add': '/admin/category/add',
       'comment-list': '/admin/comment/list',
       'comment-add': '/admin/comment/add',
+      'orders': '/admin/orders',
       dashboard: '/admin',
       report: '/admin/report',
     };

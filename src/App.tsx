@@ -14,6 +14,8 @@ import PostAddCategory from './components/admin/PostAddCategory'
 import PutEditCategory from './components/admin/PutEditCategory'
 import CommentAdmin from './components/admin/CommentList'
 import CommentAdd from './components/admin/CommentAdd'
+import OrderList from './components/admin/Order/ListOrder'
+import OrderDetail from './components/admin/Order/OrderDetail'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
@@ -50,7 +52,10 @@ const App = (props: Props) => {
       {path:'comment/add',element:<CommentAdd/>},
       // {path:'login',element:<Login/>},
 
-      // {path:'books',element:<AddBook/>},
+       //Router Order
+        //admin
+        { path: "orders", element: <OrderList /> },
+        { path: "orders/:id", element: <OrderDetail /> },
         
 
       ]},

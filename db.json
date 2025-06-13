@@ -137,7 +137,95 @@
     }
   ],
   "carts": [],
-  "orders": [],
+  
+  "orders": [
+    {
+      "id": "1",
+      "orderCode": "DH001",
+      "customerName": "Nguyễn Văn A",
+      "phone": 912345678,
+      "address": "123 Lê Lợi, Hà Nội",
+      "date": "2025-06-10T08:00:00.000Z",
+      "status": "Chờ xác nhận",
+      "items": [
+        {
+          "productId": "p1",
+          "productName": "iPhone 15",
+          "soluong": 1,
+          "price": 25000000,
+          "snapshot": {
+            "name": "iPhone 15 Pro Max",
+            "price": 25000000,
+            "color": "Đen",
+            "storage": "256GB"
+          }
+        }
+      ],
+      "total": 25000000,
+      "isPaid": false,
+      "paymentMethod": "COD",
+      "returnStatus": "",
+      "statusHistory": []
+    },
+    {
+      "id": "2",
+      "orderCode": "DH002",
+      "customerName": "Trần Thị B",
+      "phone": 934567890,
+      "address": "456 Nguyễn Huệ, TP.HCM",
+      "date": "2025-06-11T10:30:00.000Z",
+      "status": "Đang giao",
+      "items": [
+        {
+          "productId": "p2",
+          "productName": "Samsung Galaxy S24",
+          "soluong": 2,
+          "price": 18000000,
+          "snapshot": {
+            "name": "Samsung S24 Ultra",
+            "price": 18000000,
+            "color": "Trắng",
+            "storage": "512GB"
+          }
+        }
+      ],
+      "total": 36000000,
+      "isPaid": true,
+      "paymentMethod": "Chuyển khoản",
+      "returnStatus": "Đang chờ duyệt",
+      "statusHistory": []
+    },
+    {
+      "id": "3",
+      "orderCode": "DH003",
+      "customerName": "Lê Văn C",
+      "phone": 987654321,
+      "address": "789 Trần Phú, Đà Nẵng",
+      "date": "2025-06-09T15:45:00.000Z",
+      "status": "Giao thành công",
+      "items": [
+        {
+          "productId": "p3",
+          "productName": "Laptop Dell XPS",
+          "soluong": 1,
+          "price": 32000000,
+          "snapshot": {
+            "name": "Dell XPS 13",
+            "price": 32000000,
+            "color": "Bạc",
+            "storage": "1TB SSD"
+          }
+        }
+      ],
+      "total": 32000000,
+      "isPaid": true,
+      "paymentMethod": "COD",
+      "returnStatus": "",
+      "statusHistory": []
+    }
+  ]
+
+,
   "users": [
     {
       "email": "phamhieu12345@gmail.com",
