@@ -12,6 +12,8 @@ import PostAddCategory from './components/admin/PostAddCategory'
 import PutEditCategory from './components/admin/PutEditCategory'
 import CommentAdmin from './components/admin/CommentList'
 import CommentAdd from './components/admin/CommentAdd'
+// import Books from './components/test/books'
+import AddBook from './components/test/books'
 
 
 type Props = {}
@@ -44,7 +46,8 @@ const App = (props: Props) => {
       {path:'comment/add',element:<CommentAdd/>},
       // {path:'login',element:<Login/>},
 
-
+      {path:'books',element:<AddBook/>},
+        
 
       ]},
       
