@@ -65,6 +65,15 @@ const AdminSidebar = () => {
         { key: 'contact-list', label: 'Liên hệ' },
         { key: 'contact-add', label: 'Thêm liên hệ' },
       ],
+      },
+      {
+      key: 'banner-manage',
+      label: 'Quản lý banner',
+      icon: <ReadOutlined />,
+      children: [
+        { key: 'banner-list', label: 'Banner' },
+        { key: 'banner-add', label: 'Thêm banner' },
+      ],
     },
     {
       key: 'report',
@@ -85,6 +94,8 @@ const AdminSidebar = () => {
       'contact-add': '/admin/contacts/add',
       'orders': '/admin/orders',
       'orders/add': '/admin/orders/add',
+      'banner-list': '/admin/banner/list',
+      'banner-add': '/admin/banner/add',
       dashboard: '/admin',
       report: '/admin/report',
     };
