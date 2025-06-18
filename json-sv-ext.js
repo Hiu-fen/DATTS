@@ -347,3 +347,35 @@ server.patch('/comments/:id', (req, res) => {
   }
 });
 
+server.post("/contacts", (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+
+  const newContact = {
+    id: GetMaxID("contacts") + 1,
+    ...req.body,
+    date: new Date().toISOString(), // Ghi ngày tạo
+  };
+
+  db.contacts = db.contacts || []; // đảm bảo tồn tại mảng contacts
+  db.contacts.push(newContact);
+
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+  res.status(201).json(newContact);
+});
+
+server.get("/contacts", (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  db.contacts = db.contacts || []; // nếu mảng chưa tồn tại
+
+  res.status(200).json(db.contacts);
+});
+
+server.delete("/contacts/:id", (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const { id } = req.params;
+
+  db.contacts = db.contacts?.filter(contact => contact.id != id) || [];
+
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+  res.status(200).json({ message: "Xóa liên hệ thành công" });
+});

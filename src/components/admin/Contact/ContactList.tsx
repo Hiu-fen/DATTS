@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, Button, Popconfirm, message } from 'antd';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
 
 interface IContact {
   id: number;
@@ -12,7 +11,7 @@ interface IContact {
   mota: string;
 }
 
-const ContactList = () => {
+const ContactAdmin = () => {
   const [contacts, setContacts] = useState<IContact[]>([]);
 
   useEffect(() => {
@@ -25,25 +24,26 @@ const ContactList = () => {
         message.error('Không thể lấy liên hệ, vui lòng thử lại sau.');
       }
     };
-
     fetchContacts();
   }, []);
 
   const mutation = useMutation({
-    mutationFn: async (id: number) => await axios.delete(`http://localhost:3000/contacts/${id}`),
-    onSuccess: (_data, id) => {
-      message.success("Xóa thành công");
-      setContacts(prev => prev.filter(contact => contact.id !== id));
-    },
-    onError: (error: any) => {
-      message.error("Xóa liên hệ thất bại");
-      console.error("Lỗi khi xóa liên hệ:", error);
-    },
-  });
+  mutationFn: async (id: number) => await axios.delete(`http://localhost:3000/contacts/${id}`),
+  onSuccess: (_, id) => {
+    setContacts(prev => prev.filter(contact => contact.id !== id));
+    message.success("Xóa liên hệ thành công");
+  },
+  onError: (error: any) => {
+    message.error("Xóa liên hệ thất bại");
+    console.error("Lỗi khi xóa liên hệ:", error);
+  },
+});
+
 
   const onDelete = (id: number) => {
-    mutation.mutate(id);
-  };
+  mutation.mutate(id);
+};
+
 
   const columns = [
     { title: 'ID', dataIndex: 'id' },
@@ -56,13 +56,14 @@ const ContactList = () => {
       dataIndex: 'id',
       render: (id: number) => (
         <Popconfirm
-          title="Xác nhận xóa"
-          description="Bạn có chắc muốn xóa liên hệ này?"
+          title="Thông báo"
+          description="Bạn chắc chắn muốn xóa?"
+          icon={<DeleteOutlined />}
           onConfirm={() => onDelete(id)}
-          okText="Xóa"
-          cancelText="Hủy"
+          okText="OK"
+          cancelText="NO"
         >
-          <Button danger icon={<DeleteOutlined />} />
+          <Button danger><DeleteOutlined /></Button>
         </Popconfirm>
       ),
     },
@@ -70,14 +71,7 @@ const ContactList = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Danh sách liên hệ</h2>
-        <Link to="/admin/contacts/add">
-          <Button type="primary" icon={<PlusOutlined />}>
-            Thêm liên hệ
-          </Button>
-        </Link>
-      </div>
+      <h2 className="text-xl font-bold mb-4">Danh sách liên hệ</h2>
       <Table
         columns={columns}
         dataSource={contacts}
@@ -87,4 +81,4 @@ const ContactList = () => {
   );
 };
 
-export default ContactList;
+export default ContactAdmin;
