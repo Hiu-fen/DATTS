@@ -14,8 +14,10 @@ import PostAddCategory from './components/admin/PostAddCategory'
 import PutEditCategory from './components/admin/PutEditCategory'
 import CommentAdmin from './components/admin/CommentList'
 import CommentAdd from './components/admin/CommentAdd'
-import OrderList from './components/admin/Order/ListOrder'
+import ContactAdd from './components/admin/Contact/ContactAdd'
+import ContactList from './components/admin/Contact/ContactList'
 import OrderDetail from './components/admin/Order/OrderDetail'
+import OrderList from './components/admin/Order/ListOrder'
 import AddOrder from './components/admin/Order/AddOrder'
 import BannerList from './components/admin/BannerList'
 import BannerAdd from './components/admin/BannerAdd'
@@ -56,6 +58,11 @@ const App = (props: Props) => {
       {path:'comment/list',element:<CommentAdmin/>},
       {path:'comment/add',element:<CommentAdd/>},
       // {path:'login',element:<Login/>},
+
+      //Router liên hệ
+      {path:"contacts", element:<ContactList />},
+      {path:'contacts/add', element:<ContactAdd />},
+      
 
        //Router Order
         //admin

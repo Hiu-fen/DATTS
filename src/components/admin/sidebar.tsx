@@ -58,6 +58,15 @@ const AdminSidebar = () => {
       ],
     },
      {
+      key: 'contact-manage',
+      label: 'Quản lý liên hệ',
+      icon: <ReadOutlined />,
+      children: [
+        { key: 'contact-list', label: 'Liên hệ' },
+        { key: 'contact-add', label: 'Thêm liên hệ' },
+      ],
+      },
+      {
       key: 'banner-manage',
       label: 'Quản lý banner',
       icon: <ReadOutlined />,
@@ -81,6 +90,8 @@ const AdminSidebar = () => {
       'category-add': '/admin/category/add',
       'comment-list': '/admin/comment/list',
       'comment-add': '/admin/comment/add',
+      'contact-list': '/admin/contacts',
+      'contact-add': '/admin/contacts/add',
       'orders': '/admin/orders',
       'orders/add': '/admin/orders/add',
       'banner-list': '/admin/banner/list',
