@@ -5,6 +5,7 @@ import {
   HighlightFilled,
   ProductFilled,
   ReadOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
 import { Menu, MenuProps } from 'antd';
 import React from 'react';
@@ -39,6 +40,16 @@ const AdminSidebar = () => {
       ],
     },
     {
+      key: 'variant-manage',
+      label: 'Quản lý biến thể',
+      icon: <ReadOutlined />,
+      children: [
+        { key: 'variant-list', label: 'Danh sách biến thể' },
+        { key: 'variant-add', label: 'Thêm giá trị' },
+        { key: 'variant-custom-add', label: 'Thêm tên biến thể' },
+      ],
+    },
+    {
       key: 'oders-manage',
       label: 'Quản lý đơn hàng',
       icon: <HighlightFilled />,
@@ -57,7 +68,7 @@ const AdminSidebar = () => {
         { key: 'comment-add', label: 'Thêm bình luận' },
       ],
     },
-     {
+    {
       key: 'banner-manage',
       label: 'Quản lý banner',
       icon: <ReadOutlined />,
@@ -79,6 +90,9 @@ const AdminSidebar = () => {
       'product-add': '/admin/phone/add',
       'category-list': '/admin/category/list',
       'category-add': '/admin/category/add',
+      'variant-list': '/admin/variant/list',
+      'variant-add': '/admin/variant/add',
+      'variant-custom-add': '/admin/variant/custom-add',
       'comment-list': '/admin/comment/list',
       'comment-add': '/admin/comment/add',
       'orders': '/admin/orders',
