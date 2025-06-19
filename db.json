@@ -99,22 +99,6 @@
       "status": "Còn hàng",
       "type": "simple",
       "parent": 0
-    },
-    {
-      "id": 8,
-      "name": "Apple VIP ",
-      "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
-      "album": [
-        "https://tse2.mm.bing.net/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&P=0&h=180",
-        "https://tse1.mm.bing.net/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&P=0&h=180"
-      ],
-      "price": "11",
-      "quantity": "1",
-      "description": "egshg",
-      "category": "3",
-      "status": "Còn hàng",
-      "type": "simple",
-      "parent": 0
     }
   ],
   "variants": [],
