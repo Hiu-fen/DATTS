@@ -10,5 +10,5 @@ export interface IProduct {
   score:number
   quantity: number;
   image: string;
-  album: string;
+  album: string | string[];
 }

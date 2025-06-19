@@ -4,7 +4,7 @@ import axios from 'axios'
 import React from 'react'
 import { IProduct } from '../../interface/product'
 import { useNavigate } from 'react-router-dom'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons'
 
 
 interface ICategory {
@@ -95,7 +95,12 @@ const GetListProduct = () => {
       dataIndex: 'id',
       render: (id: string) => <>
         <Button onClick={() => nav(`/admin/phone/${id}/edit`)}><EditOutlined /></Button>
-         <Button onClick={() => nav(`/admin/phone/${id}`)}>Xem</Button>{' '}
+       <Button
+  onClick={() => nav(`/admin/phone/${id}`)}
+  icon={<EyeOutlined />}
+  title="Xem chi tiết"
+/>
+
         <Popconfirm
           title="Thông báo"
           description="Bạn chắc chắn muốn xóa?"
