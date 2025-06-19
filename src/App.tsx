@@ -26,6 +26,9 @@ import BannerDetail from './components/admin/BannerDetail'
 import VariantList from './components/admin/VariantList'
 import VariantAdd from './components/admin/VariantAdd'
 import VariantCustomAdd from './components/admin/VariantCustomAdd'
+import LoginAdmin from './components/admin/User/Login'
+import RegisterAdmin from './components/admin/User/Register'
+import PrivateRouteAdmin from './components/PrivateRouteAdmin'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
@@ -45,8 +48,20 @@ const App = (props: Props) => {
 
       ]
     },
+     {
+      path: "/admin/login",
+      element: <LoginAdmin />,
+    },
     {
-      path: "/admin", element: <AdminLayout />, children: [
+      path: "/admin/register",
+      element: <RegisterAdmin />,
+    },
+    {
+      path: "/admin", element: 
+      (<PrivateRouteAdmin>
+        <AdminLayout />
+      </PrivateRouteAdmin>)
+      , children: [
 
         //Router Danh mục
         { path: 'category/list', element: <GetListCategory /> },

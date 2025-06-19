@@ -1,4 +1,14 @@
 export interface User {
-    email: string;
-    password: string;
-  }
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  sdt?: string;
+  address?: string;
+  avatar?: string;
+  active: boolean;
+  dob?: string;
+  role: 'admin' | 'user';
+  
+  createdAt: string; 
+}
