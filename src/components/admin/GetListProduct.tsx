@@ -6,6 +6,7 @@ import { IProduct } from '../../interface/product'
 import { useNavigate } from 'react-router-dom'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
+
 interface ICategory {
   id: number;
   name: string;

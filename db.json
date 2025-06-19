@@ -1,6 +1,5 @@
 {
   "books": [],
-  "books2": [],
   "category": [
     {
       "name": "Iphone",
@@ -120,8 +119,159 @@
       "id": 10
     }
   ],
+  "contacts": [],
   "carts": [],
-  "orders": [],
+  "orders": [
+    {
+      "id": "1",
+      "orderCode": "DH001",
+      "customerName": "Nguyễn Văn A",
+      "phone": 912345678,
+      "address": "123 Lê Lợi, Hà Nội",
+      "date": "2025-06-10T08:00:00.000Z",
+      "status": "Chờ xác nhận",
+      "items": [
+        {
+          "productId": "p1",
+          "productName": "iPhone 15",
+          "soluong": 1,
+          "price": 25000000,
+          "snapshot": {
+            "name": "iPhone 15 Pro Max",
+            "price": 25000000,
+            "color": "Đen",
+            "storage": "256GB"
+          }
+        }
+      ],
+      "total": 25000000,
+      "isPaid": false,
+      "paymentMethod": "COD",
+      "returnStatus": "",
+      "statusHistory": []
+    },
+    {
+      "id": "2",
+      "orderCode": "DH002",
+      "customerName": "Trần Thị B",
+      "phone": 934567890,
+      "address": "456 Nguyễn Huệ, TP.HCM",
+      "date": "2025-06-11T10:30:00.000Z",
+      "status": "Đang giao",
+      "items": [
+        {
+          "productId": "p2",
+          "productName": "Samsung Galaxy S24",
+          "soluong": 2,
+          "price": 18000000,
+          "snapshot": {
+            "name": "Samsung S24 Ultra",
+            "price": 18000000,
+            "color": "Trắng",
+            "storage": "512GB"
+          }
+        }
+      ],
+      "total": 36000000,
+      "isPaid": true,
+      "paymentMethod": "Chuyển khoản",
+      "returnStatus": "Đang chờ duyệt",
+      "statusHistory": []
+    },
+    {
+      "id": "3",
+      "orderCode": "DH003",
+      "customerName": "Lê Văn C",
+      "phone": 987654321,
+      "address": "789 Trần Phú, Đà Nẵng",
+      "date": "2025-06-09T15:45:00.000Z",
+      "status": "Giao thành công",
+      "items": [
+        {
+          "productId": "p3",
+          "productName": "Laptop Dell XPS",
+          "soluong": 1,
+          "price": 32000000,
+          "snapshot": {
+            "name": "Dell XPS 13",
+            "price": 32000000,
+            "color": "Bạc",
+            "storage": "1TB SSD"
+          }
+        }
+      ],
+      "total": 32000000,
+      "isPaid": true,
+      "paymentMethod": "COD",
+      "returnStatus": "",
+      "statusHistory": []
+    },
+    {
+      "id": 4,
+      "userId": 2,
+      "orderCode": "DH0001",
+      "date": "2025-06-13T09:18:21.277Z",
+      "status": "Giao thành công",
+      "isPaid": false,
+      "total": 1000000,
+      "paymentMethod": "COD",
+      "items": []
+    },
+    {
+      "id": 5,
+      "userId": 2,
+      "orderCode": "DHK8CA40",
+      "customerName": "hiếu",
+      "phone": "0987654321",
+      "address": "hà nội",
+      "date": "2025-06-13T09:21:41.991Z",
+      "status": "Chờ xác nhận",
+      "isPaid": false,
+      "paymentMethod": "COD",
+      "notes": "",
+      "total": 2000,
+      "items": [
+        {
+          "soluong": 2,
+          "price": 1000,
+          "snapshot": {
+            "name": "test",
+            "price": 1000,
+            "color": "Red",
+            "storage": "64GB"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "userId": 2,
+      "orderCode": "DHGITFTY",
+      "customerName": "hiếu",
+      "phone": "0987654321",
+      "address": "147 nam từ liêm",
+      "date": "2025-06-13T09:25:23.916Z",
+      "status": "Chờ xác nhận",
+      "isPaid": true,
+      "paymentMethod": "Chuyển khoản",
+      "returnStatus": "",
+      "statusHistory": [],
+      "items": [
+        {
+          "productName": "test",
+          "soluong": 3,
+          "price": 22000000,
+          "snapshot": {
+            "name": "test",
+            "price": 22000000,
+            "color": "blue",
+            "storage": "64GB"
+          }
+        }
+      ],
+      "total": 66000000
+    }
+  ],
   "users": [
     {
       "email": "phamhieu12345@gmail.com",
@@ -129,14 +279,35 @@
       "id": 1
     },
     {
-      "email": "duongtmph50382@gmail.com",
-      "password": "$2a$10$690fbOV2reJKzSQ0i.CCXup/VOeFzcgPpFI9ox/lRDSIOVJSzMo7q",
-      "id": 2
-    },
-    {
       "email": "admin@gmail.com",
       "password": "$2a$10$RstBLW3yU88GxAWcb5vU2O0I2jxsXTES9j3t/1Yk.uWlIx4YqQcC.",
-      "id": 3
+      "id": 2
+    }
+  ],
+  "banners": [
+    {
+      "id": 2,
+      "image": "https://picsum.photos/200",
+      "startDate": "2025-07-20",
+      "endDate": "2025-08-01"
+    },
+    {
+      "id": 3,
+      "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
+      "startDate": "2025-07-01",
+      "endDate": "2025-07-20"
+    },
+    {
+      "image": "https://picsum.photos/200",
+      "startDate": "2025-06-13",
+      "endDate": "2025-06-20",
+      "id": 5
+    },
+    {
+      "image": "https://picsum.photos/200",
+      "startDate": "2025-06-13",
+      "endDate": "2025-06-20",
+      "id": 6
     }
   ]
 }
