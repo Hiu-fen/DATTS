@@ -322,6 +322,28 @@
       "email": "admin@gmail.com",
       "password": "$2a$10$RstBLW3yU88GxAWcb5vU2O0I2jxsXTES9j3t/1Yk.uWlIx4YqQcC.",
       "id": 2
+    },
+    {
+      "email": "hiu-fen@gmail.com",
+      "password": "$2a$10$BUKc.olsrGk1AT.A0acwpuuavEnN0VYHSS36vEgAvOxbrc9IBpKvi",
+      "name": "Híu đây hẹ hẹ",
+      "id": 3
+    },
+    {
+      "email": "login@gmail.com",
+      "password": "$2a$10$ZDfjTsut1FN7uRBDB5/w7.ToQN/OL7cy3BH01tHJyITOMp.qWCID6",
+      "name": "Phạm Minh Hiếu ",
+      "role": "admin",
+      "id": 4,
+      "active": true
+    },
+    {
+      "email": "login2@gmail.com",
+      "password": "$2a$10$vWLJaxwS6/nAPIJDdasziO1eCOM6RTcrf9YYtOX4ahjTgset3Pg6.",
+      "name": "hiếu",
+      "role": "admin",
+      "active": true,
+      "id": 5
     }
   ],
   "banners": [

@@ -1,6 +1,10 @@
 import jsonServer from "json-server"
 import auth from "json-server-auth"; 
 import {jwtDecode} from "jwt-decode"
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
@@ -379,3 +383,58 @@ server.delete("/contacts/:id", (req, res) => {
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
   res.status(200).json({ message: "Xóa liên hệ thành công" });
 });
+
+
+/// sửa lý đăng nhập 
+server.post("/users/login", (req, res) => {
+  const { email, password } = req.body;
+  const db = JSON.parse(fs.readFileSync("db.json", "utf8"));
+  const user = db.users.find((u) => u.email === email);
+
+  if (!user) {
+    return res.status(404).json({ message: "Email không tồn tại" });
+  }
+
+  const isMatch = bcrypt.compareSync(password, user.password); // so sánh hash
+  if (!isMatch) {
+    return res.status(400).json({ message: "Mật khẩu không đúng" });
+  }
+
+  const token = jwt.sign({ id: user.id, email: user.email }, "secret_key", {
+    expiresIn: "1d",
+  });
+
+  res.status(200).json({ user, token });
+});
+
+/// register 
+server.post("/users/register", (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf8"));
+  const { email, password, name, role = "user", active = true } = req.body;
+
+  // Kiểm tra trùng email
+  const existed = db.users.find((u) => u.email === email);
+  if (existed) {
+    return res.status(400).json({ message: "Email đã tồn tại" });
+  }
+
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const newUser = {
+    id: GetMaxID("users") + 1,
+    email,
+    password: hashedPassword,
+    name,
+    role,
+    active,
+  };
+
+  db.users.push(newUser);
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf8");
+
+  const token = jwt.sign({ id: newUser.id, email: newUser.email }, "secret_key", {
+    expiresIn: "1d",
+  });
+
+  res.status(201).json({ user: newUser, token });
+});
+
