@@ -26,6 +26,7 @@ import BannerDetail from './components/admin/BannerDetail'
 import VariantList from './components/admin/VariantList'
 import VariantAdd from './components/admin/VariantAdd'
 import VariantCustomAdd from './components/admin/VariantCustomAdd'
+import Home from './components/client/page/home'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
@@ -37,6 +38,8 @@ const App = (props: Props) => {
 
     {
       path: "/", element: <ClientLayout />, children: [
+        { path: '/', element: <Home /> },
+
 
         //Router Đăng ký, Đăng nhập
         { path: 'login', element: <Login /> },
