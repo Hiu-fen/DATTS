@@ -11,7 +11,7 @@ const LoginAdmin = () => {
 
   const onSubmit = async (data: User) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/users/login", {
+      const res = await axios.post("http://localhost:4000/login", {
         email: data.email,
         password: data.password,
       });
@@ -32,7 +32,7 @@ const LoginAdmin = () => {
      
       message.success("Đăng nhập thành công");
 
-      navigate("/admin/category/list");
+      navigate("/admin/");
     } catch (error: any) {
       message.error(error.response?.data?.message || "Đăng nhập thất bại");
     }
