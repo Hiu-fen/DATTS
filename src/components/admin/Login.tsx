@@ -52,7 +52,7 @@ const Login = () => {
 
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} block>
-              Đăng nhập
+              Đăng nhập tài khoản khách hàng
             </Button>
           </Form.Item>
         </Form>
@@ -60,5 +60,6 @@ const Login = () => {
     </div>
   );
 };
+
 
 export default Login;
