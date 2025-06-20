@@ -26,6 +26,20 @@ import BannerDetail from './components/admin/BannerDetail'
 import VariantList from './components/admin/VariantList'
 import VariantAdd from './components/admin/VariantAdd'
 import VariantCustomAdd from './components/admin/VariantCustomAdd'
+
+import LoginAdmin from './components/admin/User/Login'
+import RegisterAdmin from './components/admin/User/Register'
+import PrivateRouteAdmin from './components/PrivateRouteAdmin'
+
+import Home from './components/client/page/home'
+import About from './components/client/page/about'
+import ProductPage from './components/client/page/product'
+import Details from './components/client/page/details'
+import NewsClient from './components/client/page/news'
+// import Contact from './components/client/page/contact'
+import ContactPage from './components/client/page/contact'
+
+
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
@@ -37,16 +51,36 @@ const App = (props: Props) => {
 
     {
       path: "/", element: <ClientLayout />, children: [
+        { path: '/', element: <Home /> },
+        { path: '/about', element: <About /> },
+        { path: '/product', element: <ProductPage /> },
+        { path: '/product/:id', element: <Details /> },
+        { path: '/news', element: <NewsClient /> },
+        { path: '/call', element: <ContactPage /> },
+        
 
-        //Router Đăng ký, Đăng nhập
+
+        //Router Đăng ký, Đăng nhậpCon
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
 
 
       ]
     },
+     {
+      path: "/admin/login",
+      element: <LoginAdmin />,
+    },
     {
-      path: "/admin", element: <AdminLayout />, children: [
+      path: "/admin/register",
+      element: <RegisterAdmin />,
+    },
+    {
+      path: "/admin", element: 
+      (<PrivateRouteAdmin>
+        <AdminLayout />
+      </PrivateRouteAdmin>)
+      , children: [
 
         //Router Danh mục
         { path: 'category/list', element: <GetListCategory /> },

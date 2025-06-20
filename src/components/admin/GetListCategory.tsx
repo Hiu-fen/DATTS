@@ -1,79 +1,113 @@
-
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { Button, message, Popconfirm, Table } from 'antd'
-import axios from 'axios'
-import React from 'react'
-// import { IProduct } from '../../interface/product'
-import { useNavigate } from 'react-router-dom'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Icatagory } from '../../interface/category'
-
-
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Button, message, Popconfirm, Table } from 'antd';
+import axios from 'axios';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Icatagory } from '../../interface/category';
 
 const GetListCategory = () => {
   const nav = useNavigate();
-  const {data,refetch} =useQuery({
-    queryKey:['products'],
-    queryFn: async () => (await axios.get(`http://localhost:4000/category`)).data
-  })
+
+  // 🔁 Lấy danh sách danh mục
+  const { data: categories, refetch, isLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => (await axios.get('http://localhost:4000/category')).data,
+  });
+
+  // ❌ Mutation xóa danh mục
   const mutation = useMutation({
-    mutationFn: async (id:string) => await axios.delete(`http://localhost:4000/category/${id}`),
-    onSuccess:()=>{
-      message.success("Xóa thành công")
-      refetch()
-    }
-  })
-  const onDelete = (id:string)=>{
-    mutation.mutate(id)
-  }
+    mutationFn: async (id: string) =>
+      await axios.delete(`http://localhost:4000/category/${id}`),
+    onSuccess: () => {
+      message.success('Xóa danh mục thành công!');
+      refetch();
+    },
+    onError: () => {
+      message.error('Xóa thất bại!');
+    },
+  });
+
+  const onDelete = (id: string) => {
+    mutation.mutate(id);
+  };
+
+  // 📊 Cột bảng
   const columns = [
     {
-      title:"Stt",
-      key:'stt',
-      render:(_:any,__:Icatagory,index:number) => index + 1
+      title: 'STT',
+      key: 'stt',
+      render: (_: any, __: Icatagory, index: number) => index + 1,
     },
     {
-      title:"Name",
-      key:'name',
-      dataIndex:'name',
+      title: 'Tên danh mục',
+      key: 'name',
+      dataIndex: 'name',
     },
     {
-      title:"Ảnh minh họa",
-      key:'image',
-      dataIndex:'image',
-      render:(img:string)=> <img src={img} width={100}></img>
+      title: 'Ảnh minh họa',
+      key: 'image',
+      dataIndex: 'image',
+      render: (img: string) =>
+        img ? (
+          <img src={img} width={80} height={60} style={{ objectFit: 'cover' }} />
+        ) : (
+          'Không có'
+        ),
     },
     {
-      title:"Mo tả danh mục",
-      key:'mota',
-      dataIndex:'mota',
+      title: 'Mô tả',
+      key: 'mota',
+      dataIndex: 'mota',
     },
-   
     {
-      title:"Thao tác",
-      key:'id',
-      dataIndex:'id',
-      render:(id:string)=><>
-      <Button onClick={()=>nav(`/category/phone/${id}/edit`)}><EditOutlined/></Button>
-      <Popconfirm
-      title="Thông báo"
-      description="Bạn chắc chứ"
-      icon={<DeleteOutlined/>}
-      onConfirm={()=>onDelete(id)}
-      okText="OK"
-      cancelText="NO"
-      ><Button danger><DeleteOutlined/></Button></Popconfirm>
-      </>
+      title: 'Hành động',
+      key: 'action',
+      render: (_: any, record: Icatagory) => (
+        <>
+          <Button
+            onClick={() => nav(`/admin/category/${record.id}/edit`)}
+            style={{ marginRight: 8 }}
+            icon={<EditOutlined />}
+          />
+          <Popconfirm
+            title="Xác nhận xoá"
+            description="Bạn có chắc muốn xoá danh mục này?"
+            onConfirm={() => onDelete(record.id)}
+            okText="Đồng ý"
+            cancelText="Hủy"
+            icon={<DeleteOutlined />}
+          >
+            <Button danger icon={<DeleteOutlined />} />
+          </Popconfirm>
+        </>
+      ),
     },
-  ]
- 
+  ];
+
   return (
     <div>
-      <h1>List</h1>
-     <Table dataSource={data} columns={columns}></Table>
+      <h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 16 }}>
+        Danh sách danh mục
+      </h2>
+
+      <Button
+        type="primary"
+        onClick={() => nav('/admin/category/add')}
+        style={{ marginBottom: 16 }}
+      >
+        + Thêm danh mục
+      </Button>
+
+      <Table
+        loading={isLoading}
+        rowKey="id"
+        dataSource={categories}
+        columns={columns}
+        pagination={{ pageSize: 5 }}
+      />
     </div>
+  );
+};
 
-  )
-}
-
-export default GetListCategory
+export default GetListCategory;
