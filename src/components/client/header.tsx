@@ -12,12 +12,14 @@ const ClientHeader = () => {
 
   return (
     <header className="bg-gray-800 text-white">
-      <div className="max-w-7xl mx-auto flex justify-between items-center py-4">
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
         <div className="text-2xl font-semibold">LOGO</div>
-        <div className="flex justify-between w-full py-4">
-          <form className="relative">
+        
+        {/* Tìm kiếm ở giữa */}
+        <div className="flex justify-center w-full md:w-[300px]">
+          <form className="relative w-full">
             <input
-              className="outline-0 text-black px-4 py-2 w-[300px] rounded-lg"
+              className="outline-0 text-black px-4 py-2 w-full rounded-lg"
               type="text"
               placeholder="Tìm kiếm"
             />
@@ -27,27 +29,66 @@ const ClientHeader = () => {
               </svg>
             </button>
           </form>
-          <nav>
-            <ul className="flex gap-6">
-              <li><Link to="/client" className="hover:text-gray-300">Trang chủ</Link></li>
-              <li><Link to="/client/about" className="hover:text-gray-300">Giới thiệu</Link></li>
-              <li><Link to="/client/shop" className="hover:text-gray-300">Shop</Link></li>
-              <li><Link to="/client/news" className="hover:text-gray-300">Tin tức</Link></li>
-              <li><Link to="/client/contact" className="hover:text-gray-300">Liên hệ</Link></li>
-
-              {!token ? (
-                <>
-                  <li><Link to="/client/register" className="hover:text-gray-300">Đăng ký</Link></li>
-                  <li><Link to="/client/login" className="hover:text-gray-300">Đăng nhập</Link></li>
-                </>
-              ) : (
-                <li>
-                  <button onClick={handleLogout} className="text-gray-300 hover:text-gray-500">Đăng xuất</button>
-                </li>
-              )}
-            </ul>
-          </nav>
         </div>
+
+        {/* Navigation links */}
+        <nav className="flex gap-6 ml-auto">
+          <ul className="flex gap-6">
+            <li>
+              <Link to="/" className="group hover:text-gray-300 relative">
+                Trang chủ
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="group hover:text-gray-300 relative">
+                Giới thiệu
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/product" className="group hover:text-gray-300 relative">
+                Shop
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/news" className="group hover:text-gray-300 relative">
+                Tin tức
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/call" className="group hover:text-gray-300 relative">
+                Liên hệ
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
+            </li>
+
+            {!token ? (
+              <>
+                <li>
+                  <Link to="/register" className="group hover:text-gray-300 relative">
+                    Đăng ký
+                    <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/login" className="group hover:text-gray-300 relative">
+                    Đăng nhập
+                    <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li>
+                <button onClick={handleLogout} className="text-gray-300 hover:text-gray-500">
+                  Đăng xuất
+                </button>
+              </li>
+            )}
+          </ul>
+        </nav>
       </div>
     </header>
   );

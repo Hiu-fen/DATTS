@@ -1,29 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { newsApi } from '../../../api/newsApi';
-import { INews } from '../../../interface/News';
 
 const NewsClient = () => {
-    const [news, setNews] = useState<INews[]>([]);
+    const [news, setNews] = useState<any[]>([]); // Dữ liệu tin tức giả
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchNews();
     }, []);
 
+    // Dữ liệu tin tức giả lập
     const fetchNews = async () => {
-        try {
-            const data = await newsApi.getAll();
-            // Sắp xếp tin tức theo thời gian tạo mới nhất
-            const sortedNews = data.sort((a, b) => 
-                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-            setNews(sortedNews);
-        } catch (error) {
-            console.error('Failed to fetch news:', error);
-        } finally {
-            setLoading(false);
-        }
+        // Dữ liệu giả cho tin tức
+        const fakeNews = [
+            {
+                _id: "1",
+                title: "Laptop X mới ra mắt, giá tốt hơn bao giờ hết!",
+                content: "Laptop X mới vừa được ra mắt với nhiều cải tiến vượt bậc về hiệu suất và thiết kế, mang đến cho người dùng trải nghiệm tuyệt vời...",
+                category: "Công Nghệ",
+                createdAt: "2023-06-15T10:00:00Z",
+                author: "John Doe",
+                image: "https://via.placeholder.com/400x300?text=Laptop+X",
+            },
+            {
+                _id: "2",
+                title: "5 mẫu laptop gaming đáng chú ý năm 2023",
+                content: "Với sự phát triển mạnh mẽ của công nghệ, năm 2023 đã chứng kiến sự xuất hiện của nhiều mẫu laptop gaming cực kỳ mạnh mẽ...",
+                category: "Gaming",
+                createdAt: "2023-06-18T14:30:00Z",
+                author: "Jane Smith",
+                image: "https://via.placeholder.com/400x300?text=Laptop+Gaming",
+            },
+            {
+                _id: "3",
+                title: "Top 10 mẹo làm việc hiệu quả trên laptop",
+                content: "Hãy khám phá các mẹo vặt giúp bạn làm việc hiệu quả hơn khi sử dụng laptop, từ các phím tắt đến cách tối ưu hóa hiệu suất...",
+                category: "Mẹo vặt",
+                createdAt: "2023-06-20T09:00:00Z",
+                author: "Alice Lee",
+                image: "https://via.placeholder.com/400x300?text=Mẹo+Laptop",
+            },
+            {
+                _id: "4",
+                title: "Máy tính bảng có thể thay thế laptop? Cùng tìm hiểu",
+                content: "Trong thế giới công nghệ hiện đại, câu hỏi liệu máy tính bảng có thể thay thế laptop hay không đang ngày càng nhận được sự chú ý...",
+                category: "Công Nghệ",
+                createdAt: "2023-06-22T16:00:00Z",
+                author: "Bob Brown",
+                image: "https://via.placeholder.com/400x300?text=Máy+Tính+Bảng",
+            },
+        ];
+
+        // Sắp xếp tin tức theo thời gian tạo mới nhất
+        const sortedNews = fakeNews.sort((a, b) => 
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        setNews(sortedNews);
+        setLoading(false);
     };
 
     if (loading) {
