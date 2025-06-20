@@ -38,39 +38,13 @@
       "name": "sansung s20",
       "price": "10.000000",
       "image": "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
-      "album": [
-        "https://tse3.mm.bing.net/th?id=OIP.6NTTmsX107Jn4fgu6YJrkwHaHZ&pid=Api&P=0&h=180",
-        "https://tse1.mm.bing.net/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&P=0&h=180"
-      ],
+      "album": [],
       "description": "sansung  đây",
       "category": "2",
       "status": "Hết hàng",
       "type": "simple",
-      "parent": 0
-    },
-    {
-      "id": 3,
-      "name": "oppo 12",
-      "price": "4.000000",
-      "image": "",
-      "album": "",
-      "description": "đập k bể",
-      "category": "3",
-      "status": "Hết hàng",
-      "type": "simple",
-      "parent": 0
-    },
-    {
-      "id": 5,
-      "name": "iphone11",
-      "image": "",
-      "album": "",
-      "price": "6.000000",
-      "description": "Điện thoại mới nhất ",
-      "category": "1",
-      "status": "Còn hàng",
-      "type": "simple",
-      "parent": 0
+      "parent": 0,
+      "quantity": "11"
     },
     {
       "id": 6,
@@ -89,7 +63,7 @@
       "name": "Iphone 13",
       "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
       "album": [
-        ""
+        "https://up.yimg.com/ib/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
       ],
       "price": "11",
       "quantity": "11",
@@ -101,17 +75,67 @@
     },
     {
       "id": 8,
-      "name": "Apple VIP ",
-      "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
+      "name": "SamSung A51",
+      "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
       "album": [
-        "https://tse2.mm.bing.net/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&P=0&h=180",
-        "https://tse1.mm.bing.net/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&P=0&h=180"
+        "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+        "https://up.yimg.com/ib/th?id=OIP.QFpdj3RVQRCeozn8iiDOdAHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
       ],
       "price": "11",
-      "quantity": "1",
-      "description": "egshg",
-      "category": "3",
+      "quantity": "11",
+      "description": "é",
+      "category": "2",
+      "status": "Hết hàng",
+      "type": "simple",
+      "parent": 0
+    },
+    {
+      "id": 9,
+      "name": "Samsung A51",
+      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "price": "21",
+      "quantity": "32",
+      "description": "beto bjsndnopcnk nk  ndndd c madnnncjn jdcqss ",
+      "category": "2",
       "status": "Còn hàng",
+      "album": [
+        "https://up.yimg.com/ib/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+        "https://up.yimg.com/ib/th?id=OIP.QFpdj3RVQRCeozn8iiDOdAHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+      ],
+      "type": "simple",
+      "parent": 0
+    },
+    {
+      "id": 10,
+      "name": "Iphone",
+      "image": "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "price": "53",
+      "quantity": "2",
+      "description": "gaegefw",
+      "category": "2",
+      "status": "Còn hàng",
+      "album": [
+        "https://up.yimg.com/ib/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+        "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+        "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+      ],
+      "type": "simple",
+      "parent": 0
+    },
+    {
+      "id": 11,
+      "name": "Apple VIP ",
+      "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
+      "price": "11",
+      "quantity": "1",
+      "description": "sdfsdf",
+      "category": "1",
+      "status": "Còn hàng",
+      "album": [
+        "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+        "https://up.yimg.com/ib/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+      ],
       "type": "simple",
       "parent": 0
     }

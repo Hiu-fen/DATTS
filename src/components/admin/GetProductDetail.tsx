@@ -8,14 +8,11 @@ import {
   Spin,
   Tag,
   Button,
-  Collapse,
 } from "antd";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { IProduct } from "../../interface/product";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-
-const { Panel } = Collapse;
 
 const GetProductDetail = () => {
   const { id } = useParams();
@@ -24,6 +21,7 @@ const GetProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [categoryName, setCategoryName] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [mainImage, setMainImage] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +31,7 @@ const GetProductDetail = () => {
         );
         let data = productRes.data;
 
-        // Handle album parsing
+        // Chuyển string -> array nếu cần
         if (typeof data.album === "string") {
           try {
             data.album = JSON.parse(data.album);
@@ -48,6 +46,7 @@ const GetProductDetail = () => {
         }
 
         setProduct(data);
+        setMainImage(data.image); // Gán ảnh chính ban đầu
 
         const categoryRes = await axios.get(`http://localhost:4000/category`);
         const cat = categoryRes.data.find((c: any) => c.id === +data.category);
@@ -102,39 +101,39 @@ const GetProductDetail = () => {
         }}
       >
         <Row gutter={[32, 32]} className="p-4">
-          <Col xs={24} md={12}>
-            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-              <Image
-                src={product.image}
-                alt={product.name}
-                className="w-full rounded-lg transition-transform duration-300 hover:scale-105"
-                preview={{ maskClassName: "rounded-lg" }}
-              />
-              <h3 className="text-lg font-semibold mt-6 mb-3 text-gray-700">
-                Album ảnh
-              </h3>
-              <Row gutter={[16, 16]}>
-                {product.album.length > 0 ? (
-                  product.album.map((img: string, idx: number) => (
-                    <Col xs={12} sm={8} key={idx}>
-                      <Image
-                        src={img}
-                        alt={`Ảnh ${idx + 1}`}
-                        className="w-full h-24 object-cover rounded-md transition-transform duration-300 hover:scale-105"
-                        preview={{ maskClassName: "rounded-md" }}
-                      />
-                    </Col>
-                  ))
-                ) : (
-                  <Col span={24}>
-                    <p className="text-gray-500 italic">
-                      Không có ảnh trong album.
-                    </p>
-                  </Col>
-                )}
-              </Row>
-            </div>
-          </Col>
+    <Col xs={24} md={12}>
+  <div className="flex flex-col items-center">
+    {/* Ảnh chính */}
+    <div className="border rounded-md overflow-hidden shadow-sm w-[300px] h-[300px] bg-white flex items-center justify-center">
+      <img
+        src={mainImage}
+        alt="Ảnh chính"
+        className="object-contain w-full h-full p-4"
+      />
+    </div>
+
+    {/* Thumbnail */}
+    <div className="flex gap-3 mt-4 flex-wrap justify-center">
+      {product.album.map((img: string, idx: number) => (
+        <div
+          key={idx}
+          className={`border-2 rounded-md cursor-pointer p-1 ${
+            img === mainImage ? "border-blue-500" : "border-gray-300"
+          }`}
+          onClick={() => setMainImage(img)}
+        >
+          <img
+            src={img}
+            alt={`Ảnh ${idx + 1}`}
+            className="w-16 h-16 object-cover rounded"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</Col>
+
+
           <Col xs={24} md={12}>
             <Descriptions
               bordered
