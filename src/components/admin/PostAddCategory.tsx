@@ -15,14 +15,14 @@ const PostAddCategory = () => {
   const nav = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: Icatagory) => {
       try {
         const formData = new FormData();
         formData.append("name", data.name);
         formData.append("mota", data.mota);
-        formData.append("image", data.image[0]); // file[0] vì input file có dạng array
+        formData.append("image", data.image[0]); // file input
 
-        const res = await axios.post("http://localhost:4000/products", data, {
+        const res = await axios.post("http://localhost:4000/category", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -30,20 +30,20 @@ const PostAddCategory = () => {
 
         return res.data;
       } catch (error) {
-        console.log(error);
+        console.error("Lỗi thêm danh mục:", error);
         throw error;
       }
     },
     onSuccess: () => {
-      message.success("Thêm mới thành công");
-      nav("/category/phone/list");
+      message.success("Thêm mới danh mục thành công");
+      nav("/admin/category/list"); // ✅ sửa đường dẫn đúng
     },
     onError: () => {
       message.error("Lỗi khi thêm danh mục");
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: Icatagory) => {
     mutation.mutate(data);
   };
 
@@ -76,6 +76,7 @@ const PostAddCategory = () => {
           <input
             type="file"
             className="w-full"
+            accept="image/*"
             {...register("image", {
               required: "Không được bỏ trống",
             })}
