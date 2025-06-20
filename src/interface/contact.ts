@@ -1,6 +1,8 @@
 export interface IContact {
-  id: number;
-  userId: number;
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  status: boolean;
   date: string;
-  mota: string;
 }
