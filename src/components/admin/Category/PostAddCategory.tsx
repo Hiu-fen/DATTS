@@ -1,5 +1,5 @@
 import React from "react";
-import { Icatagory } from "../../interface/category";
+import { Icatagory } from "../../../interface/category";
 import { message } from "antd";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
