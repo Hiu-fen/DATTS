@@ -5,24 +5,24 @@
       "name": "Iphone",
       "mota": "Điện thoại táo",
       "image": "https://png.pngtree.com/png-vector/20201030/ourlarge/pngtree-cute-teddy-bear-png-image_2383062.jpg",
-      "id": 1
+      "id": "1"
     },
     {
       "name": "SamSung",
       "image": "https://png.pngtree.com/png-vector/20201030/ourlarge/pngtree-cute-teddy-bear-png-image_2383062.jpg",
       "mota": "điện thoại androi",
-      "id": 2
+      "id": "2"
     },
     {
       "name": "Oppo",
       "image": "https://png.pngtree.com/png-vector/20201030/ourlarge/pngtree-cute-teddy-bear-png-image_2383062.jpg",
       "mota": "đập thoải moãi :v",
-      "id": 3
+      "id": "3"
     }
   ],
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "iphone12",
       "price": "9.000000",
       "image": "",
@@ -34,7 +34,7 @@
       "parent": 0
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "sansung s20",
       "price": "10.000000",
       "image": "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
@@ -47,7 +47,7 @@
       "quantity": "11"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Dương",
       "image": "",
       "album": "",
@@ -59,7 +59,7 @@
       "parent": 0
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Iphone 13",
       "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
       "album": [
@@ -74,7 +74,7 @@
       "parent": 0
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "SamSung A51",
       "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
       "album": [
@@ -90,7 +90,7 @@
       "parent": 0
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Samsung A51",
       "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
       "price": "21",
@@ -107,7 +107,7 @@
       "parent": 0
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Iphone",
       "image": "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
       "price": "53",
@@ -124,7 +124,7 @@
       "parent": 0
     },
     {
-      "id": 11,
+      "id": "11",
       "name": "Apple VIP ",
       "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
       "price": "11",
@@ -148,7 +148,7 @@
       "product": "",
       "status": false,
       "date": "07/05/2025",
-      "id": 9
+      "id": "9"
     },
     {
       "user": "amthucv1",
@@ -156,7 +156,7 @@
       "product": "",
       "status": false,
       "date": "07/05/2025",
-      "id": 10
+      "id": "10"
     },
     {
       "user": "hiếu",
@@ -164,7 +164,7 @@
       "product": "",
       "status": true,
       "date": "21/06/2025",
-      "id": 11
+      "id": "11"
     }
   ],
   "contacts": [],
@@ -255,7 +255,7 @@
       "statusHistory": []
     },
     {
-      "id": 4,
+      "id": "4",
       "userId": 2,
       "orderCode": "DH0001",
       "date": "2025-06-13T09:18:21.277Z",
@@ -266,7 +266,7 @@
       "items": []
     },
     {
-      "id": 5,
+      "id": "5",
       "userId": 2,
       "orderCode": "DHK8CA40",
       "customerName": "hiếu",
@@ -292,7 +292,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": "6",
       "userId": 2,
       "orderCode": "DHGITFTY",
       "customerName": "hiếu",
@@ -324,25 +324,25 @@
     {
       "email": "phamhieu12345@gmail.com",
       "password": "$2a$10$grwQ0hDvXPFbq.3KgSP8LeVMeLs3tCtAXR4OffenuunaKuZXHXLjq",
-      "id": 1
+      "id": "1"
     },
     {
       "email": "admin@gmail.com",
       "password": "$2a$10$RstBLW3yU88GxAWcb5vU2O0I2jxsXTES9j3t/1Yk.uWlIx4YqQcC.",
-      "id": 2
+      "id": "2"
     },
     {
       "email": "hiu-fen@gmail.com",
       "password": "$2a$10$BUKc.olsrGk1AT.A0acwpuuavEnN0VYHSS36vEgAvOxbrc9IBpKvi",
       "name": "Híu đây hẹ hẹ",
-      "id": 3
+      "id": "3"
     },
     {
       "email": "login@gmail.com",
       "password": "$2a$10$ZDfjTsut1FN7uRBDB5/w7.ToQN/OL7cy3BH01tHJyITOMp.qWCID6",
       "name": "Phạm Minh Hiếu ",
       "role": "admin",
-      "id": 4,
+      "id": "4",
       "active": true
     },
     {
@@ -351,18 +351,42 @@
       "name": "hiếu",
       "role": "admin",
       "active": true,
-      "id": 5
+      "id": "5"
+    },
+    {
+      "id": "f9e8",
+      "name": "hải đẹp trai",
+      "email": "haideptrai@gmail.com",
+      "password": "$2b$10$JOqmESTRBYj4wPz8rzxgz.DzDeDheN73hKn0TZEeQvndaexhUdX.S",
+      "confirmPassword": "123456A",
+      "phone": "7867867678",
+      "role": "user",
+      "active": true,
+      "createdAt": "2025-06-22T11:51:09.803Z",
+      "updatedAt": "2025-06-22T11:51:09.803Z"
+    },
+    {
+      "id": "b641",
+      "name": "Lê Hồng Hải",
+      "email": "hlehong163@gmail.com",
+      "password": "$2b$10$bW5Na8G4lfmgRW/7viz8duPpQsrVzQ3yOylT1Sce9DGvB5JtuN75i",
+      "confirmPassword": "123456A",
+      "phone": "0376415345",
+      "role": "user",
+      "active": true,
+      "createdAt": "2025-06-22T11:55:44.529Z",
+      "updatedAt": "2025-06-22T11:55:44.532Z"
     }
   ],
   "banners": [
     {
-      "id": 2,
+      "id": "2",
       "image": "https://picsum.photos/200",
       "startDate": "2025-07-20",
       "endDate": "2025-08-01"
     },
     {
-      "id": 3,
+      "id": "3",
       "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
       "startDate": "2025-07-01",
       "endDate": "2025-07-20"
@@ -371,13 +395,13 @@
       "image": "https://picsum.photos/200",
       "startDate": "2025-06-13",
       "endDate": "2025-06-20",
-      "id": 5
+      "id": "5"
     },
     {
       "image": "https://picsum.photos/200",
       "startDate": "2025-06-13",
       "endDate": "2025-06-20",
-      "id": 6
+      "id": "6"
     }
   ]
 }
