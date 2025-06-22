@@ -7,7 +7,7 @@ const ClientHeader = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user'); // nếu có lưu user
-    navigate('/client/login');
+    navigate('/login');
   };
 
   return (
