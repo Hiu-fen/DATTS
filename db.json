@@ -194,7 +194,8 @@
       "image": "https://hc.com.vn/i/ecommerce/media/GS.008504_FEATURE_93851.jpg",
       "description": "adgsg",
       "category": 1,
-      "status": "Còn hàng"
+      "status": "Còn hàng",
+      "priceRange": "1-1"
     }
   ],
   "variants": [],
