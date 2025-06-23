@@ -7,25 +7,25 @@ import PostAddProduct from './components/admin/Product/PostAddProduct'
 import PutEditProduct from './components/admin/Product/PutEditProduct'
 import GetProductDetail from './components/admin/Product/GetProductDetail'
 
-import Register from './components/admin/Register'
-import Login from './components/admin/Login'
-import GetListCategory from './components/admin/GetListCategory'
-import PostAddCategory from './components/admin/PostAddCategory'
-import PutEditCategory from './components/admin/PutEditCategory'
-import CommentAdmin from './components/admin/CommentList'
-import CommentAdd from './components/admin/CommentAdd'
+import Register from './components/admin/UserClient/Register'
+import Login from './components/admin/UserClient/Login'
+import GetListCategory from './components/admin/Category/GetListCategory'
+import PostAddCategory from './components/admin/Category/PostAddCategory'
+import PutEditCategory from './components/admin/Category/PutEditCategory'
+import CommentAdmin from './components/admin/Comment/CommentList'
+import CommentAdd from './components/admin/Comment/CommentAdd'
 import ContactAdd from './components/admin/Contact/ContactAdd'
 import ContactList from './components/admin/Contact/ContactList'
 import OrderDetail from './components/admin/Order/OrderDetail'
 import OrderList from './components/admin/Order/ListOrder'
 import AddOrder from './components/admin/Order/AddOrder'
-import BannerList from './components/admin/BannerList'
-import BannerAdd from './components/admin/BannerAdd'
-import BannerEdit from './components/admin/BannerEdit'
-import BannerDetail from './components/admin/BannerDetail'
-import VariantList from './components/admin/VariantList'
-import VariantAdd from './components/admin/VariantAdd'
-import VariantCustomAdd from './components/admin/VariantCustomAdd'
+import BannerList from './components/admin/Banner/BannerList'
+import BannerAdd from './components/admin/Banner/BannerAdd'
+import BannerEdit from './components/admin/Banner/BannerEdit'
+import BannerDetail from './components/admin/Banner/BannerDetail'
+import VariantList from './components/admin/Variant/VariantList'
+import VariantAdd from './components/admin/Variant/VariantAdd'
+import VariantCustomAdd from './components/admin/Variant/VariantCustomAdd'
 
 import LoginAdmin from './components/admin/User/Login'
 import RegisterAdmin from './components/admin/User/Register'
@@ -43,6 +43,9 @@ import ContactPage from './components/client/page/contact'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
+import PromotionList from './components/admin/Promotion/PromotionList'
+import PromotionAdd from './components/admin/Promotion/PromotionAdd'
+import PromotionEdit from './components/admin/Promotion/PromotionEdit'
 
 type Props = {}
 
@@ -117,7 +120,10 @@ const App = (props: Props) => {
       {path:"contacts", element:<ContactList />},
       {path:'contacts/add', element:<ContactAdd />},
       
-
+      // Khuyến mãi
+      { path: 'promotion/list', element: <PromotionList /> },
+      { path: 'promotion/add', element: <PromotionAdd /> },
+      { path: 'promotion/:id/edit', element: <PromotionEdit /> },
 
         //admin
         { path: "orders/add", element: <AddOrder /> },

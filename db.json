@@ -214,6 +214,21 @@
       "status": false,
       "date": "07/05/2025",
       "id": 10
+    },
+    {
+      "user": "hiếu",
+      "content": "test",
+      "product": "",
+      "status": true,
+      "date": "21/06/2025",
+      "id": 11
+    },
+    {
+      "email": "mai@gmail.com",
+      "password": "$2a$10$vZA85rFFtMPTVhsonQssQOjFR.w8YseKzUiP7kAQwFBllHLdueVB.",
+      "role": "admin",
+      "active": true,
+      "id": 6
     }
   ],
   "contacts": [],
@@ -403,11 +418,20 @@
       "id": 5
     },
     {
-      "email": "mai@gmail.com",
-      "password": "$2a$10$vZA85rFFtMPTVhsonQssQOjFR.w8YseKzUiP7kAQwFBllHLdueVB.",
+      "email": "hung@gmail.com",
+      "password": "$2a$10$3PWW3V1G5lI6Zq7w2IMlJe.8J3qGrw/ZGFe84u9zEZX9mE/EmHMiS",
+      "name": "Hung",
       "role": "admin",
       "active": true,
       "id": 6
+    },
+    {
+      "email": "hung123@fpt.edu.vn",
+      "password": "$2a$10$wA4gn4dj74jYu7F7uUApY.O4os2k64rmOXrPS6ZFVz0IpXrBCLRqC",
+      "name": "phung viet hung",
+      "role": "admin",
+      "active": true,
+      "id": 7
     }
   ],
   "banners": [
@@ -434,6 +458,17 @@
       "startDate": "2025-06-13",
       "endDate": "2025-06-20",
       "id": 6
+    }
+  ],
+  "promotions": [
+    {
+      "code": "SALE20252",
+      "date": "2025-06-23",
+      "condition": "Đơn hàng > 700k",
+      "startDate": "2025-06-23",
+      "endDate": "2025-06-25",
+      "status": "Hoạt động",
+      "id": 2
     }
   ]
 }
