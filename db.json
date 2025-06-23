@@ -23,121 +23,178 @@
   "products": [
     {
       "id": 1,
-      "name": "iphone12",
-      "price": "9.000000",
-      "image": "",
-      "album": "",
+      "name": "Samsung Galaxy Zflip",
+      "price": 9,
+      "image": "https://tse2.mm.bing.net/th?id=OIP.dNoJCW125gy1u7b23CpFtwHaHa&pid=Api&P=0&h=180",
+      "album": [],
       "description": "táo",
-      "category": "1",
+      "category": 1,
       "status": "Còn hàng",
-      "type": "simple",
-      "parent": 0
+      "type": "variable",
+      "parent": 0,
+      "quantity": 1,
+      "score": 0
     },
     {
       "id": 2,
-      "name": "sansung s20",
-      "price": "10.000000",
-      "image": "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
-      "album": [],
-      "description": "sansung  đây",
-      "category": "2",
-      "status": "Hết hàng",
-      "type": "simple",
+      "score": 0,
       "parent": 0,
-      "quantity": "11"
+      "type": "variable",
+      "album": [
+        "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
+        "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+      ],
+      "price": 1,
+      "quantity": 1,
+      "name": "Apple VIP ",
+      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "description": "def",
+      "category": 1,
+      "status": "Còn hàng",
+      "priceRange": "1-9"
+    },
+    {
+      "id": 3,
+      "name": "Apple VIP  (Đỏ, 300MB, 4GB)",
+      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "album": [
+        "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
+        "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+      ],
+      "price": 1,
+      "quantity": 1,
+      "description": "def",
+      "category": 1,
+      "status": "Còn hàng",
+      "type": "variation",
+      "parent": 2,
+      "score": 0,
+      "attributes": {
+        "Màu": "Đỏ",
+        "Dung lượng": "300MB",
+        "Ram": "4GB"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Apple VIP  (Trắng, 300MB, 4GB)",
+      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "album": [
+        "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
+        "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+      ],
+      "price": 9,
+      "quantity": 10,
+      "description": "def",
+      "category": 1,
+      "status": "Còn hàng",
+      "type": "variation",
+      "parent": 2,
+      "score": 0,
+      "attributes": {
+        "Màu": "Trắng",
+        "Dung lượng": "300MB",
+        "Ram": "4GB"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Samsung Galaxy Zflip (Trắng, 300MB, 4GB)",
+      "image": "https://tse2.mm.bing.net/th?id=OIP.dNoJCW125gy1u7b23CpFtwHaHa&pid=Api&P=0&h=180",
+      "album": [],
+      "price": 8,
+      "quantity": 11,
+      "description": "táo",
+      "category": 1,
+      "status": "Còn hàng",
+      "type": "variation",
+      "parent": 1,
+      "score": 0,
+      "attributes": {
+        "Màu": "Trắng",
+        "Dung lượng": "300MB",
+        "Ram": "4GB"
+      }
     },
     {
       "id": 6,
-      "name": "Dương",
-      "image": "",
-      "album": "",
-      "price": "200000",
-      "description": "123",
-      "category": "2",
-      "status": "Còn hàng",
-      "type": "simple",
-      "parent": 0
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [],
+      "price": 8,
+      "quantity": 12,
+      "name": "Apple VIP ",
+      "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "description": "èveverv",
+      "category": 2,
+      "status": "Còn hàng"
     },
     {
       "id": 7,
-      "name": "Iphone 13",
-      "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
-      "album": [
-        "https://up.yimg.com/ib/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
-      ],
-      "price": "11",
-      "quantity": "11",
-      "description": "mgoraougaruogurhoh",
-      "category": "1",
+      "score": 0,
+      "parent": 6,
+      "type": "variation",
+      "album": [],
+      "price": 1,
+      "quantity": 1,
+      "name": "Apple VIP  (Đỏ, 300MB, 4GB)",
+      "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "description": "èveverv",
+      "category": 2,
       "status": "Còn hàng",
-      "type": "simple",
-      "parent": 0
+      "attributes": {
+        "Màu": "Đỏ",
+        "Dung lượng": "300MB",
+        "Ram": "4GB"
+      }
     },
     {
       "id": 8,
-      "name": "SamSung A51",
-      "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "album": [
-        "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-        "https://up.yimg.com/ib/th?id=OIP.QFpdj3RVQRCeozn8iiDOdAHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
-      ],
-      "price": "11",
-      "quantity": "11",
-      "description": "é",
-      "category": "2",
-      "status": "Hết hàng",
-      "type": "simple",
-      "parent": 0
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [],
+      "price": 1,
+      "quantity": 1,
+      "name": "Samsung Galaxy S23",
+      "image": "https://cdn.nguyenkimmall.com/images/companies/_1/dien-thoai/Samsung/S23%20Ultra/dien-thoai-samsung-galaxy-s23-ultra-1.jpg",
+      "description": "ềwf",
+      "category": 2,
+      "status": "Còn hàng"
     },
     {
       "id": 9,
-      "name": "Samsung A51",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "price": "21",
-      "quantity": "32",
-      "description": "beto bjsndnopcnk nk  ndndd c madnnncjn jdcqss ",
-      "category": "2",
+      "score": 0,
+      "parent": 8,
+      "type": "variation",
+      "album": [],
+      "price": 1,
+      "quantity": 1,
+      "name": "Samsung Galaxy S23 (Trắng, 300MB, 4GB)",
+      "image": "https://cdn.nguyenkimmall.com/images/companies/_1/dien-thoai/Samsung/S23%20Ultra/dien-thoai-samsung-galaxy-s23-ultra-1.jpg",
+      "description": "ềwf",
+      "category": 2,
       "status": "Còn hàng",
-      "album": [
-        "https://up.yimg.com/ib/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-        "https://up.yimg.com/ib/th?id=OIP.QFpdj3RVQRCeozn8iiDOdAHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
-      ],
-      "type": "simple",
-      "parent": 0
+      "attributes": {
+        "Màu": "Trắng",
+        "Dung lượng": "300MB",
+        "Ram": "4GB"
+      }
     },
     {
       "id": 10,
-      "name": "Iphone",
-      "image": "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "price": "53",
-      "quantity": "2",
-      "description": "gaegefw",
-      "category": "2",
-      "status": "Còn hàng",
-      "album": [
-        "https://up.yimg.com/ib/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-        "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-        "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
-      ],
+      "score": 0,
+      "parent": 0,
       "type": "simple",
-      "parent": 0
-    },
-    {
-      "id": 11,
-      "name": "Apple VIP ",
-      "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
-      "price": "11",
-      "quantity": "1",
-      "description": "sdfsdf",
-      "category": "1",
-      "status": "Còn hàng",
-      "album": [
-        "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-        "https://up.yimg.com/ib/th?id=OIP.zdIyAUDNyuBDu7VdROHuMQHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
-      ],
-      "type": "simple",
-      "parent": 0
+      "album": [],
+      "price": 11,
+      "quantity": 1,
+      "name": "iPhone 13 128GB",
+      "image": "https://hc.com.vn/i/ecommerce/media/GS.008504_FEATURE_93851.jpg",
+      "description": "adgsg",
+      "category": 1,
+      "status": "Còn hàng"
     }
   ],
   "variants": [],
@@ -344,6 +401,13 @@
       "role": "admin",
       "active": true,
       "id": 5
+    },
+    {
+      "email": "mai@gmail.com",
+      "password": "$2a$10$vZA85rFFtMPTVhsonQssQOjFR.w8YseKzUiP7kAQwFBllHLdueVB.",
+      "role": "admin",
+      "active": true,
+      "id": 6
     }
   ],
   "banners": [
