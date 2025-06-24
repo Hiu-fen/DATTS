@@ -83,107 +83,111 @@ server.post("/create-collection", (req, res) => {
   }
 })
 server.post("/products", (req, res) => {
-  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));  
-  const {variants} = req.body;
-  req.body.variants = undefined
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const newProduct = {
     id: GetMaxID("products") + 1,
     ...req.body,
-    type: "simple",
-    parent:0
+    // Respect type and parent from client, with defaults if not provided
+    type: req.body.type || "simple",
+    parent: req.body.parent || 0,
   };
-  const product_variants = []
-  if (variants){
-  variants.forEach((items,index)=>{
-      const {price,image} = items
-      items.price = undefined
-      items.image = undefined
-      const item = {
-        id: GetMaxID("products") + 2+index,
-        ...req.body,
-        variant:items.key,
-        price:price,
-        image:image,
-        type: "product_variation",
-        parent:GetMaxID("products") + 1
-      }
-      product_variants.push(item)
-  })
-}
-  db.products = [...db.products,newProduct,...product_variants]
+
+  // Remove any unexpected fields
+  delete newProduct.variants;
+
+  db.products = [...db.products, newProduct];
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
   res.status(201).json(newProduct);
 });
+
 server.put("/products/:id", (req, res) => {
-  const {id}= req.params
-  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));  
-  const {products} = db;
-  const {variants} = req.body;
-  req.body.variants = undefined
+  const { id } = req.params;
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const { products } = db;
   const index = products.findIndex((p) => p.id === Number(id));
   if (index === -1) {
     return res.status(404).json({ error: "Product not found" });
   }
-  db.products[index] = { ...products[index], ...req.body};
-  const product_variants = []  
-  if (variants){
-  variants.forEach((items,index)=>{
-      const {price,image} = items    
-      items.name = req.body.name      
-      if (items.id){        
-        const indexitem = products.findIndex((p) => p.id === Number(items.id));
-        const variant = {...items}   
-        variant.price = undefined
-        variant.id = undefined
-        items.key = undefined
-        db.products[indexitem] = { ...products[indexitem], ...items,variant:variant.key};
-      }
-      else {
-      items.price = undefined
-      items.image = undefined
-      const item = {
-        id: GetMaxID("products")+1+index,
-        ...req.body,
-        variant:items.key,
-        price:price,
-        image:image,
-        type: "product_variation",
-        parent:Number(id)
-      }
-      product_variants.push(item)
-      }
-  })
-}
-  db.products = [...db.products,...product_variants]
-  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
-  res.status(200).json(products[index]);
-});
-server.get("/products", (req, res) => {
-  const {products} = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const simpleproduct = products.filter(item=>item.type=="simple")
-  const result = simpleproduct.map(item=>{
-      const children = products.filter(child=>child.parent==item.id&&child.type=="product_variation")
-      if (children.length>0){
-        const pricearr = children.map(child=>child.price)
-        item.price = (Math.min(...pricearr)==Math.max(...pricearr))?Math.min(...pricearr):`${Math.min(...pricearr)}-${Math.max(...pricearr)}`
-        item.type="product_variable"
-      }
-      return item
-  })
-  res.status(200).send(result)
-})
-server.get("/products/:id", (req, res) => {
-  const {products} = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const {id} = req.params
-  const product = products.filter(item=>item.id==id).shift()
-  const children = products.filter(child=>child.parent==id&&child.type=="product_variation")
-  if (children.length>0){
-    const pricearr = children.map(child=>child.price)
-    product.price = (Math.min(...pricearr)==Math.max(...pricearr))?Math.min(...pricearr):`${Math.min(...pricearr)}-${Math.max(...pricearr)}`
+
+  // Xác định type hợp lệ dựa trên req.body.type
+  const validTypes = ["simple", "variable", "variation"];
+  const currentProduct = products[index];
+  let newType = currentProduct.type; // Giữ nguyên type hiện tại nếu không có thay đổi
+
+  if (req.body.type && validTypes.includes(req.body.type)) {
+    newType = req.body.type;
+  } else if (!req.body.type) {
+    // Nếu client không gửi type, giữ nguyên type hiện tại
+    newType = currentProduct.type;
+  } else {
+    // Nếu type không hợp lệ, trả về lỗi
+    return res.status(400).json({ error: "Invalid product type" });
   }
-  product.variants = children
-  res.status(200).json(product)
-})
+
+  // Kiểm tra logic cho biến thể
+  const newParent = req.body.parent !== undefined ? Number(req.body.parent) : currentProduct.parent || 0;
+  if (newType === "variation" && newParent === 0) {
+    return res.status(400).json({ error: "Variation product must have a parent ID" });
+  }
+  if (newType !== "variation" && newParent !== 0) {
+    return res.status(400).json({ error: "Only variation products can have a parent ID" });
+  }
+
+  const updatedProduct = {
+    ...currentProduct,
+    ...req.body,
+    type: newType,
+    parent: newParent,
+  };
+
+  // Xóa các trường không mong muốn
+  delete updatedProduct.variants;
+
+  db.products[index] = updatedProduct;
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+  res.status(200).json(updatedProduct);
+});
+
+server.get("/products", (req, res) => {
+  const { products } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const result = products.filter(item => item.parent === 0).map(item => {
+const children = products.filter(child => child.parent === item.id && child.type === "variation");
+
+    if (children.length > 0) {
+      const pricearr = children.map(child => child.price);
+      return {
+        ...item,
+        price: pricearr.length > 1 ? `${Math.min(...pricearr)}-${Math.max(...pricearr)}` : Math.min(...pricearr),
+        variants: children,
+      };
+    }
+    return item;
+  });
+  res.status(200).send(result);
+});
+
+server.get("/products/:id", (req, res) => {
+  const { products } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const { id } = req.params;
+  const product = products.find(item => item.id == id);
+
+  if (!product) {
+    return res.status(404).json({ error: "Product not found" });
+  }
+
+  const children = products.filter(child => child.parent == id && child.type === "variation");
+
+  if (children.length > 0) {
+    // Gán vào field phụ, KHÔNG đụng đến price gốc
+    product.variants = children;
+    product.priceRange = children.length > 1
+      ? `${Math.min(...children.map(c => c.price))}-${Math.max(...children.map(c => c.price))}`
+      : children[0].price;
+  }
+
+  res.status(200).json(product);
+});
+
 server.delete("/products/:id", (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const {products} = db;
