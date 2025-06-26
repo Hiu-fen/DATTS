@@ -77,57 +77,51 @@ const Details: React.FC = () => {
     );
   }
 
-  const handleAddToCart = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return message.warning("Vui lòng đăng nhập để thêm vào giỏ hàng.");
-    }
-    if (!userId) {
-      return message.error("Không xác định được người dùng.");
-    }
-    if (!selectedVariantId) {
-      return message.error("Vui lòng chọn 1 biến thể.");
-    }
+const handleAddToCart = async () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return message.warning("Vui lòng đăng nhập để thêm vào giỏ hàng.");
+  }
+  if (!userId) {
+    return message.error("Không xác định được người dùng.");
+  }
+  if (!selectedVariantId) {
+    return message.error("Vui lòng chọn 1 biến thể.");
+  }
 
-    try {
-      // 1. Lấy giỏ hàng hiện tại
-      const cartRes = await axios.get(
-        `http://localhost:4000/carts/${userId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const items: any[] = cartRes.data.data?.items || [];
+  // Tìm biến thể đã chọn
+  const variant = product!.variants!.find(v => v.id === selectedVariantId)!;
 
-      // 2. Lấy biến thể đã chọn
-      const variant = product.variants!.find(v => v.id === selectedVariantId)!;
-
-      // 3. Cập nhật mảng items
-      const idx = items.findIndex(i => i.variantId === variant.id);
-      if (idx >= 0) {
-        items[idx].quantity += qty;
-      } else {
-        items.push({
-          variantId: variant.id,
-          productId: product.id,
-          color: variant.color,
-          storage: variant.ram,
-          price: variant.price,
-          quantity: qty,
-        });
-      }
-
-      // 4. PUT cập nhật
-      await axios.put(
-        `http://localhost:4000/carts/${userId}`,
-        { items },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      message.success("Đã thêm vào giỏ hàng!");
-    } catch (err) {
-      console.error(err);
-      message.error("Thêm vào giỏ hàng thất bại.");
-    }
+  // Xây dựng object để gửi POST /carts
+  const productForCart = {
+    id:          product!.id,
+    name:        product!.name,
+    price:       variant.price,
+    image:       product!.image,
+    description: product!.description,
+    ram:         variant.ram,
+    color:       variant.color
   };
+
+  try {
+    await axios.post(
+      "http://localhost:4000/carts",
+      {
+        product:  productForCart,
+        quantity: qty
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+    message.success("Đã thêm vào giỏ hàng!");
+  } catch (err) {
+    console.error("Lỗi thêm giỏ hàng:", err);
+    message.error("Thêm vào giỏ hàng thất bại.");
+  }
+};
+
+
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">

@@ -146,6 +146,38 @@
   ],
   "contacts": [],
   "carts": [
+    {
+      "id": 1,
+      "userId": 10,
+      "items": [
+        {
+          "productId": {
+            "id": 2,
+            "name": "Test Xphone4",
+            "price": 1,
+            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "tttttttttt",
+            "ram": "1T",
+            "color": "Blue"
+          },
+          "quantity": 1,
+          "color": "Blue",
+          "storage": "1T"
+        },
+        {
+          "productId": {
+            "id": 1,
+            "name": "Híu đây hẹ hẹ 2",
+            "price": 1,
+            "image": "https://picsum.photos/200",
+            "description": "uuuuuuuuuuuuuuuuuu",
+            "ram": "36GB",
+            "color": "RED"
+          },
+          "quantity": 1
+        }
+      ]
+    }
   ],
   "orders": [
     {

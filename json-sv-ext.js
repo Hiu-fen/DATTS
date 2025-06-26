@@ -281,25 +281,38 @@ server.get("/carts", Permission, (req, res) => {
 server.put("/carts/:id", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const { id: userId } = req.user;
-  const { items } = req.body;
+  const { items: incoming } = req.body;
 
-  const cartIndex = db.carts.findIndex((item) => item.userId == userId);
-
+  const cartIndex = db.carts.findIndex(c => c.userId == userId);
   if (cartIndex === -1) {
     return res.status(404).json({ message: "Không tìm thấy giỏ hàng" });
   }
 
-  // 📍 CHÍNH LÀ ĐÂY
-  db.carts[cartIndex].items = items.map((item) => ({
-    productId: item.productId,
-    quantity: item.quantity,
-    color: item.color,
-    storage: item.storage,
-  }));
+  // Lấy mảng items hiện tại
+  const existing = db.carts[cartIndex].items;
 
+  // Đổi thành array mới, nhưng giữ full object productId
+  const merged = incoming.map(i => {
+    // tìm xem trong existing có object cũ không
+    const old = existing.find(e => e.productId.id == i.productId);
+    return {
+      productId: old 
+        ? old.productId        // giữ nguyên object cũ
+        : { id: i.productId },  // fallback chỉ id nếu không tìm thấy
+      quantity: i.quantity,
+      color:    i.color,
+      storage:  i.storage
+    };
+  });
+
+  db.carts[cartIndex].items = merged;
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
-  res.status(200).json({ message: "Cập nhật giỏ hàng thành công", data: db.carts[cartIndex] });
+  res.status(200).json({
+    message: "Cập nhật giỏ hàng thành công",
+    data: db.carts[cartIndex]
+  });
 });
+
 
 
 server.get("/carts/:userId", (req, res) => {
