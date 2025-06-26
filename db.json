@@ -23,17 +23,18 @@
   "products": [
     {
       "id": 1,
-      "name": "Samsung Galaxy Zflip",
-      "price": 9,
-      "image": "https://tse2.mm.bing.net/th?id=OIP.dNoJCW125gy1u7b23CpFtwHaHa&pid=Api&P=0&h=180",
-      "album": [],
+      "name": "iphone12",
+      "price": "9.000000",
+      "image": "https://picsum.photos/200",
+      "album": [
+        "https://picsum.photos/200"
+      ],
       "description": "táo",
       "category": 1,
       "status": "Còn hàng",
-      "type": "variable",
+      "type": "simple",
       "parent": 0,
-      "quantity": 1,
-      "score": 0
+      "quantity": "6"
     },
     {
       "id": 2,
@@ -233,7 +234,75 @@
     }
   ],
   "contacts": [],
-  "carts": [],
+  "carts": [
+    {
+      "id": 1,
+      "userId": 6,
+      "items": [
+        {
+          "productId": {
+            "id": 9,
+            "name": "Samsung A51",
+            "price": "21",
+            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "beto bjsndnopcnk nk  ndndd c madnnncjn jdcqss ",
+            "category": "2"
+          },
+          "quantity": 2
+        },
+        {
+          "productId": {
+            "id": 10,
+            "name": "Iphone",
+            "price": "53",
+            "image": "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "gaegefw",
+            "category": "2"
+          },
+          "quantity": 1
+        },
+        {
+          "productId": {
+            "id": 2,
+            "name": "sansung s20",
+            "price": "10.000000",
+            "image": "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
+            "description": "sansung  đây",
+            "category": "2"
+          },
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 10,
+      "items": [
+        {
+          "productId": {
+            "id": 7,
+            "name": "Iphone 13",
+            "price": "11",
+            "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
+            "description": "mgoraougaruogurhoh",
+            "category": "1"
+          },
+          "quantity": 1
+        },
+        {
+          "productId": {
+            "id": 2,
+            "name": "Apple VIP ",
+            "price": 1,
+            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "def",
+            "category": 1
+          },
+          "quantity": 1
+        }
+      ]
+    }
+  ],
   "orders": [
     {
       "id": "1",
@@ -419,20 +488,33 @@
       "id": 5
     },
     {
-      "email": "hung@gmail.com",
-      "password": "$2a$10$3PWW3V1G5lI6Zq7w2IMlJe.8J3qGrw/ZGFe84u9zEZX9mE/EmHMiS",
-      "name": "Hung",
-      "role": "admin",
-      "active": true,
+      "email": "3@gmail.com",
+      "password": "$2a$10$P5WNHpSyhz8klCuXQaUL3.up4GoY98A0QDTRDpe4ucXdFCFJeZ2i6",
       "id": 6
     },
     {
-      "email": "hung123@fpt.edu.vn",
-      "password": "$2a$10$wA4gn4dj74jYu7F7uUApY.O4os2k64rmOXrPS6ZFVz0IpXrBCLRqC",
-      "name": "phung viet hung",
+      "email": "4@gmail.com",
+      "password": "$2a$10$tOX/w.qWc/10hQcwjhd0VuW3ltS59pQJOVVG/z16h47nz23POHzHi",
+      "name": "hiếu phạm",
       "role": "admin",
       "active": true,
       "id": 7
+    },
+    {
+      "email": "hiu-fen2@gmail.com",
+      "password": "$2a$10$y7iEE7u5Rl7VZIQ5TuIs5.W3YDvkeOuG0UL.LjcWMah8rkqGVWM7u",
+      "id": 8
+    },
+    {
+      "email": "5@gmail.com",
+      "password": "$2a$10$rrSinGCUXnRdFEkqKobFGuTtN6fwOA6kjbY8skFWotbqSU1DXfe32",
+      "id": 9
+    },
+    {
+      "email": "6@gmail.com",
+      "password": "$2a$10$OiT.chAJPQp2OOhpG7Quv.3nrRjnNAFFU7yfOPHb6BOFljdCx1vpS",
+      "name": "hieu",
+      "id": 10
     }
   ],
   "banners": [

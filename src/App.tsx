@@ -7,8 +7,8 @@ import PostAddProduct from './components/admin/Product/PostAddProduct'
 import PutEditProduct from './components/admin/Product/PutEditProduct'
 import GetProductDetail from './components/admin/Product/GetProductDetail'
 
-import Register from './components/admin/UserClient/Register'
-import Login from './components/admin/UserClient/Login'
+import Register from './components/client/UserClient/Register'
+import Login from './components/client/UserClient/Login'
 import GetListCategory from './components/admin/Category/GetListCategory'
 import PostAddCategory from './components/admin/Category/PostAddCategory'
 import PutEditCategory from './components/admin/Category/PutEditCategory'
@@ -38,6 +38,7 @@ import Details from './components/client/page/details'
 import NewsClient from './components/client/page/news'
 // import Contact from './components/client/page/contact'
 import ContactPage from './components/client/page/contact'
+import Cart from './components/client/page/cart'
 
 
 // import Books from './components/test/books'
@@ -63,6 +64,7 @@ const App = (props: Props) => {
         { path: '/news/:id', element: <NewsDetail /> },
 
         { path: '/call', element: <ContactPage /> },
+        { path: '/carts', element: <Cart /> },
         
 
 
