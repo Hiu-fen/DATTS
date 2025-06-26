@@ -5,6 +5,7 @@ import {
   HighlightFilled,
   ProductFilled,
   ReadOutlined,
+  PlusOutlined,
 } from '@ant-design/icons';
 import { Menu, MenuProps } from 'antd';
 import React from 'react';
@@ -39,6 +40,15 @@ const AdminSidebar = () => {
       ],
     },
     {
+      key: 'variant-manage',
+      label: 'Quản lý biến thể',
+      icon: <ReadOutlined />,
+      children: [
+        { key: 'variant-list', label: 'Danh sách biến thể' },
+        
+      ],
+    },
+    {
       key: 'oders-manage',
       label: 'Quản lý đơn hàng',
       icon: <HighlightFilled />,
@@ -57,6 +67,9 @@ const AdminSidebar = () => {
         { key: 'comment-add', label: 'Thêm bình luận' },
       ],
     },
+
+
+
      {
       key: 'contact-manage',
       label: 'Quản lý liên hệ',
@@ -83,7 +96,16 @@ const AdminSidebar = () => {
         { key: 'banner-list', label: 'Banner' },
         { key: 'banner-add', label: 'Thêm banner' },
       ],
-    },
+      },
+      {
+        key: 'promotion-manage',
+        label: 'Quản lý khuyến mãi',
+        icon: <ReadOutlined />,
+        children: [
+          { key: 'promotion-list', label: 'Danh sách khuyến mãi' },
+          { key: 'promotion-add', label: 'Thêm khuyến mãi' }
+        ],
+      },
     {
       key: 'report',
       label: 'Thống kê',
@@ -97,6 +119,9 @@ const AdminSidebar = () => {
       'product-add': '/admin/phone/add',
       'category-list': '/admin/category/list',
       'category-add': '/admin/category/add',
+      'variant-list': '/admin/variant/list',
+      'variant-add': '/admin/variant/add',
+      'variant-custom-add': '/admin/variant/custom-add',
       'comment-list': '/admin/comment/list',
       'comment-add': '/admin/comment/add',
       'news-list': '/admin/news/list',
@@ -107,6 +132,8 @@ const AdminSidebar = () => {
       'orders/add': '/admin/orders/add',
       'banner-list': '/admin/banner/list',
       'banner-add': '/admin/banner/add',
+      'promotion-list': '/admin/promotion/list',
+      'promotion-add': '/admin/promotion/add',
       dashboard: '/admin',
       report: '/admin/report',
     };
