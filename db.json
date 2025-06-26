@@ -376,6 +376,114 @@
           "storage": "1T"
         }
       ]
+    },
+    {
+      "id": 10,
+      "userId": 10,
+      "orderCode": "ORD-NAHJV",
+      "customerName": "hieu",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 35001,
+      "status": "Chờ xác nhận",
+      "date": "2025-06-26T09:52:50.602Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Test Xphone4",
+          "soluong": 1,
+          "price": 1,
+          "color": "",
+          "storage": ""
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "userId": 10,
+      "orderCode": "ORD-9JZ8O",
+      "customerName": "hieu",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 35001,
+      "status": "Chờ xác nhận",
+      "date": "2025-06-26T09:55:45.473Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Test Xphone4",
+          "soluong": 1,
+          "price": 1,
+          "color": "",
+          "storage": ""
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "userId": 10,
+      "orderCode": "ORD-P33P7",
+      "customerName": "hieu",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 35001,
+      "status": "Chờ xác nhận",
+      "date": "2025-06-26T10:00:55.386Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Test Xphone4",
+          "soluong": 1,
+          "price": 1,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "userId": 10,
+      "orderCode": "ORD-C16C1",
+      "customerName": "hieu",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "J&T Express",
+      "total": 35006,
+      "status": "Chờ xác nhận",
+      "date": "2025-06-26T10:01:59.354Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Test Xphone4",
+          "soluong": 6,
+          "price": 1,
+          "color": "RED",
+          "storage": "64BB"
+        }
+      ]
     }
   ],
   "users": [

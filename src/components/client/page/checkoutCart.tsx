@@ -24,8 +24,8 @@ interface ICartItemFull {
     color?: string;
   };
   quantity: number;
-  color?: string;
-  storage?: string;
+  color: string;    // luôn khởi tạo thành chuỗi (có thể rỗng)
+  storage: string;  // tương tự
 }
 
 const SHIPPING_FEE = 35000;
@@ -38,11 +38,10 @@ const Checkout: React.FC = () => {
   const [cartItems, setCartItems] = useState<ICartItemFull[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Tự động sinh orderCode khi mount
-  const [orderCode] = useState(() => {
-    // VD: ORD-XXXXX
-    return "ORD-" + Math.random().toString(36).substr(2, 5).toUpperCase();
-  });
+  // Sinh sẵn orderCode khi mount
+  const [orderCode] = useState(() =>
+    "ORD-" + Math.random().toString(36).substr(2, 5).toUpperCase()
+  );
 
   const [form, setForm] = useState({
     name: user?.name || "",
@@ -54,7 +53,7 @@ const Checkout: React.FC = () => {
     shippingProvider: "Giao hàng tiêu chuẩn",
   });
 
-  // 1. Load cart
+  // 1. Load cart từ server
   useEffect(() => {
     if (!userId) {
       setLoading(false);
@@ -67,7 +66,15 @@ const Checkout: React.FC = () => {
           `http://localhost:4000/carts/${userId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setCartItems(res.data.data.items || []);
+        // mặc định nếu server không có color/storage
+        const items: ICartItemFull[] =
+          (res.data.data.items || []).map((it: any) => ({
+            productId: it.productId,
+            quantity: it.quantity,
+            color: it.color ?? "",
+            storage: it.storage ?? "",
+          }));
+        setCartItems(items);
       } catch (err) {
         console.error(err);
         message.error("Không thể tải giỏ hàng");
@@ -84,13 +91,15 @@ const Checkout: React.FC = () => {
   const totalWithShipping = totalPrice + SHIPPING_FEE;
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 2. Place order
+  // 2. Đặt hàng
   const handleOrder = async () => {
     if (!userId) {
       message.error("Vui lòng đăng nhập để đặt hàng");
@@ -122,27 +131,25 @@ const Checkout: React.FC = () => {
         productName: item.productId.name,
         soluong: item.quantity,
         price: item.productId.price,
-        color: item.color || "",
-        storage: item.storage || "",
+        color: item.color,
+        storage: item.storage,
       })),
       userId,
     };
 
     try {
       const token = localStorage.getItem("token");
-      // → Lưu vào bảng orders
       await axios.post("http://localhost:4000/orders", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       message.success(`Đặt hàng thành công! Mã đơn: ${orderCode}`);
 
-      // → Xóa giỏ hàng
+      // Xóa giỏ hàng
       await axios.delete(`http://localhost:4000/carts/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCartItems([]);
-
       navigate("/");
     } catch (err: any) {
       console.error(err);
@@ -169,9 +176,7 @@ const Checkout: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-12 mb-12">
-      <h1 className="text-3xl font-bold mb-2 text-center">
-        Xác nhận đơn hàng
-      </h1>
+      <h1 className="text-3xl font-bold mb-2 text-center">Xác nhận đơn hàng</h1>
       <p className="text-center text-gray-600 mb-6">
         Mã đơn hàng của bạn: <span className="font-mono">{orderCode}</span>
       </p>
@@ -230,9 +235,7 @@ const Checkout: React.FC = () => {
             </select>
           </div>
           <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4">
-              Phương thức thanh toán
-            </h3>
+            <h3 className="text-xl font-semibold mb-4">Phương thức thanh toán</h3>
             {["COD", "Momo", "Bank"].map((m) => (
               <label key={m} className="flex items-center mb-2">
                 <input
@@ -276,39 +279,9 @@ const Checkout: React.FC = () => {
                 />
                 <div className="flex-1">
                   <p className="font-medium">{item.productId.name}</p>
-                  {item.color && <p className="text-sm">Màu: {item.color}</p>}
-                  {item.storage && (
-                    <p className="text-sm">Dung lượng: {item.storage}</p>
-                  )}
-                  <div className="flex items-center space-x-2 mt-1">
-                    <button
-                      onClick={() => {
-                        const arr = [...cartItems];
-                        arr[i].quantity = Math.max(1, arr[i].quantity - 1);
-                        setCartItems(arr);
-                      }}
-                    >
-                      −
-                    </button>
-                    <InputNumber
-                      min={1}
-                      value={item.quantity}
-                      onChange={(v) => {
-                        const arr = [...cartItems];
-                        arr[i].quantity = v || 1;
-                        setCartItems(arr);
-                      }}
-                    />
-                    <button
-                      onClick={() => {
-                        const arr = [...cartItems];
-                        arr[i].quantity++;
-                        setCartItems(arr);
-                      }}
-                    >
-                      ＋
-                    </button>
-                  </div>
+                  <p className="text-sm">Màu: {item.color || "–"}</p>
+                  <p className="text-sm">Dung lượng: {item.storage || "–"}</p>
+                  <p className="text-sm">Số lượng: {item.quantity}</p>
                 </div>
                 <div className="font-semibold">
                   {(item.productId.price * item.quantity).toLocaleString(
