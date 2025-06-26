@@ -1,223 +1,194 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Table, Button, Popconfirm, Modal, Form, Input, Tabs, message } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Card, Form, Input, Modal, message } from 'antd';
+import axios from 'axios';
 
-interface VariantValue {
-  value: string;
-  key: number;
+interface VariantData {
+  id: number;
+  ram: string[];
+  color: string[];
 }
 
-const VariantList = () => {
-  const [variantNames, setVariantNames] = useState<string[]>([]);
-  const [variantValues, setVariantValues] = useState<Record<string, VariantValue[]>>({});
-  const [activeName, setActiveName] = useState<string>('');
-  const [isEditNameModal, setIsEditNameModal] = useState(false);
-  const [editName, setEditName] = useState('');
-  const [isEditValueModal, setIsEditValueModal] = useState(false);
-  const [editValue, setEditValue] = useState<VariantValue | null>(null);
-  const [formName] = Form.useForm();
-  const [formValue] = Form.useForm();
+const VariantPage = () => {
+  const [form] = Form.useForm();
+  const [variants, setVariants] = useState<VariantData | null>(null);
+  const [modalType, setModalType] = useState<'ram' | 'color' | null>(null);
+  const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
+
+  const fetchVariants = async () => {
+    try {
+      const res = await axios.get('http://localhost:4000/variants');
+      setVariants(res.data[0]);
+    } catch {
+      message.error('Không thể tải dữ liệu biến thể');
+    }
+  };
 
   useEffect(() => {
-    const names = JSON.parse(localStorage.getItem('variantNames') || '[]');
-    const values = JSON.parse(localStorage.getItem('variantValues') || '{}');
-    setVariantNames(names);
-    setVariantValues(values);
-    setActiveName(names[0] || '');
+    fetchVariants();
   }, []);
 
-  // Sửa tên biến thể
-  const handleEditName = () => {
-    setEditName(activeName);
-    formName.setFieldsValue({ name: activeName });
-    setIsEditNameModal(true);
-  };
-
-  const handleUpdateName = (values: { name: string }) => {
-    if (variantNames.includes(values.name)) {
-      message.error('Tên biến thể đã tồn tại!');
-      return;
+  const handleAdd = async (values: { value: string }) => {
+    if (!modalType || !variants) return;
+    const value = values.value.trim();
+    const currentList = variants[modalType];
+    if (currentList.map(v => v.toLowerCase()).includes(value.toLowerCase())) {
+      return message.error('Giá trị đã tồn tại');
     }
-    // Cập nhật tên trong danh sách tên
-    const newNames = variantNames.map((n) => (n === activeName ? values.name : n));
-    // Cập nhật key trong variantValues
-    const newValues: Record<string, VariantValue[]> = {};
-    Object.keys(variantValues).forEach((k) => {
-      if (k === activeName) {
-        newValues[values.name] = variantValues[k];
-      } else {
-        newValues[k] = variantValues[k];
-      }
+    const updated = { ...variants, [modalType]: [...currentList, value] };
+    await axios.put(`http://localhost:4000/variants/${variants.id}`, updated);
+    message.success(`Đã thêm ${modalType}`);
+    setModalType(null);
+    form.resetFields();
+    fetchVariants();
+  };
+
+  const handleEdit = async () => {
+    if (editIndex === null || !modalType || !variants) return;
+    const value = editValue.trim();
+    if (!value) return message.error('Không được để trống');
+
+    const list = [...variants[modalType]];
+    if (
+      list.some((v, i) => i !== editIndex && v.toLowerCase() === value.toLowerCase())
+    ) {
+      return message.error('Giá trị đã tồn tại');
+    }
+
+    list[editIndex] = value;
+    const updated = { ...variants, [modalType]: list };
+    await axios.put(`http://localhost:4000/variants/${variants.id}`, updated);
+    message.success('Sửa thành công');
+    setIsEdit(false);
+    setModalType(null); // ✅ Reset modal sau khi sửa
+    setEditIndex(null);
+    setEditValue('');
+    fetchVariants();
+  };
+
+  const handleDelete = (index: number, type: 'ram' | 'color') => {
+    Modal.confirm({
+      title: `Bạn có chắc chắn muốn xóa giá trị này khỏi ${type.toUpperCase()}?`,
+      okText: 'Xóa',
+      cancelText: 'Hủy',
+      okType: 'danger',
+      onOk: async () => {
+        if (!variants) return;
+        const list = [...variants[type]];
+        list.splice(index, 1);
+        const updated = { ...variants, [type]: list };
+        await axios.put(`http://localhost:4000/variants/${variants.id}`, updated);
+        message.success('Xóa thành công');
+        fetchVariants();
+      },
     });
-    setVariantNames(newNames);
-    setVariantValues(newValues);
-    setActiveName(values.name);
-    localStorage.setItem('variantNames', JSON.stringify(newNames));
-    localStorage.setItem('variantValues', JSON.stringify(newValues));
-    setIsEditNameModal(false);
-    message.success('Đã cập nhật tên biến thể!');
   };
-
-  // Xóa tên biến thể
-  const handleDeleteName = () => {
-    const newNames = variantNames.filter((n) => n !== activeName);
-    const newValues = { ...variantValues };
-    delete newValues[activeName];
-    setVariantNames(newNames);
-    setVariantValues(newValues);
-    setActiveName(newNames[0] || '');
-    localStorage.setItem('variantNames', JSON.stringify(newNames));
-    localStorage.setItem('variantValues', JSON.stringify(newValues));
-    message.success('Đã xóa tên biến thể!');
-  };
-
-  // Sửa giá trị biến thể
-  const handleEditValue = (record: VariantValue) => {
-    setEditValue(record);
-    formValue.setFieldsValue({ value: record.value });
-    setIsEditValueModal(true);
-  };
-
-  const handleUpdateValue = (values: { value: string }) => {
-    if (!editValue) return;
-    const list = (variantValues[activeName] || []).map((item) =>
-      item.key === editValue.key ? { ...item, value: values.value } : item
-    );
-    const newValues = { ...variantValues, [activeName]: list };
-    setVariantValues(newValues);
-    localStorage.setItem('variantValues', JSON.stringify(newValues));
-    setIsEditValueModal(false);
-    setEditValue(null);
-    message.success('Đã cập nhật giá trị!');
-  };
-
-  // Xóa giá trị biến thể
-  const handleDeleteValue = (key: number) => {
-    const list = (variantValues[activeName] || []).filter((item) => item.key !== key);
-    const newValues = { ...variantValues, [activeName]: list };
-    setVariantValues(newValues);
-    localStorage.setItem('variantValues', JSON.stringify(newValues));
-    message.success('Đã xóa giá trị!');
-  };
-
-  const columns = [
-    {
-      title: 'Giá trị',
-      dataIndex: 'value',
-      key: 'value',
-      render: (text: string) => <span style={{ fontWeight: 500 }}>{text}</span>,
-    },
-    {
-      title: 'Hành động',
-      key: 'action',
-      align: 'center' as const,
-      render: (_: any, record: VariantValue) => (
-        <>
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            onClick={() => handleEditValue(record)}
-            size="small"
-            style={{ marginRight: 8 }}
-          >
-            Sửa
-          </Button>
-          <Popconfirm
-            title="Bạn chắc chắn muốn xóa giá trị này?"
-            onConfirm={() => handleDeleteValue(record.key)}
-            okText="Xóa"
-            cancelText="Hủy"
-          >
-            <Button
-              type="primary"
-              danger
-              icon={<DeleteOutlined />}
-              size="small"
-            >
-              Xóa
-            </Button>
-          </Popconfirm>
-        </>
-      ),
-    },
-  ];
 
   return (
-    <div className="flex justify-center items-center min-h-[60vh] bg-gray-50">
+    <div className="p-6 bg-gray-100 min-h-[80vh] grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* RAM Card */}
       <Card
-        title={
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontWeight: 700, fontSize: 22 }}>Danh sách biến thể</span>
-            {activeName && (
-              <>
-                <Button type="link" onClick={handleEditName} icon={<EditOutlined />}>
-                  Sửa tên
-                </Button>
-                <Popconfirm
-                  title="Bạn chắc chắn muốn xóa tên biến thể này và toàn bộ giá trị?"
-                  onConfirm={handleDeleteName}
-                  okText="Xóa"
-                  cancelText="Hủy"
-                >
-                  <Button type="link" danger icon={<DeleteOutlined />}>
-                    Xóa tên
-                  </Button>
-                </Popconfirm>
-              </>
-            )}
-          </div>
+        title="RAM"
+        extra={
+          <Button type="primary" onClick={() => {
+            setModalType('ram');
+            setIsEdit(false);
+          }}>
+            ➕ Thêm RAM
+          </Button>
         }
-        bordered={false}
-        style={{ width: 600, boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}
       >
-        <Tabs
-          activeKey={activeName}
-          onChange={setActiveName}
-          items={variantNames.map((name) => ({
-            key: name,
-            label: name,
-          }))}
-        />
-        <Table
-          columns={columns}
-          dataSource={variantValues[activeName] || []}
-          pagination={false}
-          rowKey="key"
-        />
+        {variants?.ram?.map((val, idx) => (
+          <div
+            key={idx}
+            className="flex justify-between items-center py-1 border-b last:border-none"
+          >
+            <span>{val}</span>
+            <div className="flex gap-2">
+              <Button
+                size="small"
+                type="link"
+                onClick={() => {
+                  setModalType('ram');
+                  setEditValue(val);
+                  setEditIndex(idx);
+                  setIsEdit(true);
+                }}
+              >
+                Sửa
+              </Button>
+              <Button
+                size="small"
+                type="link"
+                danger
+                onClick={() => handleDelete(idx, 'ram')}
+              >
+                Xóa
+              </Button>
+            </div>
+          </div>
+        ))}
       </Card>
 
-      {/* Modal sửa tên biến thể */}
-      <Modal
-        title="Sửa tên biến thể"
-        open={isEditNameModal}
-        onCancel={() => setIsEditNameModal(false)}
-        onOk={() => formName.submit()}
-        okText="Lưu"
-        cancelText="Hủy"
+      {/* COLOR Card */}
+      <Card
+        title="Color"
+        extra={
+          <Button type="primary" onClick={() => {
+            setModalType('color');
+            setIsEdit(false);
+          }}>
+            ➕ Thêm Color
+          </Button>
+        }
       >
-        <Form form={formName} layout="vertical" onFinish={handleUpdateName}>
-          <Form.Item
-            label="Tên biến thể"
-            name="name"
-            rules={[{ required: true, message: 'Vui lòng nhập tên biến thể!' }]}
+        {variants?.color?.map((val, idx) => (
+          <div
+            key={idx}
+            className="flex justify-between items-center py-1 border-b last:border-none"
           >
-            <Input placeholder="Nhập tên biến thể mới" />
-          </Form.Item>
-        </Form>
-      </Modal>
+            <span>{val}</span>
+            <div className="flex gap-2">
+              <Button
+                size="small"
+                type="link"
+                onClick={() => {
+                  setModalType('color');
+                  setEditValue(val);
+                  setEditIndex(idx);
+                  setIsEdit(true);
+                }}
+              >
+                Sửa
+              </Button>
+              <Button
+                size="small"
+                type="link"
+                danger
+                onClick={() => handleDelete(idx, 'color')}
+              >
+                Xóa
+              </Button>
+            </div>
+          </div>
+        ))}
+      </Card>
 
-      {/* Modal sửa giá trị biến thể */}
+      {/* Modal Thêm */}
       <Modal
-        title="Sửa giá trị biến thể"
-        open={isEditValueModal}
-        onCancel={() => setIsEditValueModal(false)}
-        onOk={() => formValue.submit()}
-        okText="Lưu"
-        cancelText="Hủy"
+        open={!!modalType && !isEdit}
+        title={`Thêm ${modalType?.toUpperCase()}`}
+        onCancel={() => {
+          setModalType(null);
+          form.resetFields();
+        }}
+        onOk={() => form.submit()}
+        okText="Thêm"
       >
-        <Form form={formValue} layout="vertical" onFinish={handleUpdateValue}>
+        <Form form={form} onFinish={handleAdd} layout="vertical">
           <Form.Item
-            label="Giá trị"
+            label={`Giá trị ${modalType?.toUpperCase()}`}
             name="value"
             rules={[{ required: true, message: 'Vui lòng nhập giá trị!' }]}
           >
@@ -225,8 +196,28 @@ const VariantList = () => {
           </Form.Item>
         </Form>
       </Modal>
+
+      {/* Modal Sửa */}
+      <Modal
+        open={isEdit}
+        title={`Sửa ${modalType?.toUpperCase()}`}
+        onCancel={() => {
+          setIsEdit(false);
+          setModalType(null);
+          setEditIndex(null);
+          setEditValue('');
+        }}
+        onOk={handleEdit}
+        okText="Lưu"
+      >
+        <Input
+          value={editValue}
+          onChange={(e) => setEditValue(e.target.value)}
+          placeholder="Nhập giá trị mới"
+        />
+      </Modal>
     </div>
   );
 };
 
-export default VariantList;
+export default VariantPage;

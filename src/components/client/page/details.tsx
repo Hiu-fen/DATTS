@@ -45,6 +45,42 @@ const Details = () => {
   if (!product) {
     return <div className="p-10 text-center text-xl">Đang tải thông tin sản phẩm...</div>;
   }
+  const handleAddToCart = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      message.warning("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
+      return;
+    }
+
+    const productData = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      description: product.description,
+      category: product.category,
+    };
+
+    await axios.post(
+      "http://localhost:4000/carts",
+      {
+        product: productData, // gửi đầy đủ thông tin
+        quantity: 1,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    message.success("Đã thêm sản phẩm vào giỏ hàng!");
+  } catch (error) {
+    console.error("Lỗi thêm giỏ hàng:", error);
+    message.error("Thêm vào giỏ hàng thất bại.");
+  }
+};
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -86,9 +122,13 @@ const Details = () => {
 
             {/* Nút thêm vào giỏ */}
             <div className="mt-6">
-              <button className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-200">
-                Thêm vào giỏ hàng
-              </button>
+ <button
+  onClick={handleAddToCart}
+  className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-200"
+>
+  Thêm vào giỏ hàng
+</button>
+
             </div>
           </div>
         </div>

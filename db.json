@@ -23,17 +23,25 @@
   "products": [
     {
       "id": 1,
-      "name": "Samsung Galaxy Zflip",
+      "name": "iphone12",
       "price": 9,
-      "image": "https://tse2.mm.bing.net/th?id=OIP.dNoJCW125gy1u7b23CpFtwHaHa&pid=Api&P=0&h=180",
-      "album": [],
+      "image": "https://picsum.photos/200",
+      "album": [
+        "https://picsum.photos/200"
+      ],
       "description": "táo",
       "category": 1,
       "status": "Còn hàng",
       "type": "variable",
       "parent": 0,
-      "quantity": 1,
-      "score": 0
+      "quantity": 6,
+      "score": 0,
+      "variants": [
+        {
+          "quantity": 1,
+          "price": 1
+        }
+      ]
     },
     {
       "id": 2,
@@ -51,7 +59,25 @@
       "description": "def",
       "category": 1,
       "status": "Còn hàng",
-      "priceRange": "1-9"
+      "priceRange": "1-9",
+      "variants": [
+        {
+          "quantity": 112,
+          "price": 1112
+        },
+        {
+          "quantity": 1123,
+          "price": 1344
+        },
+        {
+          "quantity": 1321,
+          "price": 1321
+        },
+        {
+          "quantity": 1456,
+          "price": 11765
+        }
+      ]
     },
     {
       "id": 3,
@@ -186,7 +212,7 @@
       "id": 10,
       "score": 0,
       "parent": 0,
-      "type": "simple",
+      "type": "variable",
       "album": [],
       "price": 11,
       "quantity": 1,
@@ -195,10 +221,185 @@
       "description": "adgsg",
       "category": 1,
       "status": "Còn hàng",
-      "priceRange": "1-1"
+      "priceRange": "1-1",
+      "variants": [
+        {
+          "quantity": 2,
+          "price": 1
+        },
+        {
+          "quantity": 1,
+          "price": 1
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 20,
+      "quantity": 10,
+      "name": "Test Xphone2",
+      "image": "https://picsum.photos/200",
+      "description": "test biến thể",
+      "category": 1,
+      "status": "Còn hàng"
+    },
+    {
+      "id": 12,
+      "score": 0,
+      "parent": 11,
+      "type": "variation",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 20,
+      "quantity": 5,
+      "name": "Test Xphone2 (1T, RED)",
+      "image": "https://picsum.photos/200",
+      "description": "test biến thể",
+      "category": 1,
+      "status": "Còn hàng",
+      "attributes": {
+        "ram": "1T",
+        "color": "RED"
+      }
+    },
+    {
+      "id": 13,
+      "score": 0,
+      "parent": 11,
+      "type": "variation",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 20,
+      "quantity": 5,
+      "name": "Test Xphone2 (64BB, Blue)",
+      "image": "https://picsum.photos/200",
+      "description": "test biến thể",
+      "category": 1,
+      "status": "Còn hàng",
+      "attributes": {
+        "ram": "64BB",
+        "color": "Blue"
+      }
+    },
+    {
+      "id": 14,
+      "score": 0,
+      "parent": 0,
+      "type": "simple",
+      "album": [],
+      "price": 33,
+      "quantity": 133,
+      "name": "Híu đây hẹ hẹ",
+      "image": "https://picsum.photos/200",
+      "description": "3aaaaaaaa",
+      "category": 1,
+      "status": "Còn hàng"
+    },
+    {
+      "id": 15,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 123,
+      "quantity": 123,
+      "name": "Híu đây hẹ hẹ",
+      "image": "https://picsum.photos/200",
+      "description": "12345678",
+      "category": 1,
+      "status": "Còn hàng"
+    },
+    {
+      "id": 17,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 34,
+      "quantity": 4,
+      "name": "Híu đây hẹ hẹ 2",
+      "image": "https://picsum.photos/200",
+      "description": "uuuuuuuuuuuuuuuuuu",
+      "category": 1,
+      "status": "Còn hàng",
+      "variants": [
+        {
+          "id": 1,
+          "ram": "64BB",
+          "color": "Blue",
+          "price": 1,
+          "quantity": 1
+        },
+        {
+          "id": 2,
+          "ram": "36GB",
+          "color": "RED",
+          "price": 1,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://picsum.photos/200"
+      ],
+      "price": 1,
+      "quantity": 1,
+      "name": "Híu đây hẹ hẹ",
+      "image": "https://picsum.photos/200",
+      "description": "áertyuio",
+      "category": 3,
+      "status": "Hết hàng",
+      "variants": [
+        {
+          "id": 1,
+          "ram": "64BB",
+          "color": "Blue",
+          "price": 1,
+          "quantity": 1
+        }
+      ]
     }
   ],
-  "variants": [],
+  "variants": [
+    {
+      "ram": [
+        "8GB",
+        "36GB",
+        "64BB",
+        "1T"
+      ],
+      "color": [
+        "Đen",
+        "RED",
+        "Blue"
+      ],
+      "id": 1
+    }
+  ],
   "comments": [
     {
       "user": "admin",
@@ -233,7 +434,47 @@
     }
   ],
   "contacts": [],
-  "carts": [],
+  "carts": [
+    {
+      "id": 1,
+      "userId": 6,
+      "items": [
+        {
+          "productId": {
+            "id": 6,
+            "name": "Apple VIP ",
+            "price": 8,
+            "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "èveverv",
+            "category": 2
+          },
+          "quantity": 2
+        },
+        {
+          "productId": {
+            "id": 2,
+            "name": "Apple VIP ",
+            "price": 1,
+            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "def",
+            "category": 1
+          },
+          "quantity": 3
+        },
+        {
+          "productId": {
+            "id": 8,
+            "name": "Samsung Galaxy S23",
+            "price": 1,
+            "image": "https://cdn.nguyenkimmall.com/images/companies/_1/dien-thoai/Samsung/S23%20Ultra/dien-thoai-samsung-galaxy-s23-ultra-1.jpg",
+            "description": "ềwf",
+            "category": 2
+          },
+          "quantity": 4
+        }
+      ]
+    }
+  ],
   "orders": [
     {
       "id": "1",
@@ -419,20 +660,33 @@
       "id": 5
     },
     {
-      "email": "hung@gmail.com",
-      "password": "$2a$10$3PWW3V1G5lI6Zq7w2IMlJe.8J3qGrw/ZGFe84u9zEZX9mE/EmHMiS",
-      "name": "Hung",
-      "role": "admin",
-      "active": true,
+      "email": "3@gmail.com",
+      "password": "$2a$10$P5WNHpSyhz8klCuXQaUL3.up4GoY98A0QDTRDpe4ucXdFCFJeZ2i6",
       "id": 6
     },
     {
-      "email": "hung123@fpt.edu.vn",
-      "password": "$2a$10$wA4gn4dj74jYu7F7uUApY.O4os2k64rmOXrPS6ZFVz0IpXrBCLRqC",
-      "name": "phung viet hung",
+      "email": "4@gmail.com",
+      "password": "$2a$10$tOX/w.qWc/10hQcwjhd0VuW3ltS59pQJOVVG/z16h47nz23POHzHi",
+      "name": "hiếu phạm",
       "role": "admin",
       "active": true,
       "id": 7
+    },
+    {
+      "email": "hiu-fen2@gmail.com",
+      "password": "$2a$10$y7iEE7u5Rl7VZIQ5TuIs5.W3YDvkeOuG0UL.LjcWMah8rkqGVWM7u",
+      "id": 8
+    },
+    {
+      "email": "5@gmail.com",
+      "password": "$2a$10$rrSinGCUXnRdFEkqKobFGuTtN6fwOA6kjbY8skFWotbqSU1DXfe32",
+      "id": 9
+    },
+    {
+      "email": "6@gmail.com",
+      "password": "$2a$10$OiT.chAJPQp2OOhpG7Quv.3nrRjnNAFFU7yfOPHb6BOFljdCx1vpS",
+      "name": "hieu",
+      "id": 10
     }
   ],
   "banners": [
