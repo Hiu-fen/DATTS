@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { message } from 'antd';
-import { IProduct } from '../../../interface/product';
-import { useUser } from '../context/UserContext';
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { message } from "antd";
+import { IProduct } from "../../../interface/product";
+import { useUser } from "../context/UserContext";
 
 interface ICartItemFull {
   id: string;
   productId: IProduct;
   quantity: number;
-  price: number;
+  price: number;   // Đơn giá lưu tại item.price
   color: string;
   storage: string;
 }
@@ -23,20 +23,22 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
 
   const formatPrice = (price: number) => {
-    return price.toLocaleString('vi-VN', {
-      style: 'currency',
-      currency: 'VND',
+    return price.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
     });
   };
 
   const getProductCart = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/carts/${userId}`);
+      const res = await axios.get(`http://localhost:4000/carts/${userId}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
       const items = res.data.data?.items || [];
       setCartItems(items);
     } catch (error) {
-      console.error('Lỗi khi lấy giỏ hàng:', error);
-      message.error('Không thể tải giỏ hàng');
+      console.error("Lỗi khi lấy giỏ hàng:", error);
+      message.error("Không thể tải giỏ hàng");
     } finally {
       setLoading(false);
     }
@@ -49,30 +51,26 @@ const Cart = () => {
 
   const updateCartOnServer = async (updatedItems: ICartItemFull[]) => {
     try {
-      const token = localStorage.getItem("token"); // lấy token
-
+      const token = localStorage.getItem("token");
       await axios.put(
         `http://localhost:4000/carts/${userId}`,
         {
           items: updatedItems.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            color: item.color,
-            storage: item.storage,
+            productId: item.productId.id,
+            color:      item.color,
+            storage:    item.storage,
+            price:      item.price,      // gửi cả price
+            quantity:   item.quantity,
           })),
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`, // gửi token vào header
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
     } catch (error) {
       console.error("Lỗi cập nhật giỏ hàng:", error);
     }
   };
-
-
 
   const updateCartItems = (updatedItems: ICartItemFull[]) => {
     setCartItems(updatedItems);
@@ -87,54 +85,58 @@ const Cart = () => {
   ) => {
     const updatedItems = cartItems.map((item) =>
       String(item.productId.id) === productId &&
-        item.color === color &&
-        item.storage === storage
+      item.color === color &&
+      item.storage === storage
         ? { ...item, quantity: Math.max(1, item.quantity + delta) }
         : item
     );
-    setCartItems(updatedItems); // cập nhật local
-    await updateCartOnServer(updatedItems); // gọi API cập nhật server
+    updateCartItems(updatedItems);
   };
-
 
   const handleRemove = (productId: string, color: string, storage: string) => {
     const updatedItems = cartItems.filter(
       (item) =>
-        String(item.productId.id) !== productId ||
-        item.color !== color ||
-        item.storage !== storage
+        !(
+          String(item.productId.id) === productId &&
+          item.color === color &&
+          item.storage === storage
+        )
     );
-
     updateCartItems(updatedItems);
     message.success("Xóa sản phẩm thành công");
   };
 
-
-
   const handleCheckout = async () => {
     if (!userId) {
-      message.error('Bạn chưa đăng nhập');
+      message.error("Bạn chưa đăng nhập");
       return;
     }
 
     try {
-      await axios.put(`http://localhost:4000/carts/${userId}`, {
-        items: cartItems.map((item) => ({
-          productId: item.productId.id,
-          quantity: item.quantity,
-          color: item.color,
-          storage: item.storage,
-        })),
-      });
-      navigate('/checkout');
+      await axios.put(
+        `http://localhost:4000/carts/${userId}`,
+        {
+          items: cartItems.map((item) => ({
+            productId: item.productId.id,
+            color:      item.color,
+            storage:    item.storage,
+            price:      item.price,
+            quantity:   item.quantity,
+          })),
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      navigate("/checkout");
     } catch (error) {
-      console.error('Lỗi khi đặt hàng:', error);
-      message.error('Không thể đặt hàng. Vui lòng thử lại');
+      console.error("Lỗi khi đặt hàng:", error);
+      message.error("Không thể đặt hàng. Vui lòng thử lại");
     }
   };
 
   const total = cartItems.reduce(
-    (acc, item) => acc + item.productId.price * item.quantity,
+    (acc, item) => acc + item.price * item.quantity,
     0
   );
 
@@ -170,8 +172,7 @@ const Cart = () => {
             <tbody>
               {cartItems.map((item, index) => (
                 <tr
-                  key={`${item.productId.id}-${item.color ?? 'x'}-${item.storage ?? 'x'}`}
-
+                  key={`${item.productId.id}-${item.color}-${item.storage}`}
                   className="border-t hover:bg-gray-50 transition-all"
                 >
                   <td className="p-4 text-center">
@@ -184,7 +185,7 @@ const Cart = () => {
                     <img
                       src={
                         item.productId.image ||
-                        'https://dummyimage.com/100x100/cccccc/000000.png&text=No+Image'
+                        "https://dummyimage.com/100x100/cccccc/000000.png&text=No+Image"
                       }
                       alt={item.productId.name}
                       className="w-16 h-16 rounded-lg border object-cover"
@@ -193,10 +194,10 @@ const Cart = () => {
                       {item.productId.name}
                     </span>
                   </td>
-                  <td className="text-center p-4">{item.color || '-'}</td>
-                  <td className="text-center p-4">{item.storage || '-'}</td>
+                  <td className="text-center p-4">{item.color || "-"}</td>
+                  <td className="text-center p-4">{item.storage || "-"}</td>
                   <td className="text-center p-4 text-red-500 font-medium">
-                    {formatPrice(item.productId.price)}
+                    {formatPrice(item.price)}
                   </td>
                   <td className="text-center p-4">
                     <div className="flex justify-center items-center gap-2">
@@ -230,18 +231,21 @@ const Cart = () => {
                     </div>
                   </td>
                   <td className="text-center p-4 font-semibold text-red-600">
-                    {formatPrice(item.productId.price * item.quantity)}
+                    {formatPrice(item.price * item.quantity)}
                   </td>
                   <td className="text-center p-4">
                     <button
                       onClick={() =>
-                        handleRemove(String(item.productId.id), item.color, item.storage)
+                        handleRemove(
+                          String(item.productId.id),
+                          item.color,
+                          item.storage
+                        )
                       }
                       className="text-sm text-red-600 font-semibold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-200"
                     >
                       Xóa
                     </button>
-
                   </td>
                 </tr>
               ))}
@@ -258,7 +262,7 @@ const Cart = () => {
 
             <div className="text-right space-y-2">
               <p className="text-xl font-bold">
-                Tổng Tiền:{' '}
+                Tổng Tiền:{" "}
                 <span className="text-red-600">{formatPrice(total)}</span>
               </p>
               <button
