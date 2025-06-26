@@ -1,9 +1,20 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { message } from 'antd';
-import { IProduct } from '../../../interface/product';
-import { useUser } from '../context/UserContext';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { message } from "antd";
+import { useUser } from "../context/UserContext";
+
+export interface IProduct {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: number;
+  status: string;
+  ram?: string;
+  color?: string;
+}
 
 interface ICartItemFull {
   id: string;
@@ -14,7 +25,7 @@ interface ICartItemFull {
   storage: string;
 }
 
-const Cart = () => {
+const Cart: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useUser();
   const userId = user?.id;
@@ -22,48 +33,81 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState<ICartItemFull[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const formatPrice = (price: number) => {
-    return price.toLocaleString('vi-VN', {
-      style: 'currency',
-      currency: 'VND',
+  // formatPrice: fallback về 0 nếu không phải number
+  const formatPrice = (price?: number) => {
+    const p = typeof price === "number" ? price : 0;
+    return p.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
     });
   };
 
+  // Lấy giỏ hàng; nếu 404 → giỏ trống, chỉ báo lỗi mạng khác
   const getProductCart = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/carts/${userId}`);
-      const items = res.data.data?.items || [];
-      setCartItems(items);
-    } catch (error) {
-      console.error('Lỗi khi lấy giỏ hàng:', error);
-      message.error('Không thể tải giỏ hàng');
+      const res = await axios.get(
+        `http://localhost:4000/carts/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const items: any[] = res.data.data?.items || [];
+      // map về ICartItemFull
+      const mapped: ICartItemFull[] = items.map((it) => ({
+        id: `${it.productId.id}-${it.productId.ram || ""}-${
+          it.productId.color || ""
+        }`,
+        productId: it.productId,
+        quantity: it.quantity,
+        price:
+          typeof it.productId.price === "number"
+            ? it.productId.price
+            : 0,
+        color: it.productId.color || "",
+        storage: it.productId.ram || "",
+      }));
+      setCartItems(mapped);
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        // Chưa có cart record → hiểu là giỏ trống
+        setCartItems([]);
+      } else {
+        console.error("Lỗi khi lấy giỏ hàng:", err);
+        message.error("Không thể tải giỏ hàng");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
     getProductCart();
   }, [userId]);
 
+  // PUT cập nhật giỏ hàng
   const updateCartOnServer = async (updatedItems: ICartItemFull[]) => {
     try {
-      const token = localStorage.getItem("token"); // lấy token
-
+      const token = localStorage.getItem("token");
       await axios.put(
         `http://localhost:4000/carts/${userId}`,
         {
           items: updatedItems.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
+            productId: item.productId.id,
             color: item.color,
             storage: item.storage,
+            price: item.price,
+            quantity: item.quantity,
           })),
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // gửi token vào header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -72,74 +116,53 @@ const Cart = () => {
     }
   };
 
-
-
   const updateCartItems = (updatedItems: ICartItemFull[]) => {
     setCartItems(updatedItems);
     updateCartOnServer(updatedItems);
   };
 
-  const handleQuantityChange = async (
+  const handleQuantityChange = (
     productId: string,
     color: string,
     storage: string,
     delta: number
   ) => {
     const updatedItems = cartItems.map((item) =>
-      String(item.productId.id) === productId &&
-        item.color === color &&
-        item.storage === storage
+      item.id === `${productId}-${storage}-${color}`
         ? { ...item, quantity: Math.max(1, item.quantity + delta) }
         : item
     );
-    setCartItems(updatedItems); // cập nhật local
-    await updateCartOnServer(updatedItems); // gọi API cập nhật server
+    updateCartItems(updatedItems);
   };
 
-
-  const handleRemove = (productId: string, color: string, storage: string) => {
+  const handleRemove = (
+    productId: string,
+    color: string,
+    storage: string
+  ) => {
     const updatedItems = cartItems.filter(
-      (item) =>
-        String(item.productId.id) !== productId ||
-        item.color !== color ||
-        item.storage !== storage
+      (item) => item.id !== `${productId}-${storage}-${color}`
     );
-
     updateCartItems(updatedItems);
     message.success("Xóa sản phẩm thành công");
   };
 
-
-
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (!userId) {
-      message.error('Bạn chưa đăng nhập');
+      message.error("Bạn chưa đăng nhập");
       return;
     }
-
-    try {
-      await axios.put(`http://localhost:4000/carts/${userId}`, {
-        items: cartItems.map((item) => ({
-          productId: item.productId.id,
-          quantity: item.quantity,
-          color: item.color,
-          storage: item.storage,
-        })),
-      });
-      navigate('/checkout');
-    } catch (error) {
-      console.error('Lỗi khi đặt hàng:', error);
-      message.error('Không thể đặt hàng. Vui lòng thử lại');
-    }
+    navigate("/checkout");
   };
 
   const total = cartItems.reduce(
-    (acc, item) => acc + item.productId.price * item.quantity,
+    (acc, item) => acc + item.price * item.quantity,
     0
   );
 
-  if (loading)
+  if (loading) {
     return <p className="text-center py-10">Đang tải giỏ hàng...</p>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -170,8 +193,7 @@ const Cart = () => {
             <tbody>
               {cartItems.map((item, index) => (
                 <tr
-                  key={`${item.productId.id}-${item.color ?? 'x'}-${item.storage ?? 'x'}`}
-
+                  key={item.id}
                   className="border-t hover:bg-gray-50 transition-all"
                 >
                   <td className="p-4 text-center">
@@ -182,10 +204,7 @@ const Cart = () => {
                   </td>
                   <td className="p-4 flex items-center gap-4">
                     <img
-                      src={
-                        item.productId.image ||
-                        'https://dummyimage.com/100x100/cccccc/000000.png&text=No+Image'
-                      }
+                      src={item.productId.image}
                       alt={item.productId.name}
                       className="w-16 h-16 rounded-lg border object-cover"
                     />
@@ -193,17 +212,17 @@ const Cart = () => {
                       {item.productId.name}
                     </span>
                   </td>
-                  <td className="text-center p-4">{item.color || '-'}</td>
-                  <td className="text-center p-4">{item.storage || '-'}</td>
+                  <td className="text-center p-4">{item.color || "-"}</td>
+                  <td className="text-center p-4">{item.storage || "-"}</td>
                   <td className="text-center p-4 text-red-500 font-medium">
-                    {formatPrice(item.productId.price)}
+                    {formatPrice(item.price)}
                   </td>
                   <td className="text-center p-4">
                     <div className="flex justify-center items-center gap-2">
                       <button
                         onClick={() =>
                           handleQuantityChange(
-                            String(item.productId.id),
+                            item.productId.id.toString(),
                             item.color,
                             item.storage,
                             -1
@@ -217,7 +236,7 @@ const Cart = () => {
                       <button
                         onClick={() =>
                           handleQuantityChange(
-                            String(item.productId.id),
+                            item.productId.id.toString(),
                             item.color,
                             item.storage,
                             1
@@ -230,18 +249,21 @@ const Cart = () => {
                     </div>
                   </td>
                   <td className="text-center p-4 font-semibold text-red-600">
-                    {formatPrice(item.productId.price * item.quantity)}
+                    {formatPrice(item.price * item.quantity)}
                   </td>
                   <td className="text-center p-4">
                     <button
                       onClick={() =>
-                        handleRemove(String(item.productId.id), item.color, item.storage)
+                        handleRemove(
+                          item.productId.id.toString(),
+                          item.color,
+                          item.storage
+                        )
                       }
                       className="text-sm text-red-600 font-semibold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-200"
                     >
                       Xóa
                     </button>
-
                   </td>
                 </tr>
               ))}
@@ -258,7 +280,7 @@ const Cart = () => {
 
             <div className="text-right space-y-2">
               <p className="text-xl font-bold">
-                Tổng Tiền:{' '}
+                Tổng Tiền:{" "}
                 <span className="text-red-600">{formatPrice(total)}</span>
               </p>
               <button

@@ -49,6 +49,7 @@ import PromotionList from './components/admin/Promotion/PromotionList'
 import PromotionAdd from './components/admin/Promotion/PromotionAdd'
 import PromotionEdit from './components/admin/Promotion/PromotionEdit'
 import NewsDetail from './components/client/page/NewsDetail'
+import Checkout from './components/client/page/checkoutCart'
 
 type Props = {}
 
@@ -66,6 +67,7 @@ const App = (props: Props) => {
 
         { path: '/call', element: <ContactPage /> },
         { path: '/carts', element: <Cart /> },
+        { path: '/checkout', element: <Checkout /> },
         
 
 
