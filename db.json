@@ -22,40 +22,6 @@
   ],
   "products": [
     {
-      "id": 1,
-      "score": 0,
-      "parent": 0,
-      "type": "variable",
-      "album": [
-        "https://picsum.photos/200",
-        "https://picsum.photos/200",
-        "https://picsum.photos/200"
-      ],
-      "price": 34,
-      "quantity": 4,
-      "name": "Híu đây hẹ hẹ 2",
-      "image": "https://picsum.photos/200",
-      "description": "uuuuuuuuuuuuuuuuuu",
-      "category": 1,
-      "status": "Còn hàng",
-      "variants": [
-        {
-          "id": 1,
-          "ram": "64BB",
-          "color": "Blue",
-          "price": 1,
-          "quantity": 1
-        },
-        {
-          "id": 2,
-          "ram": "36GB",
-          "color": "RED",
-          "price": 1,
-          "quantity": 1
-        }
-      ]
-    },
-    {
       "id": 2,
       "score": 0,
       "parent": 0,
@@ -91,6 +57,117 @@
           "color": "Đen",
           "quantity": 1,
           "price": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+      ],
+      "price": 35000000,
+      "quantity": 10,
+      "name": "iphone 100",
+      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "description": "hiếu đây",
+      "category": 1,
+      "status": "Còn hàng",
+      "variants": [
+        {
+          "id": 3,
+          "ram": "1T",
+          "color": "Blue",
+          "quantity": 5,
+          "price": 5000000
+        },
+        {
+          "id": 4,
+          "ram": "64BB",
+          "color": "RED",
+          "quantity": 5,
+          "price": 4000000
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 50000000,
+      "quantity": 20,
+      "name": "Híu đây hẹ hẹ",
+      "image": "https://picsum.photos/200",
+      "description": "hiếu tets",
+      "category": 1,
+      "status": "Còn hàng",
+      "variants": [
+        {
+          "id": 3,
+          "ram": "1T",
+          "color": "Blue",
+          "quantity": 10,
+          "price": 50000000
+        },
+        {
+          "id": 4,
+          "ram": "1T",
+          "color": "Blue",
+          "quantity": 10,
+          "price": 50000000
+        },
+        {
+          "id": 5,
+          "ram": "64BB",
+          "color": "RED",
+          "quantity": 110,
+          "price": 50000000
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+      ],
+      "price": 3500000,
+      "quantity": 10,
+      "name": "iphone1234",
+      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "description": "iphone vip pro ",
+      "category": 1,
+      "status": "Còn hàng",
+      "variants": [
+        {
+          "id": 1,
+          "ram": "1T",
+          "color": "Blue",
+          "quantity": 112,
+          "price": 3500000
+        },
+        {
+          "id": 2,
+          "ram": "64BB",
+          "color": "RED",
+          "quantity": 123,
+          "price": 3000000
+        },
+        {
+          "id": 3,
+          "ram": "36GB",
+          "color": "Đen",
+          "quantity": 321,
+          "price": 2500000
         }
       ]
     }
@@ -338,7 +415,7 @@
       "shippingProvider": "Giao hàng tiêu chuẩn",
       "total": 35002,
       "date": "2025-06-26T09:20:24.599Z",
-      "status": "Chờ xác nhận",
+      "status": "Đã hủy",
       "isPaid": false,
       "refunded": false,
       "items": [
@@ -470,7 +547,7 @@
       "paymentMethod": "COD",
       "shippingProvider": "J&T Express",
       "total": 35006,
-      "status": "Chờ xác nhận",
+      "status": "Đã hủy",
       "date": "2025-06-26T10:01:59.354Z",
       "isPaid": false,
       "refunded": false,
@@ -482,6 +559,168 @@
           "price": 1,
           "color": "RED",
           "storage": "64BB"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "userId": 10,
+      "orderCode": "ORD-QULKZ",
+      "customerName": "hieu",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 35002,
+      "status": "Chờ xác nhận",
+      "date": "2025-06-26T10:29:36.771Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Test Xphone4",
+          "soluong": 2,
+          "price": 1,
+          "color": "Đen",
+          "storage": "8GB"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "userId": 10,
+      "orderCode": "ORD-NBKO5",
+      "customerName": "hieu",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 35001,
+      "status": "Chờ xác nhận",
+      "date": "2025-06-26T10:54:24.276Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Test Xphone4",
+          "soluong": 1,
+          "price": 1,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "userId": 10,
+      "orderCode": "ORD-FM2VH",
+      "customerName": "hieu test chỉ tiết",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 35001,
+      "status": "Chờ xác nhận",
+      "date": "2025-06-26T11:06:18.182Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Test Xphone4",
+          "soluong": 1,
+          "price": 1,
+          "color": "RED",
+          "storage": "64BB"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "userId": 10,
+      "orderCode": "ORD-H8STL",
+      "customerName": "hieu mua iphone",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "Bank",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 5035000,
+      "status": "Đã hủy",
+      "date": "2025-06-26T12:02:54.181Z",
+      "isPaid": true,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 3,
+          "productName": "iphone 100",
+          "soluong": 1,
+          "price": 5000000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "userId": 10,
+      "orderCode": "ORD-C36SN",
+      "customerName": "hieu",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 8035000,
+      "status": "Đã hủy",
+      "date": "2025-06-26T14:43:42.614Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 3,
+          "productName": "iphone 100",
+          "soluong": 2,
+          "price": 4000000,
+          "color": "RED",
+          "storage": "64BB"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "userId": 10,
+      "orderCode": "ORD-K5RNV",
+      "customerName": "hieu",
+      "phone": "0339418005",
+      "address": "147 phương canh, Phường Phương Canh, Quận Nam Từ Liêm, Thành phố Hà Nội",
+      "email": "6@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 10035000,
+      "status": "Đã hủy",
+      "date": "2025-06-26T14:49:04.478Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 3,
+          "productName": "iphone 100",
+          "soluong": 2,
+          "price": 5000000,
+          "color": "Blue",
+          "storage": "1T"
         }
       ]
     }
