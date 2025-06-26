@@ -23,6 +23,9 @@ import BannerList from './components/admin/BannerList'
 import BannerAdd from './components/admin/BannerAdd'
 import BannerEdit from './components/admin/BannerEdit'
 import BannerDetail from './components/admin/BannerDetail'
+import NewsAdd from './components/admin/NewsAdd'
+import NewsEdit from './components/admin/NewsEdit'
+import NewsAdmin from './components/admin/NewsList'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
@@ -58,6 +61,11 @@ const App = (props: Props) => {
       {path:'comment/list',element:<CommentAdmin/>},
       {path:'comment/add',element:<CommentAdd/>},
       // {path:'login',element:<Login/>},
+
+      //Route tin tức
+      {path:'news/list',element:<NewsAdmin/>},
+      {path:'news/add',element:<NewsAdd/>},
+      {path:'news/edit/:id',element:<NewsEdit/>},
 
       //Router liên hệ
       {path:"contacts", element:<ContactList />},
