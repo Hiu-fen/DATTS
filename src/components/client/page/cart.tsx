@@ -144,9 +144,9 @@ useEffect(() => {
                   <td className="text-center p-4 text-red-500 font-medium">{formatPrice(item.productId.price)}</td>
                   <td className="text-center p-4">
                     <div className="flex justify-center items-center gap-2">
-                      <button onClick={() => handleQuantityChange(item.productId.id, item.color, item.storage, -1)} className="w-7 h-7 text-lg border rounded hover:bg-gray-100">−</button>
+                      <button onClick={() => handleQuantityChange(item.productId.id!, item.color, item.storage, -1)} className="w-7 h-7 text-lg border rounded hover:bg-gray-100">−</button>
                       <span className="w-6 text-center">{item.quantity}</span>
-                      <button onClick={() => handleQuantityChange(item.productId.id, item.color, item.storage, 1)} className="w-7 h-7 text-lg border rounded hover:bg-gray-100">＋</button>
+                      <button onClick={() => handleQuantityChange(item.productId.id!, item.color, item.storage, 1)} className="w-7 h-7 text-lg border rounded hover:bg-gray-100">＋</button>
                     </div>
                   </td>
                   <td className="text-center p-4 font-semibold text-red-600">
