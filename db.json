@@ -23,309 +23,6 @@
   "products": [
     {
       "id": 1,
-      "name": "iphone12",
-      "price": 9,
-      "image": "https://picsum.photos/200",
-      "album": [
-        "https://picsum.photos/200"
-      ],
-      "description": "táo",
-      "category": 1,
-      "status": "Còn hàng",
-      "type": "variable",
-      "parent": 0,
-      "quantity": 6,
-      "score": 0,
-      "variants": [
-        {
-          "quantity": 1,
-          "price": 1
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "score": 0,
-      "parent": 0,
-      "type": "variable",
-      "album": [
-        "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
-        "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
-      ],
-      "price": 1,
-      "quantity": 1,
-      "name": "Apple VIP ",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "description": "def",
-      "category": 1,
-      "status": "Còn hàng",
-      "priceRange": "1-9",
-      "variants": [
-        {
-          "quantity": 112,
-          "price": 1112
-        },
-        {
-          "quantity": 1123,
-          "price": 1344
-        },
-        {
-          "quantity": 1321,
-          "price": 1321
-        },
-        {
-          "quantity": 1456,
-          "price": 11765
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "name": "Apple VIP  (Đỏ, 300MB, 4GB)",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "album": [
-        "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
-        "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
-      ],
-      "price": 1,
-      "quantity": 1,
-      "description": "def",
-      "category": 1,
-      "status": "Còn hàng",
-      "type": "variation",
-      "parent": 2,
-      "score": 0,
-      "attributes": {
-        "Màu": "Đỏ",
-        "Dung lượng": "300MB",
-        "Ram": "4GB"
-      }
-    },
-    {
-      "id": 4,
-      "name": "Apple VIP  (Trắng, 300MB, 4GB)",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "album": [
-        "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
-        "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
-      ],
-      "price": 9,
-      "quantity": 10,
-      "description": "def",
-      "category": 1,
-      "status": "Còn hàng",
-      "type": "variation",
-      "parent": 2,
-      "score": 0,
-      "attributes": {
-        "Màu": "Trắng",
-        "Dung lượng": "300MB",
-        "Ram": "4GB"
-      }
-    },
-    {
-      "id": 5,
-      "name": "Samsung Galaxy Zflip (Trắng, 300MB, 4GB)",
-      "image": "https://tse2.mm.bing.net/th?id=OIP.dNoJCW125gy1u7b23CpFtwHaHa&pid=Api&P=0&h=180",
-      "album": [],
-      "price": 8,
-      "quantity": 11,
-      "description": "táo",
-      "category": 1,
-      "status": "Còn hàng",
-      "type": "variation",
-      "parent": 1,
-      "score": 0,
-      "attributes": {
-        "Màu": "Trắng",
-        "Dung lượng": "300MB",
-        "Ram": "4GB"
-      }
-    },
-    {
-      "id": 6,
-      "score": 0,
-      "parent": 0,
-      "type": "variable",
-      "album": [],
-      "price": 8,
-      "quantity": 12,
-      "name": "Apple VIP ",
-      "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "description": "èveverv",
-      "category": 2,
-      "status": "Còn hàng"
-    },
-    {
-      "id": 7,
-      "score": 0,
-      "parent": 6,
-      "type": "variation",
-      "album": [],
-      "price": 1,
-      "quantity": 1,
-      "name": "Apple VIP  (Đỏ, 300MB, 4GB)",
-      "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "description": "èveverv",
-      "category": 2,
-      "status": "Còn hàng",
-      "attributes": {
-        "Màu": "Đỏ",
-        "Dung lượng": "300MB",
-        "Ram": "4GB"
-      }
-    },
-    {
-      "id": 8,
-      "score": 0,
-      "parent": 0,
-      "type": "variable",
-      "album": [],
-      "price": 1,
-      "quantity": 1,
-      "name": "Samsung Galaxy S23",
-      "image": "https://cdn.nguyenkimmall.com/images/companies/_1/dien-thoai/Samsung/S23%20Ultra/dien-thoai-samsung-galaxy-s23-ultra-1.jpg",
-      "description": "ềwf",
-      "category": 2,
-      "status": "Còn hàng"
-    },
-    {
-      "id": 9,
-      "score": 0,
-      "parent": 8,
-      "type": "variation",
-      "album": [],
-      "price": 1,
-      "quantity": 1,
-      "name": "Samsung Galaxy S23 (Trắng, 300MB, 4GB)",
-      "image": "https://cdn.nguyenkimmall.com/images/companies/_1/dien-thoai/Samsung/S23%20Ultra/dien-thoai-samsung-galaxy-s23-ultra-1.jpg",
-      "description": "ềwf",
-      "category": 2,
-      "status": "Còn hàng",
-      "attributes": {
-        "Màu": "Trắng",
-        "Dung lượng": "300MB",
-        "Ram": "4GB"
-      }
-    },
-    {
-      "id": 10,
-      "score": 0,
-      "parent": 0,
-      "type": "variable",
-      "album": [],
-      "price": 11,
-      "quantity": 1,
-      "name": "iPhone 13 128GB",
-      "image": "https://hc.com.vn/i/ecommerce/media/GS.008504_FEATURE_93851.jpg",
-      "description": "adgsg",
-      "category": 1,
-      "status": "Còn hàng",
-      "priceRange": "1-1",
-      "variants": [
-        {
-          "quantity": 2,
-          "price": 1
-        },
-        {
-          "quantity": 1,
-          "price": 1
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "score": 0,
-      "parent": 0,
-      "type": "variable",
-      "album": [
-        "https://picsum.photos/200",
-        "https://picsum.photos/200"
-      ],
-      "price": 20,
-      "quantity": 10,
-      "name": "Test Xphone2",
-      "image": "https://picsum.photos/200",
-      "description": "test biến thể",
-      "category": 1,
-      "status": "Còn hàng"
-    },
-    {
-      "id": 12,
-      "score": 0,
-      "parent": 11,
-      "type": "variation",
-      "album": [
-        "https://picsum.photos/200",
-        "https://picsum.photos/200"
-      ],
-      "price": 20,
-      "quantity": 5,
-      "name": "Test Xphone2 (1T, RED)",
-      "image": "https://picsum.photos/200",
-      "description": "test biến thể",
-      "category": 1,
-      "status": "Còn hàng",
-      "attributes": {
-        "ram": "1T",
-        "color": "RED"
-      }
-    },
-    {
-      "id": 13,
-      "score": 0,
-      "parent": 11,
-      "type": "variation",
-      "album": [
-        "https://picsum.photos/200",
-        "https://picsum.photos/200"
-      ],
-      "price": 20,
-      "quantity": 5,
-      "name": "Test Xphone2 (64BB, Blue)",
-      "image": "https://picsum.photos/200",
-      "description": "test biến thể",
-      "category": 1,
-      "status": "Còn hàng",
-      "attributes": {
-        "ram": "64BB",
-        "color": "Blue"
-      }
-    },
-    {
-      "id": 14,
-      "score": 0,
-      "parent": 0,
-      "type": "simple",
-      "album": [],
-      "price": 33,
-      "quantity": 133,
-      "name": "Híu đây hẹ hẹ",
-      "image": "https://picsum.photos/200",
-      "description": "3aaaaaaaa",
-      "category": 1,
-      "status": "Còn hàng"
-    },
-    {
-      "id": 15,
-      "score": 0,
-      "parent": 0,
-      "type": "variable",
-      "album": [
-        "https://picsum.photos/200",
-        "https://picsum.photos/200",
-        "https://picsum.photos/200"
-      ],
-      "price": 123,
-      "quantity": 123,
-      "name": "Híu đây hẹ hẹ",
-      "image": "https://picsum.photos/200",
-      "description": "12345678",
-      "category": 1,
-      "status": "Còn hàng"
-    },
-    {
-      "id": 17,
       "score": 0,
       "parent": 0,
       "type": "variable",
@@ -359,27 +56,41 @@
       ]
     },
     {
-      "id": 18,
+      "id": 2,
       "score": 0,
       "parent": 0,
       "type": "variable",
       "album": [
-        "https://picsum.photos/200"
+        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
       ],
       "price": 1,
       "quantity": 1,
-      "name": "Híu đây hẹ hẹ",
-      "image": "https://picsum.photos/200",
-      "description": "áertyuio",
-      "category": 3,
-      "status": "Hết hàng",
+      "name": "Test Xphone4",
+      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "description": "tttttttttt",
+      "category": 1,
+      "status": "Còn hàng",
       "variants": [
         {
           "id": 1,
-          "ram": "64BB",
+          "ram": "1T",
           "color": "Blue",
-          "price": 1,
-          "quantity": 1
+          "quantity": 1,
+          "price": 1
+        },
+        {
+          "id": 2,
+          "ram": "64BB",
+          "color": "RED",
+          "quantity": 1,
+          "price": 1
+        },
+        {
+          "id": 3,
+          "ram": "8GB",
+          "color": "Đen",
+          "quantity": 1,
+          "price": 1
         }
       ]
     }
@@ -473,6 +184,11 @@
           "quantity": 4
         }
       ]
+    },
+    {
+      "id": 2,
+      "userId": 10,
+      "items": []
     }
   ],
   "orders": [

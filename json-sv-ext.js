@@ -112,37 +112,55 @@ server.put("/products/:id", (req, res) => {
   const { id } = req.params;
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const idx = db.products.findIndex((p) => p.id === Number(id));
-  if (idx === -1) return res.status(404).json({ error: "Not found" });
+  if (idx === -1) {
+    return res.status(404).json({ error: "Not found" });
+  }
 
-  // Đọc variants từ body, fallback về mảng rỗng nếu không có
-  const variants = Array.isArray(req.body.variants) ? req.body.variants : [];
+  const incoming = Array.isArray(req.body.variants) ? req.body.variants : [];
+  const existingVariants = db.products[idx].variants || [];
+
+  // Tính nextId: max id hiện có + 1, hoặc 1 nếu chưa có
+  const maxExistingId = existingVariants.reduce(
+    (max, v) => (v.id > max ? v.id : max),
+    0
+  );
+  let nextId = maxExistingId + 1;
+
+  const updatedVariants = incoming.map((v) => {
+    // Giữ id nếu client gửi, hoặc gán mới
+    const variantId = typeof v.id === "number" ? v.id : nextId++;
+    return {
+      id:       variantId,
+      ram:      v.ram,
+      color:    v.color,
+      quantity: v.quantity,
+      price:    v.price,
+    };
+  });
 
   const updated = {
     ...db.products[idx],
-    name: req.body.name,
-    image: req.body.image,
-    album: req.body.album || db.products[idx].album,
-    price: req.body.price,
-    quantity: req.body.quantity,
+    name:        req.body.name,
+    image:       req.body.image,
+    album:       req.body.album ?? db.products[idx].album,
+    price:       req.body.price,
+    quantity:    req.body.quantity,
     description: req.body.description,
-    category: req.body.category,
-    status: req.body.status,
-    type: variants.length > 0 ? "variable" : "simple",
-    // parent luôn 0 cho sản phẩm chính
-    parent: 0,
-    score: req.body.score ?? db.products[idx].score,
-    // Gán lại variants
-    variants: variants.map((v) => ({
-      attributes: v.attributes,
-      quantity: v.quantity,
-      price: v.price,
-    })),
+    category:    req.body.category,
+    status:      req.body.status,
+    type:        updatedVariants.length > 0 ? "variable" : "simple",
+    parent:      0,
+    score:       req.body.score ?? db.products[idx].score,
+    variants:    updatedVariants,
   };
 
   db.products[idx] = updated;
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
   res.json(updated);
 });
+
+
+
 
 
 server.get("/products", (req, res) => {

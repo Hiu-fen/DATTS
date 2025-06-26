@@ -22,124 +22,95 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState<ICartItemFull[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const formatPrice = (price: number) => {
-    return price.toLocaleString('vi-VN', {
-      style: 'currency',
-      currency: 'VND',
-    });
-  };
+  const formatPrice = (price: number) =>
+    price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 
-  const getProductCart = async () => {
-    try {
-      const res = await axios.get(`http://localhost:4000/carts/${userId}`);
-      const items = res.data.data?.items || [];
-      setCartItems(items);
-    } catch (error) {
-      console.error('Lỗi khi lấy giỏ hàng:', error);
-      message.error('Không thể tải giỏ hàng');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Lấy giỏ hàng
   useEffect(() => {
     if (!userId) return;
-    getProductCart();
+    axios
+      .get(`http://localhost:4000/carts/${userId}`)
+      .then(res => setCartItems(res.data.data?.items || []))
+      .catch(() => message.error('Không thể tải giỏ hàng'))
+      .finally(() => setLoading(false));
   }, [userId]);
 
-  const updateCartOnServer = async (updatedItems: ICartItemFull[]) => {
+  // Cập nhật server
+  const updateCartOnServer = async (items: ICartItemFull[]) => {
+    const token = localStorage.getItem('token');
     try {
-      const token = localStorage.getItem("token"); // lấy token
-
       await axios.put(
         `http://localhost:4000/carts/${userId}`,
-        {
-          items: updatedItems.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            color: item.color,
-            storage: item.storage,
-          })),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // gửi token vào header
-          },
-        }
+        { items: items.map(i => ({
+            productId: i.productId,
+            quantity: i.quantity,
+            color: i.color,
+            storage: i.storage,
+          })) },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-    } catch (error) {
-      console.error("Lỗi cập nhật giỏ hàng:", error);
+    } catch (e) {
+      console.error('Lỗi cập nhật giỏ hàng:', e);
     }
   };
 
-
-
-  const updateCartItems = (updatedItems: ICartItemFull[]) => {
-    setCartItems(updatedItems);
-    updateCartOnServer(updatedItems);
-  };
-
+  // Thay đổi số lượng
   const handleQuantityChange = async (
-    productId: string,
+    pid: string,
     color: string,
     storage: string,
     delta: number
   ) => {
-    const updatedItems = cartItems.map((item) =>
-      String(item.productId.id) === productId &&
-        item.color === color &&
-        item.storage === storage
+    const updated = cartItems.map(item =>
+      `${item.productId.id}` === pid &&
+      item.color === color &&
+      item.storage === storage
         ? { ...item, quantity: Math.max(1, item.quantity + delta) }
         : item
     );
-    setCartItems(updatedItems); // cập nhật local
-    await updateCartOnServer(updatedItems); // gọi API cập nhật server
+    setCartItems(updated);
+    await updateCartOnServer(updated);
   };
 
-
-  const handleRemove = (productId: string, color: string, storage: string) => {
-    const updatedItems = cartItems.filter(
-      (item) =>
-        String(item.productId.id) !== productId ||
+  // Xóa
+  const handleRemove = (pid: string, color: string, storage: string) => {
+    const updated = cartItems.filter(
+      item =>
+        `${item.productId.id}` !== pid ||
         item.color !== color ||
         item.storage !== storage
     );
-
-    updateCartItems(updatedItems);
-    message.success("Xóa sản phẩm thành công");
+    setCartItems(updated);
+    updateCartOnServer(updated);
+    message.success('Xóa sản phẩm thành công');
   };
 
-
-
+  // Đặt hàng
   const handleCheckout = async () => {
-    if (!userId) {
-      message.error('Bạn chưa đăng nhập');
-      return;
-    }
-
+    if (!userId) return message.error('Bạn chưa đăng nhập');
     try {
       await axios.put(`http://localhost:4000/carts/${userId}`, {
-        items: cartItems.map((item) => ({
-          productId: item.productId.id,
-          quantity: item.quantity,
-          color: item.color,
-          storage: item.storage,
+        items: cartItems.map(i => ({
+          productId: i.productId.id,
+          quantity: i.quantity,
+          color: i.color,
+          storage: i.storage,
         })),
       });
       navigate('/checkout');
-    } catch (error) {
-      console.error('Lỗi khi đặt hàng:', error);
+    } catch {
       message.error('Không thể đặt hàng. Vui lòng thử lại');
     }
   };
 
   const total = cartItems.reduce(
-    (acc, item) => acc + item.productId.price * item.quantity,
+    (sum, item) => sum + item.productId.price * item.quantity,
     0
   );
 
-  if (loading)
-    return <p className="text-center py-10">Đang tải giỏ hàng...</p>;
+  if (loading) {
+    return <p className="text-center py-10">Đang tải giỏ hàng…</p>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -150,8 +121,8 @@ const Cart = () => {
           Giỏ hàng của bạn đang trống.
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-lg shadow-lg">
-          <table className="w-full bg-white text-sm">
+        <div className="overflow-x-auto rounded-lg shadow-lg bg-white">
+          <table className="w-full text-sm">
             <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
               <tr>
                 <th className="p-4 text-center">
@@ -160,7 +131,7 @@ const Cart = () => {
                 <th className="p-4 text-center">STT</th>
                 <th className="p-4 text-left">Sản phẩm</th>
                 <th className="p-4 text-center">Màu sắc</th>
-                <th className="p-4 text-center">Dung lượng</th>
+                <th className="p-4 text-center">Ram</th>
                 <th className="p-4 text-center">Đơn giá</th>
                 <th className="p-4 text-center">Số lượng</th>
                 <th className="p-4 text-center">Thành tiền</th>
@@ -168,24 +139,18 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
-              {cartItems.map((item, index) => (
+              {cartItems.map((item, idx) => (
                 <tr
-                  key={`${item.productId.id}-${item.color ?? 'x'}-${item.storage ?? 'x'}`}
-
+                  key={`${item.productId.id}-${item.color}-${item.storage}`}
                   className="border-t hover:bg-gray-50 transition-all"
                 >
                   <td className="p-4 text-center">
                     <input type="checkbox" className="w-4" />
                   </td>
-                  <td className="text-center p-4 font-semibold">
-                    {index + 1}
-                  </td>
+                  <td className="p-4 text-center font-semibold">{idx + 1}</td>
                   <td className="p-4 flex items-center gap-4">
                     <img
-                      src={
-                        item.productId.image ||
-                        'https://dummyimage.com/100x100/cccccc/000000.png&text=No+Image'
-                      }
+                      src={item.productId.image}
                       alt={item.productId.name}
                       className="w-16 h-16 rounded-lg border object-cover"
                     />
@@ -193,13 +158,17 @@ const Cart = () => {
                       {item.productId.name}
                     </span>
                   </td>
-                  <td className="text-center p-4">{item.color || '-'}</td>
-                  <td className="text-center p-4">{item.storage || '-'}</td>
-                  <td className="text-center p-4 text-red-500 font-medium">
+                  <td className="p-4 text-center text-gray-700">
+                    {item.color || '-'}
+                  </td>
+                  <td className="p-4 text-center text-gray-700">
+                    {item.storage || '-'}
+                  </td>
+                  <td className="p-4 text-center text-red-500 font-medium">
                     {formatPrice(item.productId.price)}
                   </td>
-                  <td className="text-center p-4">
-                    <div className="flex justify-center items-center gap-2">
+                  <td className="p-4 text-center">
+                    <div className="inline-flex items-center gap-2">
                       <button
                         onClick={() =>
                           handleQuantityChange(
@@ -229,19 +198,22 @@ const Cart = () => {
                       </button>
                     </div>
                   </td>
-                  <td className="text-center p-4 font-semibold text-red-600">
+                  <td className="p-4 text-center font-semibold text-red-600">
                     {formatPrice(item.productId.price * item.quantity)}
                   </td>
-                  <td className="text-center p-4">
+                  <td className="p-4 text-center">
                     <button
                       onClick={() =>
-                        handleRemove(String(item.productId.id), item.color, item.storage)
+                        handleRemove(
+                          String(item.productId.id),
+                          item.color,
+                          item.storage
+                        )
                       }
-                      className="text-sm text-red-600 font-semibold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-200"
+                      className="text-sm text-red-600 font-semibold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors"
                     >
                       Xóa
                     </button>
-
                   </td>
                 </tr>
               ))}
@@ -253,9 +225,8 @@ const Cart = () => {
               to="/"
               className="text-blue-600 hover:underline text-sm mb-4 md:mb-0"
             >
-              ← Quay lại tiếp tục mua sắm
+              ← Quay lại mua sắm
             </Link>
-
             <div className="text-right space-y-2">
               <p className="text-xl font-bold">
                 Tổng Tiền:{' '}
@@ -263,7 +234,7 @@ const Cart = () => {
               </p>
               <button
                 onClick={handleCheckout}
-                className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition font-semibold"
+                className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition font-semibold"
               >
                 Đặt hàng
               </button>

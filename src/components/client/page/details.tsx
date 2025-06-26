@@ -1,137 +1,194 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Row,
+  Col,
+  Spin,
+  Image,
+  Radio,
+  InputNumber,
+  Button,
+  message,
+} from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { message } from "antd";
 
-const Details = () => {
-  const { id } = useParams();
-  const [product, setProduct] = useState<any | null>(null);
-  const [categoryNames, setCategoryNames] = useState<string[]>([]);
+interface IVariantForm {
+  id: number;
+  ram: string;
+  color: string;
+  quantity: number; // tồn kho của biến thể
+  price: number;
+}
+
+interface IProductDetail {
+  id: number;
+  name: string;
+  image: string;
+  album: string[];
+  price: number;
+  description: string;
+  status: string;
+  variants?: IVariantForm[];
+}
+
+const Details: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const [product, setProduct] = useState<IProductDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [mainImage, setMainImage] = useState<string>("");
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
+    null
+  );
+  const [qty, setQty] = useState<number>(1);
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    (async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/products/${id}`);
-        setProduct(res.data);
-      } catch (error) {
-        console.error("Failed to fetch product:", error);
+        const res = await axios.get<IProductDetail>(
+          `http://localhost:4000/products/${id}`
+        );
+        const data = res.data;
+        setProduct(data);
+        setMainImage(data.image);
+        // Mặc định chọn biến thể đầu tiên nếu có
+        if (data.variants && data.variants.length > 0) {
+          setSelectedVariantId(data.variants[0].id);
+        }
+      } catch (err) {
+        console.error(err);
         message.error("Không thể tải thông tin sản phẩm.");
+      } finally {
+        setLoading(false);
       }
-    };
-    fetchProduct();
+    })();
   }, [id]);
 
-  useEffect(() => {
-    const fetchCategoryNames = async () => {
-      if (!product?.category) return;
-
-      const categoryIds = Array.isArray(product.category) ? product.category : [product.category];
-      const names = await Promise.all(
-        categoryIds.map(async (categoryId: string) => {
-          try {
-            const res = await axios.get(`http://localhost:4000/category/${categoryId}`);
-            return res.data.name || "Không xác định";
-          } catch (error) {
-            return "Không xác định";
-          }
-        })
-      );
-      setCategoryNames(names);
-    };
-
-    fetchCategoryNames();
-  }, [product]);
-
-  if (!product) {
-    return <div className="p-10 text-center text-xl">Đang tải thông tin sản phẩm...</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
   }
+  if (!product) {
+    return (
+      <div className="p-10 text-center text-xl">Sản phẩm không tồn tại.</div>
+    );
+  }
+
   const handleAddToCart = async () => {
-  try {
     const token = localStorage.getItem("token");
     if (!token) {
-      message.warning("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.");
-      return;
+      return message.warning("Vui lòng đăng nhập để thêm vào giỏ hàng.");
     }
-
-    const productData = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      description: product.description,
-      category: product.category,
-    };
-
-    await axios.post(
-      "http://localhost:4000/carts",
-      {
-        product: productData, // gửi đầy đủ thông tin
-        quantity: 1,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    if (!selectedVariantId) {
+      return message.error("Vui lòng chọn 1 biến thể.");
+    }
+    try {
+      await axios.post(
+        "http://localhost:4000/carts",
+        {
+          variantId: selectedVariantId,
+          quantity: qty,
         },
-      }
-    );
-
-    message.success("Đã thêm sản phẩm vào giỏ hàng!");
-  } catch (error) {
-    console.error("Lỗi thêm giỏ hàng:", error);
-    message.error("Thêm vào giỏ hàng thất bại.");
-  }
-};
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      message.success("Đã thêm vào giỏ hàng!");
+    } catch (err) {
+      console.error(err);
+      message.error("Thêm vào giỏ hàng thất bại.");
+    }
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6 lg:p-10">
+      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden p-6">
+        <Row gutter={[32, 32]}>
+          {/* Ảnh chính + album */}
+          <Col xs={24} md={12}>
+            <Image src={mainImage} alt={product.name} />
+            <div className="flex gap-2 mt-4">
+              {[product.image, ...product.album].map((url, idx) => (
+                <Image
+                  key={idx}
+                  src={url}
+                  width={80}
+                  preview={false}
+                  className="cursor-pointer"
+                  onClick={() => setMainImage(url)}
+                />
+              ))}
+            </div>
+          </Col>
 
-          {/* Ảnh sản phẩm */}
-          <div className="flex justify-center items-center">
-            <img
-              src={product.image || "/default-image.jpg"}
-              alt={product.name}
-              className="rounded-lg w-full max-w-md object-cover shadow-md"
-            />
-          </div>
+          {/* Thông tin + biến thể + số lượng */}
+          <Col xs={24} md={12}>
+            <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+            <p className="text-2xl text-red-600 font-semibold mb-4">
+              {product.price.toLocaleString()} ₫
+            </p>
+            <p className="mb-6 text-gray-700">{product.description}</p>
+            <p className="mb-6">
+              <span className="font-medium">Tình trạng:</span>{" "}
+              <span
+                className={
+                  product.status === "Còn hàng" ? "text-green-600" : "text-red-600"
+                }
+              >
+                {product.status}
+              </span>
+            </p>
 
-          {/* Thông tin sản phẩm */}
-          <div className="flex flex-col justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.name}</h1>
-
-              <div className="mb-3">
-                <span className="font-medium text-gray-600">Danh mục:</span>{" "}
-                <span className="text-blue-600 font-semibold">{categoryNames.join(", ") || "Không xác định"}</span>
+            {/* Nếu có biến thể */}
+            {product.variants && product.variants.length > 0 && (
+              <div className="mb-6">
+                <p className="font-medium mb-2">Chọn biến thể:</p>
+                <Radio.Group
+                  onChange={(e) => setSelectedVariantId(e.target.value)}
+                  value={selectedVariantId}
+                >
+                  <Row gutter={[16, 16]}>
+                    {product.variants.map((v) => (
+                      <Col key={v.id} span={24}>
+                        <Radio value={v.id} className="w-full p-3 border rounded">
+                          <div className="flex justify-between">
+                            <div>
+                              <p>Ram: <b>{v.ram}</b></p>
+                              <p>Màu: <b>{v.color}</b></p>
+                            </div>
+                            <div className="text-right">
+                              <p>Giá: {v.price.toLocaleString()}₫</p>
+                              <p>
+                                Tồn kho:{" "}
+                                <span className="font-semibold">{v.quantity}</span>
+                              </p>
+                            </div>
+                          </div>
+                        </Radio>
+                      </Col>
+                    ))}
+                  </Row>
+                </Radio.Group>
               </div>
+            )}
 
-              <div className="mb-4">
-                <span className="text-xl text-red-600 font-bold">
-                  {Number(product.price).toLocaleString()} ₫
-                </span>
-              </div>
-
-              <div>
-                <h2 className="text-lg font-semibold text-gray-800 mb-2">Mô tả sản phẩm</h2>
-                <p className="text-gray-700 leading-relaxed">
-                  {product.description || "Không có mô tả cho sản phẩm này."}
-                </p>
-              </div>
+            {/* Số lượng đặt */}
+            <div className="flex items-center gap-4 mb-6">
+              <Button onClick={() => setQty((q) => Math.max(1, q - 1))}>
+                −
+              </Button>
+              <InputNumber min={1} value={qty} onChange={(v) => setQty(v || 1)} />
+              <Button onClick={() => setQty((q) => q + 1)}>＋</Button>
             </div>
 
-            {/* Nút thêm vào giỏ */}
-            <div className="mt-6">
- <button
-  onClick={handleAddToCart}
-  className="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-200"
->
-  Thêm vào giỏ hàng
-</button>
-
-            </div>
-          </div>
-        </div>
+            {/* Nút thêm giỏ */}
+            <Button type="primary" block size="large" onClick={handleAddToCart}>
+              Thêm vào giỏ hàng
+            </Button>
+          </Col>
+        </Row>
       </div>
     </div>
   );
