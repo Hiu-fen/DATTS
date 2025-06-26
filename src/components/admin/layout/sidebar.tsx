@@ -45,8 +45,7 @@ const AdminSidebar = () => {
       icon: <ReadOutlined />,
       children: [
         { key: 'variant-list', label: 'Danh sách biến thể' },
-        { key: 'variant-add', label: 'Thêm giá trị' },
-        { key: 'variant-custom-add', label: 'Thêm tên biến thể' },
+        
       ],
     },
     {

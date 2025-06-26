@@ -26,9 +26,9 @@ const ClientFooter = () => {
             Chúng tôi rất tự hào được hợp tác với các đối tác lớn trong ngành để mang đến sản phẩm chất lượng cao.
           </p>
           <div className="mt-4">
-            <img src="https://via.placeholder.com/150x50" alt="Partner 1" className="h-12 mr-4" />
-            <img src="https://via.placeholder.com/150x50" alt="Partner 2" className="h-12 mr-4" />
-            <img src="https://via.placeholder.com/150x50" alt="Partner 3" className="h-12" />
+            <img src="" alt="Partner 1" className="h-12 mr-4" />
+            <img src="" alt="Partner 2" className="h-12 mr-4" />
+            <img src="" alt="Partner 3" className="h-12" />
           </div>
         </div>
 

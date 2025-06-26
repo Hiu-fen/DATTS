@@ -16,14 +16,17 @@ const GetListProduct = () => {
 
   const { data: products, refetch } = useQuery({
     queryKey: ["products"],
-    queryFn: async () =>
-      (await axios.get(`http://localhost:4000/products`)).data,
+    queryFn: async () => {
+      const res = await axios.get<IProduct[]>(`http://localhost:4000/products`);
+      // Sắp xếp theo id giảm dần (mới nhất lên đầu)
+      return res.data.sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+    },
   });
 
   const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: async () =>
-      (await axios.get(`http://localhost:4000/category`)).data,
+      (await axios.get<ICategory[]>(`http://localhost:4000/category`)).data,
   });
 
   const mutation = useMutation({
@@ -40,7 +43,7 @@ const GetListProduct = () => {
   };
 
   const getCategoryName = (id: number) => {
-    const category = categories?.find((cat: ICategory) => cat.id === id);
+    const category = categories?.find((cat) => cat.id === id);
     return category ? category.name : "Không có danh mục";
   };
 
@@ -59,15 +62,19 @@ const GetListProduct = () => {
       title: "Ảnh sản phẩm",
       key: "image",
       dataIndex: "image",
-      render: (img: string) => <img src={img} width={100}></img>,
+      render: (img: string) => <img src={img} width={100} alt="" />,
     },
-
     {
       title: "Giá",
       key: "price",
       render: (_: any, record: IProduct) => (
         <span>{record.price.toLocaleString()} VND</span>
       ),
+    },
+    {
+      title: "Số lượng",
+      key: "quantity",
+      render: (_: any, record: IProduct) => <span>{record.quantity}</span>,
     },
     {
       title: "Mô tả",
@@ -89,7 +96,6 @@ const GetListProduct = () => {
         </span>
       ),
     },
-
     {
       title: "Thao tác",
       key: "id",
@@ -104,7 +110,6 @@ const GetListProduct = () => {
             icon={<EyeOutlined />}
             title="Xem chi tiết"
           />
-
           <Popconfirm
             title="Thông báo"
             description="Bạn chắc chắn muốn xóa?"
@@ -125,9 +130,7 @@ const GetListProduct = () => {
   return (
     <div>
       <h1>Danh sách sản phẩm</h1>
-      <>
-        <Table dataSource={products} columns={columns} rowKey="id" />
-      </>
+      <Table dataSource={products} columns={columns} rowKey="id" />
     </div>
   );
 };
