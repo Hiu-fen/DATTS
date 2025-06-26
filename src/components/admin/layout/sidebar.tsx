@@ -88,7 +88,16 @@ const AdminSidebar = () => {
         { key: 'banner-list', label: 'Banner' },
         { key: 'banner-add', label: 'Thêm banner' },
       ],
-    },
+      },
+      {
+        key: 'promotion-manage',
+        label: 'Quản lý khuyến mãi',
+        icon: <ReadOutlined />,
+        children: [
+          { key: 'promotion-list', label: 'Danh sách khuyến mãi' },
+          { key: 'promotion-add', label: 'Thêm khuyến mãi' }
+        ],
+      },
     {
       key: 'report',
       label: 'Thống kê',
@@ -113,6 +122,8 @@ const AdminSidebar = () => {
       'orders/add': '/admin/orders/add',
       'banner-list': '/admin/banner/list',
       'banner-add': '/admin/banner/add',
+      'promotion-list': '/admin/promotion/list',
+      'promotion-add': '/admin/promotion/add',
       dashboard: '/admin',
       report: '/admin/report',
     };

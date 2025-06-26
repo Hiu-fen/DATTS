@@ -44,6 +44,9 @@ import Cart from './components/client/page/cart'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
+import PromotionList from './components/admin/Promotion/PromotionList'
+import PromotionAdd from './components/admin/Promotion/PromotionAdd'
+import PromotionEdit from './components/admin/Promotion/PromotionEdit'
 
 type Props = {}
 
@@ -119,7 +122,10 @@ const App = (props: Props) => {
       {path:"contacts", element:<ContactList />},
       {path:'contacts/add', element:<ContactAdd />},
       
-
+      // Khuyến mãi
+      { path: 'promotion/list', element: <PromotionList /> },
+      { path: 'promotion/add', element: <PromotionAdd /> },
+      { path: 'promotion/:id/edit', element: <PromotionEdit /> },
 
         //admin
         { path: "orders/add", element: <AddOrder /> },
