@@ -50,6 +50,9 @@ import PromotionAdd from './components/admin/Promotion/PromotionAdd'
 import PromotionEdit from './components/admin/Promotion/PromotionEdit'
 import NewsDetail from './components/client/page/NewsDetail'
 import Checkout from './components/client/page/checkoutCart'
+import DetailOrders from './components/client/page/orderDetailClient'
+import OrderHistory from './components/client/page/history'
+
 
 type Props = {}
 
@@ -68,6 +71,9 @@ const App = (props: Props) => {
         { path: '/call', element: <ContactPage /> },
         { path: '/carts', element: <Cart /> },
         { path: '/checkout', element: <Checkout /> },
+        { path: '/history', element: <OrderHistory /> },
+        { path: '/detail_order/:id', element: <DetailOrders /> },
+
         
 
 

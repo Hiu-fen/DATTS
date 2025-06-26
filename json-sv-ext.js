@@ -1,49 +1,42 @@
-import jsonServer from "json-server"
+import jsonServer from "json-server";
 import auth from "json-server-auth";
-import { jwtDecode } from "jwt-decode"
+import { jwtDecode } from "jwt-decode";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import fs from "fs";
+import path from "path";
 
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 
-import fs from "fs"
+const port = 4000;
+server.db = router.db;
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
-const port = 4000;
-server.db = router.db
-server.use(auth)
-// Hàm xử lý logic
+server.use(auth);
+
 const GetMaxID = (collection) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const data = db[collection];
   if (!data || data.length === 0) {
     return 0;
   }
-  const max = Math.max(...data.map(item => item.id));
-  return max;
+  return Math.max(...data.map(item => item.id));
 };
-const GetInfoById = (id, collection) => {
-  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const data = db[collection];
-  return data.filter(item => item.id == id).shift()
-}
-const GetInfoVariantProduct = (product) => {
-  if (product?.variant) {
-    const variant = product.variant.map(item => {
-      const info = GetInfoById(item.type, "variants")
-      info.items = undefined
-      return { ...item, type: info }
-    })
-    return { ...product, variant }
-  }
-  else return product
-}
+const GetEndpoint = () => {
+  const db = router.db; // Truy cập database từ router json-server
+  const endpoints = Object.keys(db.getState()).map((key) => ({
+    url: `http://localhost:${port}/${key}`,
+  }));
+
+  console.log(`📚 Danh sách các endpoint hiện có:`);
+  endpoints.forEach((ep) => console.log(ep.url));
+};
+
+
 const Permission = (req, res, next) => {
   const authHeader = req.headers.authorization;
-
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Vui lòng đăng nhập" });
   }
@@ -52,15 +45,143 @@ const Permission = (req, res, next) => {
     const decoded = jwtDecode(token);
     const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
     const user = db.users.find((u) => u.email === decoded.email);
-    if (!user) {
-      return res.status(404).json({ error: "Không tìm thấy user" });
-    }
-    req.user = user
-    next()
+    if (!user) return res.status(404).json({ error: "Không tìm thấy user" });
+    req.user = user;
+    next();
   } catch (error) {
-    res.status(401).json({ error: "Token không đúng, vui lòng đăng nhập" + error });
+    res.status(401).json({ error: "Token không đúng" });
   }
-}
+};
+
+// PRODUCTS (thay thế)
+server.post("/products", (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const newId = GetMaxID("products") + 1;
+  const variants = Array.isArray(req.body.variants) ? req.body.variants : [];
+  const newProduct = {
+    id: newId,
+    ...req.body,
+    type: variants.length > 0 ? "variable" : "simple",
+    parent: 0,
+  };
+  db.products.push(newProduct);
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+  res.status(201).json(newProduct);
+});
+
+server.put("/products/:id", (req, res) => {
+  const { id } = req.params;
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const idx = db.products.findIndex((p) => p.id === Number(id));
+  if (idx === -1) return res.status(404).json({ error: "Not found" });
+
+  const incoming = Array.isArray(req.body.variants) ? req.body.variants : [];
+  const existingVariants = db.products[idx].variants || [];
+  const maxExistingId = existingVariants.reduce((max, v) => (v.id > max ? v.id : max), 0);
+  let nextId = maxExistingId + 1;
+
+  const updatedVariants = incoming.map((v) => {
+  // Nếu v.id là số => dùng lại, nếu không thì tạo mới
+  if (typeof v.id === "number") {
+    return {
+      id: v.id,
+      ram: v.ram,
+      color: v.color,
+      quantity: v.quantity,
+      price: v.price,
+    };
+  } else {
+    return {
+      id: nextId++,
+      ram: v.ram,
+      color: v.color,
+      quantity: v.quantity,
+      price: v.price,
+    };
+  }
+});
+
+
+  const updated = {
+    ...db.products[idx],
+    ...req.body,
+    type: updatedVariants.length > 0 ? "variable" : "simple",
+    parent: 0,
+    variants: updatedVariants,
+  };
+
+  db.products[idx] = updated;
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+  res.json(updated);
+});
+
+server.get("/products", (req, res) => {
+  const { products } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const list = products.filter((p) => p.parent === 0);
+  res.json(list);
+});
+
+server.get("/products/:id", (req, res) => {
+  const { products } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const prod = products.find((p) => p.id == req.params.id);
+  if (!prod) return res.status(404).json({ error: "Not found" });
+  res.json(prod);
+});
+
+server.delete("/products/:id", (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const { products } = db;
+  const { id } = req.params;
+  db.products = products.filter(item => item.id != id && item.parent != id);
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+  res.status(200).json({ message: "Delete success!" });
+});
+
+// ORDERS (thay thế)
+server.post("/orders", Permission, (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const userId = req.user.id;
+  const data = req.body;
+
+  if (!Array.isArray(data.items) || data.items.length === 0)
+    return res.status(400).json({ error: "Thiếu danh sách sản phẩm (items)" });
+  if (!data.orderCode)
+    return res.status(400).json({ error: "Thiếu mã đơn hàng (orderCode)" });
+
+  const newOrder = {
+    id: GetMaxID("orders") + 1,
+    userId,
+    ...data,
+    items: data.items.map(it => ({
+      productId: typeof it.productId === "object" ? it.productId.id : it.productId,
+      productName: it.productName,
+      soluong: it.soluong,
+      price: it.price,
+      color: it.color || "",
+      storage: it.storage || ""
+    }))
+  };
+
+  db.orders.push(newOrder);
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+  return res.status(201).json({ message: "Đặt hàng thành công!", data: newOrder });
+});
+
+server.get("/orders/user/:userId", Permission, (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const userId = req.user.id;
+  const myOrders = (db.orders || []).filter(o => o.userId === userId);
+  return res.status(200).json(myOrders);
+});
+
+server.get("/orders/:id", (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const order = db.orders.find(o => o.id == req.params.id);
+  if (!order) return res.status(404).json({ message: "Không tìm thấy đơn hàng" });
+  res.json(order);
+});
+
+
 // Router
 server.post("/create-collection", (req, res) => {
   const collections = ["products", "variants", "carts", "orders"]
@@ -82,75 +203,43 @@ server.post("/create-collection", (req, res) => {
     res.status(500).json({ error: "Failed to update db.json", details: error.message });
   }
 })
+// PRODUCTS (thay thế)
 server.post("/products", (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const newId = GetMaxID("products") + 1;
-
-  // Lấy mảng variants client gửi (có thể là [])
   const variants = Array.isArray(req.body.variants) ? req.body.variants : [];
-
-  // Tạo object sản phẩm mới, spread toàn bộ req.body (bao gồm variants)
   const newProduct = {
     id: newId,
     ...req.body,
-    // override type nếu cần
     type: variants.length > 0 ? "variable" : "simple",
     parent: 0,
   };
-
-  // QUAN TRỌNG: Không xoá newProduct.variants nữa!
-
   db.products.push(newProduct);
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
   res.status(201).json(newProduct);
 });
 
-
-
-
 server.put("/products/:id", (req, res) => {
   const { id } = req.params;
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const idx = db.products.findIndex((p) => p.id === Number(id));
-  if (idx === -1) {
-    return res.status(404).json({ error: "Not found" });
-  }
+  if (idx === -1) return res.status(404).json({ error: "Not found" });
 
   const incoming = Array.isArray(req.body.variants) ? req.body.variants : [];
   const existingVariants = db.products[idx].variants || [];
-
-  // Tính nextId: max id hiện có + 1, hoặc 1 nếu chưa có
-  const maxExistingId = existingVariants.reduce(
-    (max, v) => (v.id > max ? v.id : max),
-    0
-  );
+  const maxExistingId = existingVariants.reduce((max, v) => (v.id > max ? v.id : max), 0);
   let nextId = maxExistingId + 1;
 
   const updatedVariants = incoming.map((v) => {
-    // Giữ id nếu client gửi, hoặc gán mới
     const variantId = typeof v.id === "number" ? v.id : nextId++;
-    return {
-      id: variantId,
-      ram: v.ram,
-      color: v.color,
-      quantity: v.quantity,
-      price: v.price,
-    };
+    return { id: variantId, ram: v.ram, color: v.color, quantity: v.quantity, price: v.price };
   });
 
   const updated = {
     ...db.products[idx],
-    name: req.body.name,
-    image: req.body.image,
-    album: req.body.album ?? db.products[idx].album,
-    price: req.body.price,
-    quantity: req.body.quantity,
-    description: req.body.description,
-    category: req.body.category,
-    status: req.body.status,
+    ...req.body,
     type: updatedVariants.length > 0 ? "variable" : "simple",
     parent: 0,
-    score: req.body.score ?? db.products[idx].score,
     variants: updatedVariants,
   };
 
@@ -159,13 +248,8 @@ server.put("/products/:id", (req, res) => {
   res.json(updated);
 });
 
-
-
-
-
 server.get("/products", (req, res) => {
   const { products } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  // Lọc chỉ sản phẩm chính (parent === 0)
   const list = products.filter((p) => p.parent === 0);
   res.json(list);
 });
@@ -177,46 +261,15 @@ server.get("/products/:id", (req, res) => {
   res.json(prod);
 });
 
-
-// server.get("/products/:id", (req, res) => {
-//   const { products } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-//   const { id } = req.params;
-//   const product = products.find(item => item.id == id);
-
-//   if (!product) {
-//     return res.status(404).json({ error: "Product not found" });
-//   }
-
-//   const children = products.filter(child => child.parent == id && child.type === "variation");
-
-//   if (children.length > 0) {
-//     // Gán vào field phụ, KHÔNG đụng đến price gốc
-//     product.variants = children;
-//     product.priceRange = children.length > 1
-//       ? `${Math.min(...children.map(c => c.price))}-${Math.max(...children.map(c => c.price))}`
-//       : children[0].price;
-//   }
-
-//   res.status(200).json(product);
-// });
-
 server.delete("/products/:id", (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const { products } = db;
-  const { id } = req.params
-  const newproducts = products.filter(item => item.id != id).filter(item => item.parent != id)
-  db.products = [...newproducts]
+  const { id } = req.params;
+  db.products = products.filter(item => item.id != id && item.parent != id);
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
   res.status(200).json({ message: "Delete success!" });
-})
-const GetEndpoint = () => {
-  const db = router.db; // Truy cập database json-server
-  const endpoints = Object.keys(db.getState()).map((key) => ({
-    url: `http://localhost:${port}/${key}`,
-  }));
+});
 
-  console.log(`Danh sách các Endpoint:`, endpoints);
-}
 // Cart
 server.post("/carts", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
@@ -330,11 +383,11 @@ server.get("/carts/:userId", Permission, (req, res) => {
   // Với mỗi item, luôn đảm bảo có color và storage
   const itemsWithVariant = cart.items.map(item => ({
     productId: item.productId,          // full object product
-    quantity:  item.quantity,
-    color:     item.color   ??          // ưu tiên màu lưu trong cart
-               (item.productId.color ?? ""),  
-    storage:   item.storage ??          // ưu tiên dung lượng lưu trong cart
-               (item.productId.ram   ?? "")
+    quantity: item.quantity,
+    color: item.color ??          // ưu tiên màu lưu trong cart
+      (item.productId.color ?? ""),
+    storage: item.storage ??          // ưu tiên dung lượng lưu trong cart
+      (item.productId.ram ?? "")
   }));
 
   return res.status(200).json({
@@ -367,80 +420,97 @@ server.delete("/carts/:id", Permission, (req, res) => {
 
 // Route đặt hàng
 // Route đặt hàng
+// ORDERS (thay thế)
 server.post("/orders", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const userId = req.user.id;
   const data = req.body;
 
-  // 1. Kiểm tra items và orderCode
-  if (!Array.isArray(data.items) || data.items.length === 0) {
+  if (!Array.isArray(data.items) || data.items.length === 0)
     return res.status(400).json({ error: "Thiếu danh sách sản phẩm (items)" });
-  }
-  if (!data.orderCode) {
+  if (!data.orderCode)
     return res.status(400).json({ error: "Thiếu mã đơn hàng (orderCode)" });
-  }
 
-  // 2. Xóa các sản phẩm đã đặt ra khỏi giỏ hàng
-  const cartIndex = db.carts.findIndex(c => c.userId == userId);
-  if (cartIndex >= 0) {
-    const orderedIds = new Set(data.items.map(it => {
-      // lấy id nếu client gửi object hoặc số
-      return typeof it.productId === "object" ? it.productId.id : it.productId;
-    }));
-    db.carts[cartIndex].items = db.carts[cartIndex].items.filter(
-      it => !orderedIds.has(it.productId.id)
-    );
-  }
-
-  // 3. Chuẩn bị mảng items cho order, giữ nguyên color + storage
-  const orderItems = data.items.map(it => ({
-    // nếu client gửi object thì lấy `.id`, nếu gửi số thì giữ nguyên
-    productId: typeof it.productId === "object" ? it.productId.id : it.productId,
-    productName: it.productName,
-    soluong: it.soluong,
-    price: it.price,
-    color:   it.color   || "",
-    storage: it.storage || ""
-  }));
-
-  // 4. Tạo order mới
   const newOrder = {
-    id:               GetMaxID("orders") + 1,
+    id: GetMaxID("orders") + 1,
     userId,
-    orderCode:        data.orderCode,
-    customerName:     data.customerName,
-    phone:            data.phone,
-    address:          data.address,
-    email:            data.email,
-    notes:            data.notes,
-    paymentMethod:    data.paymentMethod,
-    shippingProvider: data.shippingProvider,
-    total:            data.total,
-    status:           data.status,
-    date:             data.date,
-    isPaid:           data.isPaid,
-    refunded:         data.refunded,
-    items:            orderItems
+    ...data,
+    items: data.items.map(it => ({
+      productId: typeof it.productId === "object" ? it.productId.id : it.productId,
+      productName: it.productName,
+      soluong: it.soluong,
+      price: it.price,
+      color: it.color || "",
+      storage: it.storage || ""
+    }))
   };
 
   db.orders.push(newOrder);
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
-
-  return res
-    .status(201)
-    .json({ message: "Đặt hàng thành công!", data: newOrder });
+  return res.status(201).json({ message: "Đặt hàng thành công!", data: newOrder });
 });
 
-
-
-
-// Đặt json-server router cuối cùng
-server.use(router);
-
-// const port = process.env.PORT || 4000;
-server.listen(port, () => {
-  console.log(`JSON Server running on http://localhost:${port}`);
+server.get("/orders/user/:userId", Permission, (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const userId = req.user.id;
+  const myOrders = (db.orders || []).filter(o => o.userId === userId);
+  return res.status(200).json(myOrders);
 });
+
+server.get("/orders/:id", (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const order = db.orders.find(o => o.id == req.params.id);
+  if (!order) return res.status(404).json({ message: "Không tìm thấy đơn hàng" });
+  res.json(order);
+});
+
+// Bạn có thể thêm các route còn lại tại đây như carts, users, comments, contacts, news...
+
+
+
+
+///////
+
+// server.post("/checkout", Permission, (req, res) => {
+//   const db = getDB();
+//   const { items } = req.body; // danh sách sản phẩm [{ productId, soluong }]
+
+//   for (let item of items) {
+//     const product = db.products.find((p) => p.id === item.productId);
+//     if (!product) {
+//       return res.status(400).json({ message: `Không tìm thấy sản phẩm ID ${item.productId}` });
+//     }
+//     if (product.stock < item.soluong) {
+//       return res.status(400).json({ message: `Sản phẩm ${product.name} không đủ hàng` });
+//     }
+//     product.stock -= item.soluong;
+//   }
+
+//   saveDB(db);
+//   return res.status(200).json({ message: "Đã mua hàng, đã trừ số lượng" });
+// });
+
+// // Hàm huỷ hàng - cộng lại số lượng
+// server.patch("/cancel/:orderId", Permission, (req, res) => {
+//   const db = getDB();
+//   const order = db.orders.find((o) => o.id === req.params.orderId);
+
+//   if (!order) return res.status(404).json({ message: "Không tìm thấy đơn hàng" });
+//   if (order.status !== "Chờ xác nhận") {
+//     return res.status(400).json({ message: "Chỉ được huỷ đơn hàng khi đang chờ xác nhận" });
+//   }
+
+//   for (let item of order.items) {
+//     const product = db.products.find((p) => p.id === item.productId);
+//     if (product) {
+//       product.stock += item.soluong;
+//     }
+//   }
+
+//   order.status = "Đã huỷ";
+//   saveDB(db);
+//   return res.status(200).json({ message: "Đơn hàng đã huỷ, đã cộng lại số lượng" });
+// });
 
 
 // Xử lý khi thêm bình luận mới
@@ -573,3 +643,15 @@ server.get("/news", (req, res) => {
   const { news } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   res.status(200).json(news.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 });
+
+
+
+
+/// DÒNG NÀY LUÔN LUÔN NẰM CUỐI TRANG NHA LÀM THÌ LÀM THÊM TRÊN NÀY NHA ^
+server.use(router);
+server.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+   console.log(`📌 Tạo mới collection: POST http://localhost:${port}/create-collection`);
+  GetEndpoint(); // <- thêm dòng này
+});
+

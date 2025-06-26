@@ -1,7 +1,8 @@
+// src/components/client/page/Cart.tsx
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { message } from "antd";
+import { message, Button } from "antd";
 import { useUser } from "../context/UserContext";
 
 export interface IProduct {
@@ -42,36 +43,26 @@ const Cart: React.FC = () => {
     });
   };
 
-  // Lấy giỏ hàng; nếu 404 → giỏ trống, chỉ báo lỗi mạng khác
+  // Lấy giỏ hàng; nếu 404 → giỏ trống
   const getProductCart = async () => {
     try {
       const res = await axios.get(
         `http://localhost:4000/carts/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
       const items: any[] = res.data.data?.items || [];
-      // map về ICartItemFull
       const mapped: ICartItemFull[] = items.map((it) => ({
-        id: `${it.productId.id}-${it.productId.ram || ""}-${
-          it.productId.color || ""
-        }`,
+        id: `${it.productId.id}-${it.productId.ram || ""}-${it.productId.color || ""}`,
         productId: it.productId,
         quantity: it.quantity,
-        price:
-          typeof it.productId.price === "number"
-            ? it.productId.price
-            : 0,
+        price: typeof it.productId.price === "number" ? it.productId.price : 0,
         color: it.productId.color || "",
         storage: it.productId.ram || "",
       }));
       setCartItems(mapped);
     } catch (err: any) {
       if (err.response?.status === 404) {
-        // Chưa có cart record → hiểu là giỏ trống
+        // Chưa có record giỏ hàng → hiểu là giỏ trống
         setCartItems([]);
       } else {
         console.error("Lỗi khi lấy giỏ hàng:", err);
@@ -106,9 +97,7 @@ const Cart: React.FC = () => {
           })),
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
     } catch (error) {
@@ -127,12 +116,12 @@ const Cart: React.FC = () => {
     storage: string,
     delta: number
   ) => {
-    const updatedItems = cartItems.map((item) =>
+    const updated = cartItems.map((item) =>
       item.id === `${productId}-${storage}-${color}`
         ? { ...item, quantity: Math.max(1, item.quantity + delta) }
         : item
     );
-    updateCartItems(updatedItems);
+    updateCartItems(updated);
   };
 
   const handleRemove = (
@@ -140,10 +129,10 @@ const Cart: React.FC = () => {
     color: string,
     storage: string
   ) => {
-    const updatedItems = cartItems.filter(
+    const updated = cartItems.filter(
       (item) => item.id !== `${productId}-${storage}-${color}`
     );
-    updateCartItems(updatedItems);
+    updateCartItems(updated);
     message.success("Xóa sản phẩm thành công");
   };
 
@@ -166,7 +155,18 @@ const Cart: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold mb-8">Giỏ Hàng Của Bạn</h1>
+      {/* Nút xem lịch sử */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Giỏ Hàng Của Bạn</h1>
+        <div className="space-x-2">
+          <Button type="default" onClick={() => navigate("/")}>
+            Tiếp tục mua sắm
+          </Button>
+          <Button type="link" onClick={() => navigate("/history")}>
+            Lịch sử đơn hàng
+          </Button>
+        </div>
+      </div>
 
       {cartItems.length === 0 ? (
         <p className="text-center text-gray-500 text-lg">
@@ -191,17 +191,12 @@ const Cart: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {cartItems.map((item, index) => (
-                <tr
-                  key={item.id}
-                  className="border-t hover:bg-gray-50 transition-all"
-                >
+              {cartItems.map((item, idx) => (
+                <tr key={item.id} className="border-t hover:bg-gray-50">
                   <td className="p-4 text-center">
                     <input type="checkbox" className="w-4" />
                   </td>
-                  <td className="text-center p-4 font-semibold">
-                    {index + 1}
-                  </td>
+                  <td className="text-center p-4 font-semibold">{idx + 1}</td>
                   <td className="p-4 flex items-center gap-4">
                     <img
                       src={item.productId.image}
@@ -218,7 +213,7 @@ const Cart: React.FC = () => {
                     {formatPrice(item.price)}
                   </td>
                   <td className="text-center p-4">
-                    <div className="flex justify-center items-center gap-2">
+                    <div className="flex justify-center gap-2">
                       <button
                         onClick={() =>
                           handleQuantityChange(
@@ -228,7 +223,7 @@ const Cart: React.FC = () => {
                             -1
                           )
                         }
-                        className="w-7 h-7 text-lg border rounded hover:bg-gray-100"
+                        className="w-7 h-7 border rounded"
                       >
                         −
                       </button>
@@ -242,7 +237,7 @@ const Cart: React.FC = () => {
                             1
                           )
                         }
-                        className="w-7 h-7 text-lg border rounded hover:bg-gray-100"
+                        className="w-7 h-7 border rounded"
                       >
                         ＋
                       </button>
@@ -260,7 +255,7 @@ const Cart: React.FC = () => {
                           item.storage
                         )
                       }
-                      className="text-sm text-red-600 font-semibold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-200"
+                      className="px-3 py-1 text-red-600 border rounded"
                     >
                       Xóa
                     </button>
@@ -270,26 +265,13 @@ const Cart: React.FC = () => {
             </tbody>
           </table>
 
-          <div className="flex flex-col md:flex-row justify-between items-center mt-6 border-t pt-6 px-4 pb-6">
-            <Link
-              to="/"
-              className="text-blue-600 hover:underline text-sm mb-4 md:mb-0"
-            >
-              ← Quay lại tiếp tục mua sắm
-            </Link>
-
-            <div className="text-right space-y-2">
-              <p className="text-xl font-bold">
-                Tổng Tiền:{" "}
-                <span className="text-red-600">{formatPrice(total)}</span>
-              </p>
-              <button
-                onClick={handleCheckout}
-                className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition font-semibold"
-              >
-                Đặt hàng
-              </button>
-            </div>
+          <div className="flex justify-between items-center mt-6 border-t pt-6 px-4 pb-6">
+            <span className="text-xl font-bold">
+              Tổng Tiền: <span className="text-red-600">{formatPrice(total)}</span>
+            </span>
+            <Button type="primary" onClick={handleCheckout}>
+              Đặt hàng
+            </Button>
           </div>
         </div>
       )}

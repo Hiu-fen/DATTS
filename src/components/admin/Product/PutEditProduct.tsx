@@ -9,6 +9,7 @@ interface ICategory { id: number; name: string; }
 interface IVariantValue { value: string; key: number; }
 
 interface IVariantForm {
+   id?: number;
   ram: string;
   color: string;
   quantity: number;
@@ -111,6 +112,7 @@ const PutEditProduct = () => {
     const payload = {
       ...data,
       variants: valids.map(v=>({
+        id: v.id,
         ram: v.ram,
         color: v.color,
         quantity: v.quantity,
