@@ -2,14 +2,25 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
-import { IProduct } from "../../../interface/product";
 import { useUser } from "../context/UserContext";
+
+export interface IProduct {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  category: number;
+  status: string;
+  ram?: string;
+  color?: string;
+}
 
 interface ICartItemFull {
   id: string;
   productId: IProduct;
   quantity: number;
-  price: number;   // Đơn giá lưu tại item.price
+  price: number;
   color: string;
   storage: string;
 }
@@ -22,20 +33,34 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState<ICartItemFull[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const formatPrice = (price: number) => {
-    return price.toLocaleString("vi-VN", {
+  // formatPrice: fallback về 0 nếu không phải number
+  const formatPrice = (price?: number) => {
+    const p = typeof price === "number" ? price : 0;
+    return p.toLocaleString("vi-VN", {
       style: "currency",
       currency: "VND",
     });
   };
 
+  // Lấy giỏ hàng
   const getProductCart = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/carts/${userId}`, {
+      const res = await axios.get("http://localhost:4000/carts", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      const items = res.data.data?.items || [];
-      setCartItems(items);
+      const items: any[] = res.data.data?.items || [];
+
+      const mapped: ICartItemFull[] = items.map((it) => ({
+        // tạo id duy nhất cho row
+        id: `${it.productId.id}-${it.productId.ram || ""}-${it.productId.color || ""}`,
+        productId: it.productId,
+        quantity: it.quantity,
+        price: typeof it.productId.price === "number" ? it.productId.price : 0,
+        color: it.productId.color || "",
+        storage: it.productId.ram   || "",
+      }));
+
+      setCartItems(mapped);
     } catch (error) {
       console.error("Lỗi khi lấy giỏ hàng:", error);
       message.error("Không thể tải giỏ hàng");
@@ -49,6 +74,7 @@ const Cart = () => {
     getProductCart();
   }, [userId]);
 
+  // PUT cập nhật giỏ hàng
   const updateCartOnServer = async (updatedItems: ICartItemFull[]) => {
     try {
       const token = localStorage.getItem("token");
@@ -59,7 +85,7 @@ const Cart = () => {
             productId: item.productId.id,
             color:      item.color,
             storage:    item.storage,
-            price:      item.price,      // gửi cả price
+            price:      item.price,
             quantity:   item.quantity,
           })),
         },
@@ -77,16 +103,14 @@ const Cart = () => {
     updateCartOnServer(updatedItems);
   };
 
-  const handleQuantityChange = async (
+  const handleQuantityChange = (
     productId: string,
     color: string,
     storage: string,
     delta: number
   ) => {
     const updatedItems = cartItems.map((item) =>
-      String(item.productId.id) === productId &&
-      item.color === color &&
-      item.storage === storage
+      item.id === `${productId}-${storage}-${color}`
         ? { ...item, quantity: Math.max(1, item.quantity + delta) }
         : item
     );
@@ -95,12 +119,7 @@ const Cart = () => {
 
   const handleRemove = (productId: string, color: string, storage: string) => {
     const updatedItems = cartItems.filter(
-      (item) =>
-        !(
-          String(item.productId.id) === productId &&
-          item.color === color &&
-          item.storage === storage
-        )
+      (item) => item.id !== `${productId}-${storage}-${color}`
     );
     updateCartItems(updatedItems);
     message.success("Xóa sản phẩm thành công");
@@ -111,7 +130,6 @@ const Cart = () => {
       message.error("Bạn chưa đăng nhập");
       return;
     }
-
     try {
       await axios.put(
         `http://localhost:4000/carts/${userId}`,
@@ -172,7 +190,7 @@ const Cart = () => {
             <tbody>
               {cartItems.map((item, index) => (
                 <tr
-                  key={`${item.productId.id}-${item.color}-${item.storage}`}
+                  key={item.id}
                   className="border-t hover:bg-gray-50 transition-all"
                 >
                   <td className="p-4 text-center">
@@ -183,10 +201,7 @@ const Cart = () => {
                   </td>
                   <td className="p-4 flex items-center gap-4">
                     <img
-                      src={
-                        item.productId.image ||
-                        "https://dummyimage.com/100x100/cccccc/000000.png&text=No+Image"
-                      }
+                      src={item.productId.image}
                       alt={item.productId.name}
                       className="w-16 h-16 rounded-lg border object-cover"
                     />
@@ -204,7 +219,7 @@ const Cart = () => {
                       <button
                         onClick={() =>
                           handleQuantityChange(
-                            String(item.productId.id),
+                            item.productId.id.toString(),
                             item.color,
                             item.storage,
                             -1
@@ -218,7 +233,7 @@ const Cart = () => {
                       <button
                         onClick={() =>
                           handleQuantityChange(
-                            String(item.productId.id),
+                            item.productId.id.toString(),
                             item.color,
                             item.storage,
                             1
@@ -237,7 +252,7 @@ const Cart = () => {
                     <button
                       onClick={() =>
                         handleRemove(
-                          String(item.productId.id),
+                          item.productId.id.toString(),
                           item.color,
                           item.storage
                         )
