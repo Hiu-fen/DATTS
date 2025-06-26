@@ -11,6 +11,7 @@ import {
 } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useUser } from "../context/UserContext"; // ← import useUser
 
 interface IVariantForm {
   id: number;
@@ -33,12 +34,13 @@ interface IProductDetail {
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { user } = useUser();                  // ← lấy user từ context
+  const userId = user?.id;                     // ← userId
+
   const [product, setProduct] = useState<IProductDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [mainImage, setMainImage] = useState<string>("");
-  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(
-    null
-  );
+  const [selectedVariantId, setSelectedVariantId] = useState<number | null>(null);
   const [qty, setQty] = useState<number>(1);
 
   useEffect(() => {
@@ -50,7 +52,6 @@ const Details: React.FC = () => {
         const data = res.data;
         setProduct(data);
         setMainImage(data.image);
-        // Mặc định chọn biến thể đầu tiên nếu có
         if (data.variants && data.variants.length > 0) {
           setSelectedVariantId(data.variants[0].id);
         }
@@ -81,20 +82,46 @@ const Details: React.FC = () => {
     if (!token) {
       return message.warning("Vui lòng đăng nhập để thêm vào giỏ hàng.");
     }
+    if (!userId) {
+      return message.error("Không xác định được người dùng.");
+    }
     if (!selectedVariantId) {
       return message.error("Vui lòng chọn 1 biến thể.");
     }
+
     try {
-      await axios.post(
-        "http://localhost:4000/carts",
-        {
-          variantId: selectedVariantId,
-          quantity: qty,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+      // 1. Lấy giỏ hàng hiện tại
+      const cartRes = await axios.get(
+        `http://localhost:4000/carts/${userId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
+      const items: any[] = cartRes.data.data?.items || [];
+
+      // 2. Lấy biến thể đã chọn
+      const variant = product.variants!.find(v => v.id === selectedVariantId)!;
+
+      // 3. Cập nhật mảng items
+      const idx = items.findIndex(i => i.variantId === variant.id);
+      if (idx >= 0) {
+        items[idx].quantity += qty;
+      } else {
+        items.push({
+          variantId: variant.id,
+          productId: product.id,
+          color: variant.color,
+          storage: variant.ram,
+          price: variant.price,
+          quantity: qty,
+        });
+      }
+
+      // 4. PUT cập nhật
+      await axios.put(
+        `http://localhost:4000/carts/${userId}`,
+        { items },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
       message.success("Đã thêm vào giỏ hàng!");
     } catch (err) {
       console.error(err);
@@ -106,7 +133,7 @@ const Details: React.FC = () => {
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden p-6">
         <Row gutter={[32, 32]}>
-          {/* Ảnh chính + album */}
+          {/* Ảnh */}
           <Col xs={24} md={12}>
             <Image src={mainImage} alt={product.name} />
             <div className="flex gap-2 mt-4">
@@ -141,16 +168,15 @@ const Details: React.FC = () => {
               </span>
             </p>
 
-            {/* Nếu có biến thể */}
             {product.variants && product.variants.length > 0 && (
               <div className="mb-6">
                 <p className="font-medium mb-2">Chọn biến thể:</p>
                 <Radio.Group
-                  onChange={(e) => setSelectedVariantId(e.target.value)}
+                  onChange={e => setSelectedVariantId(e.target.value)}
                   value={selectedVariantId}
                 >
                   <Row gutter={[16, 16]}>
-                    {product.variants.map((v) => (
+                    {product.variants.map(v => (
                       <Col key={v.id} span={24}>
                         <Radio value={v.id} className="w-full p-3 border rounded">
                           <div className="flex justify-between">
@@ -174,16 +200,12 @@ const Details: React.FC = () => {
               </div>
             )}
 
-            {/* Số lượng đặt */}
             <div className="flex items-center gap-4 mb-6">
-              <Button onClick={() => setQty((q) => Math.max(1, q - 1))}>
-                −
-              </Button>
+              <Button onClick={() => setQty(q => Math.max(1, q - 1))}>−</Button>
               <InputNumber min={1} value={qty} onChange={(v) => setQty(v || 1)} />
-              <Button onClick={() => setQty((q) => q + 1)}>＋</Button>
+              <Button onClick={() => setQty(q => q + 1)}>＋</Button>
             </div>
 
-            {/* Nút thêm giỏ */}
             <Button type="primary" block size="large" onClick={handleAddToCart}>
               Thêm vào giỏ hàng
             </Button>

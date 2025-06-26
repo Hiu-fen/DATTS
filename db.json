@@ -146,50 +146,6 @@
   ],
   "contacts": [],
   "carts": [
-    {
-      "id": 1,
-      "userId": 6,
-      "items": [
-        {
-          "productId": {
-            "id": 6,
-            "name": "Apple VIP ",
-            "price": 8,
-            "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-            "description": "èveverv",
-            "category": 2
-          },
-          "quantity": 2
-        },
-        {
-          "productId": {
-            "id": 2,
-            "name": "Apple VIP ",
-            "price": 1,
-            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-            "description": "def",
-            "category": 1
-          },
-          "quantity": 3
-        },
-        {
-          "productId": {
-            "id": 8,
-            "name": "Samsung Galaxy S23",
-            "price": 1,
-            "image": "https://cdn.nguyenkimmall.com/images/companies/_1/dien-thoai/Samsung/S23%20Ultra/dien-thoai-samsung-galaxy-s23-ultra-1.jpg",
-            "description": "ềwf",
-            "category": 2
-          },
-          "quantity": 4
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "userId": 10,
-      "items": []
-    }
   ],
   "orders": [
     {
