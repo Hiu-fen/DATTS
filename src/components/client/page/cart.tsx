@@ -98,16 +98,16 @@ const Cart = () => {
 
 
   const handleRemove = (productId: string, color: string, storage: string) => {
-  const updatedItems = cartItems.filter(
-    (item) =>
-      String(item.productId.id) !== productId ||
-      item.color !== color ||
-      item.storage !== storage
-  );
+    const updatedItems = cartItems.filter(
+      (item) =>
+        String(item.productId.id) !== productId ||
+        item.color !== color ||
+        item.storage !== storage
+    );
 
-  updateCartItems(updatedItems);
-  message.success("Xóa sản phẩm thành công");
-};
+    updateCartItems(updatedItems);
+    message.success("Xóa sản phẩm thành công");
+  };
 
 
 
@@ -234,13 +234,13 @@ const Cart = () => {
                   </td>
                   <td className="text-center p-4">
                     <button
-  onClick={() =>
-    handleRemove(String(item.productId.id), item.color, item.storage)
-  }
-  className="text-sm text-red-600 font-semibold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-200"
->
-  Xóa
-</button>
+                      onClick={() =>
+                        handleRemove(String(item.productId.id), item.color, item.storage)
+                      }
+                      className="text-sm text-red-600 font-semibold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-200"
+                    >
+                      Xóa
+                    </button>
 
                   </td>
                 </tr>

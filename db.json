@@ -24,7 +24,7 @@
     {
       "id": 1,
       "name": "iphone12",
-      "price": "9.000000",
+      "price": 9,
       "image": "https://picsum.photos/200",
       "album": [
         "https://picsum.photos/200"
@@ -32,9 +32,16 @@
       "description": "táo",
       "category": 1,
       "status": "Còn hàng",
-      "type": "simple",
+      "type": "variable",
       "parent": 0,
-      "quantity": "6"
+      "quantity": 6,
+      "score": 0,
+      "variants": [
+        {
+          "quantity": 1,
+          "price": 1
+        }
+      ]
     },
     {
       "id": 2,
@@ -52,7 +59,25 @@
       "description": "def",
       "category": 1,
       "status": "Còn hàng",
-      "priceRange": "1-9"
+      "priceRange": "1-9",
+      "variants": [
+        {
+          "quantity": 112,
+          "price": 1112
+        },
+        {
+          "quantity": 1123,
+          "price": 1344
+        },
+        {
+          "quantity": 1321,
+          "price": 1321
+        },
+        {
+          "quantity": 1456,
+          "price": 11765
+        }
+      ]
     },
     {
       "id": 3,
@@ -187,7 +212,7 @@
       "id": 10,
       "score": 0,
       "parent": 0,
-      "type": "simple",
+      "type": "variable",
       "album": [],
       "price": 11,
       "quantity": 1,
@@ -196,10 +221,185 @@
       "description": "adgsg",
       "category": 1,
       "status": "Còn hàng",
-      "priceRange": "1-1"
+      "priceRange": "1-1",
+      "variants": [
+        {
+          "quantity": 2,
+          "price": 1
+        },
+        {
+          "quantity": 1,
+          "price": 1
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 20,
+      "quantity": 10,
+      "name": "Test Xphone2",
+      "image": "https://picsum.photos/200",
+      "description": "test biến thể",
+      "category": 1,
+      "status": "Còn hàng"
+    },
+    {
+      "id": 12,
+      "score": 0,
+      "parent": 11,
+      "type": "variation",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 20,
+      "quantity": 5,
+      "name": "Test Xphone2 (1T, RED)",
+      "image": "https://picsum.photos/200",
+      "description": "test biến thể",
+      "category": 1,
+      "status": "Còn hàng",
+      "attributes": {
+        "ram": "1T",
+        "color": "RED"
+      }
+    },
+    {
+      "id": 13,
+      "score": 0,
+      "parent": 11,
+      "type": "variation",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 20,
+      "quantity": 5,
+      "name": "Test Xphone2 (64BB, Blue)",
+      "image": "https://picsum.photos/200",
+      "description": "test biến thể",
+      "category": 1,
+      "status": "Còn hàng",
+      "attributes": {
+        "ram": "64BB",
+        "color": "Blue"
+      }
+    },
+    {
+      "id": 14,
+      "score": 0,
+      "parent": 0,
+      "type": "simple",
+      "album": [],
+      "price": 33,
+      "quantity": 133,
+      "name": "Híu đây hẹ hẹ",
+      "image": "https://picsum.photos/200",
+      "description": "3aaaaaaaa",
+      "category": 1,
+      "status": "Còn hàng"
+    },
+    {
+      "id": 15,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 123,
+      "quantity": 123,
+      "name": "Híu đây hẹ hẹ",
+      "image": "https://picsum.photos/200",
+      "description": "12345678",
+      "category": 1,
+      "status": "Còn hàng"
+    },
+    {
+      "id": 17,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://picsum.photos/200",
+        "https://picsum.photos/200",
+        "https://picsum.photos/200"
+      ],
+      "price": 34,
+      "quantity": 4,
+      "name": "Híu đây hẹ hẹ 2",
+      "image": "https://picsum.photos/200",
+      "description": "uuuuuuuuuuuuuuuuuu",
+      "category": 1,
+      "status": "Còn hàng",
+      "variants": [
+        {
+          "id": 1,
+          "ram": "64BB",
+          "color": "Blue",
+          "price": 1,
+          "quantity": 1
+        },
+        {
+          "id": 2,
+          "ram": "36GB",
+          "color": "RED",
+          "price": 1,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://picsum.photos/200"
+      ],
+      "price": 1,
+      "quantity": 1,
+      "name": "Híu đây hẹ hẹ",
+      "image": "https://picsum.photos/200",
+      "description": "áertyuio",
+      "category": 3,
+      "status": "Hết hàng",
+      "variants": [
+        {
+          "id": 1,
+          "ram": "64BB",
+          "color": "Blue",
+          "price": 1,
+          "quantity": 1
+        }
+      ]
     }
   ],
-  "variants": [],
+  "variants": [
+    {
+      "ram": [
+        "8GB",
+        "36GB",
+        "64BB",
+        "1T"
+      ],
+      "color": [
+        "Đen",
+        "RED",
+        "Blue"
+      ],
+      "id": 1
+    }
+  ],
   "comments": [
     {
       "user": "admin",

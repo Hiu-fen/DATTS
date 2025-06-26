@@ -23,7 +23,8 @@ import BannerList from './components/admin/Banner/BannerList'
 import BannerAdd from './components/admin/Banner/BannerAdd'
 import BannerEdit from './components/admin/Banner/BannerEdit'
 import BannerDetail from './components/admin/Banner/BannerDetail'
-import VariantList from './components/admin/Variant/VariantList'
+import VariantPage from './components/admin/Variant/VariantList'
+
 import VariantAdd from './components/admin/Variant/VariantAdd'
 import VariantCustomAdd from './components/admin/Variant/VariantCustomAdd'
 
@@ -96,7 +97,7 @@ const App = (props: Props) => {
         { path: 'category/:id/edit', element: <PutEditCategory /> },
         {
           path: 'variant/list',
-          element: <VariantList />,
+          element: <VariantPage />,
         },
         {
           path: 'variant/custom-add',
