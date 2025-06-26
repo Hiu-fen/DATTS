@@ -481,3 +481,7 @@ server.post("/users/register", (req, res) => {
   res.status(201).json({ user: newUser, token });
 });
 
+server.get("/news", (req, res) => {
+  const { news } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  res.status(200).json(news.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+});

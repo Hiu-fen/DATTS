@@ -553,5 +553,52 @@
       "status": "Hoạt động",
       "id": 2
     }
+  ],
+  "news": [
+    {
+      "id": 1,
+      "title": "Apple chính thức ra mắt MacBook M3 Pro",
+      "content": "Apple vừa chính thức trình làng MacBook M3 Pro với hiệu năng vượt trội, sử dụng chip Apple Silicon thế hệ mới. Sản phẩm này được thiết kế tối ưu cho dân lập trình, thiết kế đồ hoạ và dân văn phòng chuyên nghiệp. MacBook M3 Pro hứa hẹn sẽ mở ra một kỷ nguyên mới về hiệu năng và thời lượng pin cho dòng laptop mỏng nhẹ. Với thiết kế nhôm nguyên khối sang trọng, màn hình Liquid Retina XDR, khả năng xử lý đồ họa cao cấp và thời lượng pin lên tới 20 giờ, đây được đánh giá là mẫu máy đáng sở hữu nhất năm nay.",
+      "category": "Công Nghệ",
+      "author": "Admin",
+      "image": "https://tse1.mm.bing.net/th?id=OIP.7jKj-lgzx9fMlCfqLLlLGAHaE8&pid=Api&P=0&h=180",
+      "createdAt": "2024-06-01T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "title": "Top 5 laptop gaming đáng mua năm 2024",
+      "content": "Năm 2024 chứng kiến sự bùng nổ của các mẫu laptop gaming cấu hình khủng, thiết kế bắt mắt và khả năng tản nhiệt ấn tượng. Dẫn đầu là ASUS ROG Strix G16 với RTX 4070 và màn hình 240Hz, tiếp đến là Acer Predator Helios, MSI Raider GE78, Lenovo Legion 7i và Alienware m18. Những cỗ máy này không chỉ chơi mượt mọi tựa game AAA ở thiết lập max setting mà còn hỗ trợ tốt cho stream và làm việc sáng tạo. Nếu bạn là một game thủ hoặc creator, đừng bỏ qua danh sách này.",
+      "category": "Gaming",
+      "author": "Minh Gamer",
+      "image": "https://tse4.mm.bing.net/th?id=OIP.yGn75UJI0I0L5y4exOfgQAHaE7&pid=Api&P=0&h=180",
+      "createdAt": "2024-06-15T14:30:00Z"
+    },
+    {
+      "id": 3,
+      "title": "Hướng dẫn chọn laptop cho sinh viên năm học mới",
+      "content": "Sinh viên đang chuẩn bị vào năm học mới thường phân vân không biết chọn laptop nào vừa rẻ vừa chất lượng. Gợi ý: bạn nên chọn dòng máy có CPU Intel i5 hoặc AMD Ryzen 5, RAM từ 8GB trở lên, SSD ít nhất 256GB. Các mẫu như ASUS Vivobook, HP Pavilion, hoặc MacBook Air M1 đều là lựa chọn hợp lý. Đặc biệt, hãy ưu tiên laptop nhẹ, mỏng, pin trâu để tiện mang đi học và làm việc nhóm. Đừng ham rẻ mà mua laptop quá yếu sẽ ảnh hưởng đến việc học tập lâu dài.",
+      "category": "Mẹo vặt",
+      "author": "Tư Vấn Viên",
+      "image": "https://tse4.mm.bing.net/th?id=OIP.W9KjL7iX1KiAV3DewCaZDwHaD7&pid=Api&P=0&h=180",
+      "createdAt": "2024-06-20T09:00:00Z"
+    },
+    {
+      "id": 4,
+      "title": "Tablet có thể thay thế laptop? Câu trả lời bất ngờ",
+      "content": "Nhiều người đặt câu hỏi liệu tablet hiện nay có thể thay thế laptop truyền thống? Câu trả lời là 'có thể' – tuỳ vào mục đích sử dụng. Với các dòng như iPad Air M1 hoặc Samsung Galaxy Tab S9, bạn hoàn toàn có thể làm việc văn phòng, học online, thậm chí edit video cơ bản nhờ hệ điều hành ngày càng tối ưu. Tuy nhiên, với những công việc đòi hỏi phần mềm chuyên sâu như lập trình, thiết kế 3D, bạn vẫn cần laptop. Vì vậy, nếu bạn chỉ cần thiết bị nhẹ gọn cho công việc cơ bản, tablet là lựa chọn sáng giá.",
+      "category": "Công Nghệ",
+      "author": "Kỹ Sư Đô",
+      "image": "https://cdn.tgdd.vn/Products/Images/522/247517/ipad-air-5-m1-2022-xanh-duong-600x600.jpg",
+      "createdAt": "2024-06-22T16:00:00Z"
+    },
+    {
+      "id": 5,
+      "title": "Máy tính cũ có nên nâng cấp hay mua mới?",
+      "content": "Bạn đang phân vân giữa việc nâng cấp chiếc máy cũ hay sắm máy mới? Nếu máy bạn dưới 5 năm tuổi, việc nâng cấp RAM lên 16GB, thay SSD tốc độ cao sẽ giúp cải thiện hiệu suất đáng kể. Tuy nhiên, nếu máy đã quá cũ, CPU yếu, pin chai, card đồ hoạ tích hợp yếu kém thì đầu tư máy mới sẽ hợp lý hơn. Đặc biệt trong bối cảnh công nghệ thay đổi nhanh như hiện nay, việc sở hữu một máy mới sẽ đảm bảo bạn bắt kịp yêu cầu phần mềm, học tập và làm việc hiệu quả hơn.",
+      "category": "Tư vấn",
+      "author": "Chuyên gia IT",
+      "image": "https://cdn.tgdd.vn/Products/Images/44/309774/TimerThumb/macbook-air-m2-15-inch-2023-thumb-600x600.jpg",
+      "createdAt": "2024-06-10T12:00:00Z"
+    }
   ]
 }
