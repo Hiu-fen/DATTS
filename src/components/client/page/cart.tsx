@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
@@ -25,7 +25,7 @@ interface ICartItemFull {
   storage: string;
 }
 
-const Cart = () => {
+const Cart: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useUser();
   const userId = user?.id;
@@ -42,35 +42,51 @@ const Cart = () => {
     });
   };
 
-  // Lấy giỏ hàng
+  // Lấy giỏ hàng; nếu 404 → giỏ trống, chỉ báo lỗi mạng khác
   const getProductCart = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/carts", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const res = await axios.get(
+        `http://localhost:4000/carts/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       const items: any[] = res.data.data?.items || [];
-
+      // map về ICartItemFull
       const mapped: ICartItemFull[] = items.map((it) => ({
-        // tạo id duy nhất cho row
-        id: `${it.productId.id}-${it.productId.ram || ""}-${it.productId.color || ""}`,
+        id: `${it.productId.id}-${it.productId.ram || ""}-${
+          it.productId.color || ""
+        }`,
         productId: it.productId,
         quantity: it.quantity,
-        price: typeof it.productId.price === "number" ? it.productId.price : 0,
+        price:
+          typeof it.productId.price === "number"
+            ? it.productId.price
+            : 0,
         color: it.productId.color || "",
-        storage: it.productId.ram   || "",
+        storage: it.productId.ram || "",
       }));
-
       setCartItems(mapped);
-    } catch (error) {
-      console.error("Lỗi khi lấy giỏ hàng:", error);
-      message.error("Không thể tải giỏ hàng");
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        // Chưa có cart record → hiểu là giỏ trống
+        setCartItems([]);
+      } else {
+        console.error("Lỗi khi lấy giỏ hàng:", err);
+        message.error("Không thể tải giỏ hàng");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
     getProductCart();
   }, [userId]);
 
@@ -83,14 +99,16 @@ const Cart = () => {
         {
           items: updatedItems.map((item) => ({
             productId: item.productId.id,
-            color:      item.color,
-            storage:    item.storage,
-            price:      item.price,
-            quantity:   item.quantity,
+            color: item.color,
+            storage: item.storage,
+            price: item.price,
+            quantity: item.quantity,
           })),
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
     } catch (error) {
@@ -117,7 +135,11 @@ const Cart = () => {
     updateCartItems(updatedItems);
   };
 
-  const handleRemove = (productId: string, color: string, storage: string) => {
+  const handleRemove = (
+    productId: string,
+    color: string,
+    storage: string
+  ) => {
     const updatedItems = cartItems.filter(
       (item) => item.id !== `${productId}-${storage}-${color}`
     );
@@ -125,32 +147,12 @@ const Cart = () => {
     message.success("Xóa sản phẩm thành công");
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (!userId) {
       message.error("Bạn chưa đăng nhập");
       return;
     }
-    try {
-      await axios.put(
-        `http://localhost:4000/carts/${userId}`,
-        {
-          items: cartItems.map((item) => ({
-            productId: item.productId.id,
-            color:      item.color,
-            storage:    item.storage,
-            price:      item.price,
-            quantity:   item.quantity,
-          })),
-        },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      navigate("/checkout");
-    } catch (error) {
-      console.error("Lỗi khi đặt hàng:", error);
-      message.error("Không thể đặt hàng. Vui lòng thử lại");
-    }
+    navigate("/checkout");
   };
 
   const total = cartItems.reduce(
@@ -158,8 +160,9 @@ const Cart = () => {
     0
   );
 
-  if (loading)
+  if (loading) {
     return <p className="text-center py-10">Đang tải giỏ hàng...</p>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-10">
