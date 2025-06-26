@@ -323,66 +323,93 @@ server.get("/carts/:userId", (req, res) => {
 
   res.status(200).json({ data: cart });
 });
+// Xóa toàn bộ giỏ hàng của user
+server.delete("/carts/:id", Permission, (req, res) => {
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const { id: userId } = req.user;      // userId lấy từ token
+  const cartIndex = db.carts.findIndex(c => c.userId == userId);
+
+  if (cartIndex === -1) {
+    return res.status(404).json({ message: "Không tìm thấy giỏ hàng" });
+  }
+
+  // Xóa cả entry cart (nếu muốn)
+  db.carts.splice(cartIndex, 1);
+
+  // — nếu chỉ muốn giữ cartID nhưng clear items:
+  // db.carts[cartIndex].items = [];
+
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+  res.status(200).json({ message: "Giỏ hàng đã được xóa" });
+});
 
 
+// Route đặt hàng
+// server.js (hoặc file chứa định nghĩa các route)
 server.post("/orders", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const userId = req.user.id; // ✅ Lấy từ token decode sẵn
-
-  const index = db.carts.findIndex(item => item.userId == userId);
-
+  const userId = req.user.id;
   const data = req.body;
-  if (!data.items || !Array.isArray(data.items)) {
-    return res.status(400).json({ error: "Thiếu danh sách sản phẩm (items)" });
+
+  if (!Array.isArray(data.items) || data.items.length === 0) {
+    return res.status(400).json({ error: "Thiếu danh sách sản phẩm" });
+  }
+  if (!data.orderCode) {
+    return res.status(400).json({ error: "Thiếu mã đơn hàng (orderCode)" });
   }
 
-  const itemOrder = data.items.map(item => item.productId);
-  const orderSet = new Set(itemOrder);
-
-  if (index >= 0) {
-    const newItemCart = db.carts[index].Items.filter(item => {
-      return !orderSet.has(item.productId);
-    });
-    db.carts[index].Items = [...newItemCart];
+  // Xóa các sản phẩm khỏi giỏ hàng
+  const cartIndex = db.carts.findIndex((c) => c.userId == userId);
+  if (cartIndex >= 0) {
+    // chỉ giữ lại những item không có trong đơn này
+    const orderedIds = new Set(data.items.map((it) => it.productId));
+    db.carts[cartIndex].items = db.carts[cartIndex].items.filter(
+      (it) => !orderedIds.has(it.productId.id)
+    );
   }
 
-  data.items = data.items.map(item => {
-    return {
-      ...item,
-      productId: GetInfoVariantProduct(GetInfoById(item.productId, "products")),
-    };
-  });
-
+  // Tạo order mới
   const newOrder = {
     id: GetMaxID("orders") + 1,
-    userId, // ✅ Thêm userId vào đơn hàng
-    ...data,
+    userId,
+    orderCode: data.orderCode,
+    customerName: data.customerName,
+    phone: data.phone,
+    address: data.address,
+    email: data.email,
+    notes: data.notes,
+    paymentMethod: data.paymentMethod,
+    shippingProvider: data.shippingProvider,
+    total: data.total,
+    status: data.status,
+    date: data.date,
+    isPaid: data.isPaid,
+    refunded: data.refunded,
+    items: data.items.map((it) => ({
+      productId: it.productId,
+      productName: it.productName,
+      soluong: it.soluong,
+      price: it.price,
+      color: it.color,
+      storage: it.storage,
+    })),
   };
 
-  db.orders = [...db.orders, newOrder];
+  db.orders.push(newOrder);
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+
   res.status(201).json({ message: "Đặt hàng thành công!", data: newOrder });
 });
 
-server.use(router);
-server.listen(port, () => {
-  console.log(`Endpoint: http://localhost:${port}`);
-  console.log(`Tạo mới collection: http://localhost:${port}/create-collection =>Method: POST`);  
-  GetEndpoint()
-});
-// POST để tạo bình luận mới
-server.post("/comments", (req, res) => {
-  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const newComment = {
-    id: GetMaxID("comments") + 1, // Lấy ID tối đa và cộng thêm 1
-    ...req.body,
-    status: false,  // Trạng thái mặc định là false
-  };
 
-  db.comments.push(newComment);
-  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
-  res.status(201).json(newComment); // Trả về bình luận vừa tạo
+// Đặt json-server router cuối cùng
+server.use(router);
+
+// const port = process.env.PORT || 4000;
+server.listen(port, () => {
+  console.log(`JSON Server running on http://localhost:${port}`);
 });
+
 
 // Xử lý khi thêm bình luận mới
 server.post("/comments", (req, res) => {
