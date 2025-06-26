@@ -277,14 +277,18 @@ server.put("/carts/:id", Permission, (req, res) => {
     return res.status(404).json({ message: "Không tìm thấy giỏ hàng" });
   }
 
+  // 📍 CHÍNH LÀ ĐÂY
   db.carts[cartIndex].items = items.map((item) => ({
-    productId: item.productId, // giữ nguyên full object
+    productId: item.productId,
     quantity: item.quantity,
+    color: item.color,
+    storage: item.storage,
   }));
 
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
   res.status(200).json({ message: "Cập nhật giỏ hàng thành công", data: db.carts[cartIndex] });
 });
+
 
 server.get("/carts/:userId", (req, res) => {
   const { userId } = req.params;

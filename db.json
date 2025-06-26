@@ -248,7 +248,7 @@
             "description": "èveverv",
             "category": 2
           },
-          "quantity": 1
+          "quantity": 2
         },
         {
           "productId": {
@@ -259,7 +259,18 @@
             "description": "def",
             "category": 1
           },
-          "quantity": 2
+          "quantity": 3
+        },
+        {
+          "productId": {
+            "id": 8,
+            "name": "Samsung Galaxy S23",
+            "price": 1,
+            "image": "https://cdn.nguyenkimmall.com/images/companies/_1/dien-thoai/Samsung/S23%20Ultra/dien-thoai-samsung-galaxy-s23-ultra-1.jpg",
+            "description": "ềwf",
+            "category": 2
+          },
+          "quantity": 4
         }
       ]
     }

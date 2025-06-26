@@ -49,25 +49,37 @@ const Cart = () => {
 
   const updateCartOnServer = async (updatedItems: ICartItemFull[]) => {
     try {
-      await axios.put(`http://localhost:4000/carts/${userId}`, {
-        items: updatedItems.map((item) => ({
-          productId: item.productId.id,
-          quantity: item.quantity,
-          color: item.color,
-          storage: item.storage,
-        })),
-      });
+      const token = localStorage.getItem("token"); // lấy token
+
+      await axios.put(
+        `http://localhost:4000/carts/${userId}`,
+        {
+          items: updatedItems.map((item) => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            color: item.color,
+            storage: item.storage,
+          })),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // gửi token vào header
+          },
+        }
+      );
     } catch (error) {
-      console.error('Lỗi cập nhật giỏ hàng:', error);
+      console.error("Lỗi cập nhật giỏ hàng:", error);
     }
   };
+
+
 
   const updateCartItems = (updatedItems: ICartItemFull[]) => {
     setCartItems(updatedItems);
     updateCartOnServer(updatedItems);
   };
 
-  const handleQuantityChange = (
+  const handleQuantityChange = async (
     productId: string,
     color: string,
     storage: string,
@@ -75,19 +87,29 @@ const Cart = () => {
   ) => {
     const updatedItems = cartItems.map((item) =>
       String(item.productId.id) === productId &&
-      item.color === color &&
-      item.storage === storage
+        item.color === color &&
+        item.storage === storage
         ? { ...item, quantity: Math.max(1, item.quantity + delta) }
         : item
     );
-    updateCartItems(updatedItems);
+    setCartItems(updatedItems); // cập nhật local
+    await updateCartOnServer(updatedItems); // gọi API cập nhật server
   };
 
-  const handleRemove = (itemId: string) => {
-    const updatedItems = cartItems.filter((item) => item.id !== itemId);
-    updateCartItems(updatedItems);
-    message.success('Xóa sản phẩm thành công');
-  };
+
+  const handleRemove = (productId: string, color: string, storage: string) => {
+  const updatedItems = cartItems.filter(
+    (item) =>
+      String(item.productId.id) !== productId ||
+      item.color !== color ||
+      item.storage !== storage
+  );
+
+  updateCartItems(updatedItems);
+  message.success("Xóa sản phẩm thành công");
+};
+
+
 
   const handleCheckout = async () => {
     if (!userId) {
@@ -148,7 +170,8 @@ const Cart = () => {
             <tbody>
               {cartItems.map((item, index) => (
                 <tr
-                  key={`${item.id}-${item.color}-${item.storage}`}
+                  key={`${item.productId.id}-${item.color ?? 'x'}-${item.storage ?? 'x'}`}
+
                   className="border-t hover:bg-gray-50 transition-all"
                 >
                   <td className="p-4 text-center">
@@ -211,11 +234,14 @@ const Cart = () => {
                   </td>
                   <td className="text-center p-4">
                     <button
-                      onClick={() => handleRemove(item.id)}
-                      className="text-sm text-red-600 font-semibold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-200"
-                    >
-                      Xóa
-                    </button>
+  onClick={() =>
+    handleRemove(String(item.productId.id), item.color, item.storage)
+  }
+  className="text-sm text-red-600 font-semibold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors duration-200"
+>
+  Xóa
+</button>
+
                   </td>
                 </tr>
               ))}
