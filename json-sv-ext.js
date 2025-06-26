@@ -202,57 +202,96 @@ const GetEndpoint = () => {
   console.log(`Danh sách các Endpoint:`,endpoints);
 }
 // Cart
-server.post("/carts",Permission,(req,res)=>{
+server.post("/carts", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const {id:userId} = req.user
-  const {productId,quantity} = req.body
-  const index = db.carts.findIndex(item => item.userId ==userId);
-  if (index==-1){
-     const newcart = {
-      id:GetMaxID("carts")+1,
-      userId: userId,
-      Items:[{productId,quantity}]
-     }
-     db.carts = [...db.carts,newcart]
-     fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
-     res.status(200).json({message:"Thêm giỏ hàng thành công!",data:newcart}); 
+  const { id: userId } = req.user;
+  const { product, quantity } = req.body;
+
+  if (!product?.id) {
+    return res.status(400).json({ message: "Thiếu thông tin sản phẩm" });
   }
-  else {
-    const item = db.carts[index].Items.filter(item=>item.productId==productId)
-    if (item.length>0){
-      db.carts[index].Items = db.carts[index].Items.map(item=>(item.productId==productId)?{...item,quantity:Number(item.quantity)+Number(quantity)}:item)
-    }
-    else {
-      db.carts[index].Items = [...db.carts[index].Items,{productId,quantity}]
-    }
-    const data = {...db.carts[index]}
-     fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
-     res.status(201).json({message:"Thêm giỏ hàng thành công!",data}); 
+
+  let cartIndex = db.carts.findIndex((item) => item.userId == userId);
+
+  const cartItem = {
+    productId: product, // Lưu toàn bộ object sản phẩm
+    quantity,
+  };
+
+  if (cartIndex === -1) {
+    const newCart = {
+      id: GetMaxID("carts") + 1,
+      userId,
+      items: [cartItem],
+    };
+
+    db.carts.push(newCart);
+    fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+    return res.status(201).json({ message: "Tạo giỏ hàng thành công!", data: newCart });
   }
-})
-server.get("/carts",Permission,(req,res)=>{
-  const {carts} = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const {id:userId} = req.user
-  const cartByUser = carts.filter(item=>item.userId ==userId).shift()
+
+  const cart = db.carts[cartIndex];
+  const existingItemIndex = cart.items.findIndex((item) => item.productId.id == product.id);
+
+  if (existingItemIndex !== -1) {
+    cart.items[existingItemIndex].quantity += quantity;
+  } else {
+    cart.items.push(cartItem);
+  }
+
+  db.carts[cartIndex] = cart;
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+
+  return res.status(200).json({ message: "Thêm vào giỏ hàng thành công!", data: cart });
+});
+
+server.get("/carts", Permission, (req, res) => {
+  const { carts } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const { id: userId } = req.user;
+
   if (!userId) {
-    res.status(404).json({message:"Chưa đăng nhập!"}); 
+    return res.status(401).json({ message: "Chưa đăng nhập!" });
   }
-  if (!cartByUser){
-    res.status(404).json({message:"Chưa có sản phẩm nào trong giỏ hàng!"}); 
+
+  const cartByUser = carts.find((item) => item.userId == userId);
+
+  if (!cartByUser) {
+    return res.status(404).json({ message: "Chưa có sản phẩm nào trong giỏ hàng!" });
   }
-  cartByUser.Items = cartByUser.Items.map(item=>{
-    return {...item,productId:GetInfoVariantProduct(GetInfoById(item.productId,"products"))}
-  })
-  res.status(200).json({data:cartByUser}); 
-})
-server.put("/carts",Permission,(req,res)=>{
+
+  res.status(200).json({ data: cartByUser });
+});
+
+server.put("/carts", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const {id:userId} = req.user
-  const {items} = req.body
-  const index = db.carts.findIndex(item => item.userId ==userId); 
-  db.carts[index]= {...db.carts[index],Items:items}
-  res.status(200).json({data:db.carts[index],message:"Cập nhật thành công"}); 
-})
+  const { id: userId } = req.user;
+  const { items } = req.body;
+
+  const cartIndex = db.carts.findIndex((item) => item.userId == userId);
+
+  if (cartIndex === -1) {
+    return res.status(404).json({ message: "Không tìm thấy giỏ hàng" });
+  }
+
+  db.carts[cartIndex].items = items.map((item) => ({
+    productId: item.productId, // giữ nguyên full object
+    quantity: item.quantity,
+  }));
+
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
+  res.status(200).json({ message: "Cập nhật giỏ hàng thành công", data: db.carts[cartIndex] });
+});
+
+server.get("/carts/:userId", (req, res) => {
+  const { userId } = req.params;
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const cart = db.carts.find((item) => item.userId == userId);
+  if (!cart) return res.status(404).json({ message: "Không tìm thấy giỏ hàng" });
+
+  res.status(200).json({ data: cart });
+});
+
+
 server.post("/orders", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const userId = req.user.id; // ✅ Lấy từ token decode sẵn
