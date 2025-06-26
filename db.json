@@ -241,51 +241,12 @@
       "items": [
         {
           "productId": {
-            "id": 9,
-            "name": "Samsung A51",
-            "price": "21",
-            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-            "description": "beto bjsndnopcnk nk  ndndd c madnnncjn jdcqss ",
-            "category": "2"
-          },
-          "quantity": 2
-        },
-        {
-          "productId": {
-            "id": 10,
-            "name": "Iphone",
-            "price": "53",
-            "image": "https://up.yimg.com/ib/th?id=OIP.vcmNrfbgp6bZhxOhVitjKgHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-            "description": "gaegefw",
-            "category": "2"
-          },
-          "quantity": 1
-        },
-        {
-          "productId": {
-            "id": 2,
-            "name": "sansung s20",
-            "price": "10.000000",
-            "image": "https://tse1.mm.bing.net/th?id=OIP.jGu-uiHiDWKt8_OkQQipKwHaHa&pid=Api&P=0&h=180",
-            "description": "sansung  đây",
-            "category": "2"
-          },
-          "quantity": 2
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "userId": 10,
-      "items": [
-        {
-          "productId": {
-            "id": 7,
-            "name": "Iphone 13",
-            "price": "11",
-            "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
-            "description": "mgoraougaruogurhoh",
-            "category": "1"
+            "id": 6,
+            "name": "Apple VIP ",
+            "price": 8,
+            "image": "https://up.yimg.com/ib/th?id=OIP.n9zGaemTtMEbPSmVDLi8cwHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "èveverv",
+            "category": 2
           },
           "quantity": 1
         },
@@ -298,7 +259,7 @@
             "description": "def",
             "category": 1
           },
-          "quantity": 1
+          "quantity": 2
         }
       ]
     }

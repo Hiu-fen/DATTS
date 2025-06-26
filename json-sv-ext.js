@@ -266,7 +266,7 @@ server.get("/carts", Permission, (req, res) => {
   res.status(200).json({ data: cartByUser });
 });
 
-server.put("/carts", Permission, (req, res) => {
+server.put("/carts/:id", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   const { id: userId } = req.user;
   const { items } = req.body;
