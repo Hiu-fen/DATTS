@@ -170,6 +170,38 @@
           "price": 2500000
         }
       ]
+    },
+    {
+      "id": 6,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+      ],
+      "price": 123456,
+      "quantity": 31,
+      "name": "Test Xphone",
+      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+      "description": "test ",
+      "category": 1,
+      "status": "Còn hàng",
+      "variants": [
+        {
+          "id": 1,
+          "ram": "1T",
+          "color": "Blue",
+          "quantity": 11,
+          "price": 123456
+        },
+        {
+          "id": 2,
+          "ram": "1T",
+          "color": "RED",
+          "quantity": 20,
+          "price": 654321
+        }
+      ]
     }
   ],
   "variants": [
@@ -222,7 +254,26 @@
     }
   ],
   "contacts": [],
-  "carts": [],
+  "carts": [
+    {
+      "id": 1,
+      "userId": 10,
+      "items": [
+        {
+          "productId": {
+            "id": 5,
+            "name": "iphone1234",
+            "price": 2500000,
+            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "iphone vip pro ",
+            "ram": "36GB",
+            "color": "Đen"
+          },
+          "quantity": 1
+        }
+      ]
+    }
+  ],
   "orders": [
     {
       "id": "1",
