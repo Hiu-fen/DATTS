@@ -42,6 +42,9 @@ import ContactPage from './components/client/page/contact'
 import Cart from './components/client/page/cart'
 
 
+import NewsAdd from './components/admin/News/NewsAdd'
+import NewsEdit from './components/admin/News/NewsEdit'
+import NewsAdmin from './components/admin/News/NewsList'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
@@ -128,6 +131,16 @@ const App = (props: Props) => {
         { path: 'comment/list', element: <CommentAdmin /> },
         { path: 'comment/add', element: <CommentAdd /> },
         // {path:'login',element:<Login/>},
+      
+      //Router bình luận  
+      {path:'comment/list',element:<CommentAdmin/>},
+      {path:'comment/add',element:<CommentAdd/>},
+      // {path:'login',element:<Login/>},
+
+      //Route tin tức
+      {path:'news/list',element:<NewsAdmin/>},
+      {path:'news/add',element:<NewsAdd/>},
+      {path:'news/edit/:id',element:<NewsEdit/>},
 
 
       //Router liên hệ

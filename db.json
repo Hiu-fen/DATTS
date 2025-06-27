@@ -275,481 +275,9 @@
     }
   ],
   "orders": [
+    
     {
-      "id": "1",
-      "orderCode": "DH001",
-      "customerName": "Nguyễn Văn A",
-      "phone": 912345678,
-      "address": "123 Lê Lợi, Hà Nội",
-      "date": "2025-06-10T08:00:00.000Z",
-      "status": "Chờ xác nhận",
-      "items": [
-        {
-          "productId": "p1",
-          "productName": "iPhone 15",
-          "soluong": 1,
-          "price": 25000000,
-          "snapshot": {
-            "name": "iPhone 15 Pro Max",
-            "price": 25000000,
-            "color": "Đen",
-            "storage": "256GB"
-          }
-        }
-      ],
-      "total": 25000000,
-      "isPaid": false,
-      "paymentMethod": "COD",
-      "returnStatus": "",
-      "statusHistory": []
-    },
-    {
-      "id": "2",
-      "orderCode": "DH002",
-      "customerName": "Trần Thị B",
-      "phone": 934567890,
-      "address": "456 Nguyễn Huệ, TP.HCM",
-      "date": "2025-06-11T10:30:00.000Z",
-      "status": "Đang giao",
-      "items": [
-        {
-          "productId": "p2",
-          "productName": "Samsung Galaxy S24",
-          "soluong": 2,
-          "price": 18000000,
-          "snapshot": {
-            "name": "Samsung S24 Ultra",
-            "price": 18000000,
-            "color": "Trắng",
-            "storage": "512GB"
-          }
-        }
-      ],
-      "total": 36000000,
-      "isPaid": true,
-      "paymentMethod": "Chuyển khoản",
-      "returnStatus": "-Đang chờ duyệt",
-      "statusHistory": []
-    },
-    {
-      "id": "3",
-      "orderCode": "DH003",
-      "customerName": "Lê Văn C",
-      "phone": 987654321,
-      "address": "789 Trần Phú, Đà Nẵng",
-      "date": "2025-06-09T15:45:00.000Z",
-      "status": "Giao thành công",
-      "items": [
-        {
-          "productId": "p3",
-          "productName": "Laptop Dell XPS",
-          "soluong": 1,
-          "price": 32000000,
-          "snapshot": {
-            "name": "Dell XPS 13",
-            "price": 32000000,
-            "color": "Bạc",
-            "storage": "1TB SSD"
-          }
-        }
-      ],
-      "total": 32000000,
-      "isPaid": true,
-      "paymentMethod": "COD",
-      "returnStatus": "",
-      "statusHistory": []
-    },
-    {
-      "id": 4,
-      "userId": 2,
-      "orderCode": "DH0001",
-      "date": "2025-06-13T09:18:21.277Z",
-      "status": "Giao thành công",
-      "isPaid": false,
-      "total": 1000000,
-      "paymentMethod": "COD",
-      "items": []
-    },
-    {
-      "id": 5,
-      "userId": 2,
-      "orderCode": "DHK8CA40",
-      "customerName": "hiếu",
-      "phone": "0987654321",
-      "address": "hà nội",
-      "date": "2025-06-13T09:21:41.991Z",
-      "status": "Chờ xác nhận",
-      "isPaid": false,
-      "paymentMethod": "COD",
-      "notes": "",
-      "total": 2000,
-      "items": [
-        {
-          "soluong": 2,
-          "price": 1000,
-          "snapshot": {
-            "name": "test",
-            "price": 1000,
-            "color": "Red",
-            "storage": "64GB"
-          }
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "userId": 2,
-      "orderCode": "DHGITFTY",
-      "customerName": "hiếu",
-      "phone": "0987654321",
-      "address": "147 nam từ liêm",
-      "date": "2025-06-13T09:25:23.916Z",
-      "status": "Chờ xác nhận",
-      "isPaid": true,
-      "paymentMethod": "Chuyển khoản",
-      "returnStatus": "",
-      "statusHistory": [],
-      "items": [
-        {
-          "productName": "test",
-          "soluong": 3,
-          "price": 22000000,
-          "snapshot": {
-            "name": "test",
-            "price": 22000000,
-            "color": "blue",
-            "storage": "64GB"
-          }
-        }
-      ],
-      "total": 66000000
-    },
-    {
-      "id": 7,
-      "userId": 10,
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "test",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35002,
-      "date": "2025-06-26T09:18:29.064Z",
-      "status": "Chờ xác nhận",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "color": "Blue",
-          "price": 1
-        },
-        {
-          "productId": 1,
-          "productName": "Híu đây hẹ hẹ 2",
-          "color": "RED",
-          "price": 1
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "userId": 10,
-      "customerName": "hieu 2",
-      "phone": "0987654321",
-      "address": "147 phương canh, Phường Phương Canh, Quận Nam Từ Liêm, Thành phố Hà Nội",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35002,
-      "date": "2025-06-26T09:20:24.599Z",
-      "status": "Đã hủy",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 1,
-          "productName": "Híu đây hẹ hẹ 2",
-          "color": "RED",
-          "price": 1
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "userId": 10,
-      "orderCode": "ORD-PDHI9",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T09:23:01.528Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "Blue",
-          "storage": "1T"
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "userId": 10,
-      "orderCode": "ORD-NAHJV",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T09:52:50.602Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "",
-          "storage": ""
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "userId": 10,
-      "orderCode": "ORD-9JZ8O",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T09:55:45.473Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "",
-          "storage": ""
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "userId": 10,
-      "orderCode": "ORD-P33P7",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T10:00:55.386Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "Blue",
-          "storage": "1T"
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "userId": 10,
-      "orderCode": "ORD-C16C1",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "J&T Express",
-      "total": 35006,
-      "status": "Đã hủy",
-      "date": "2025-06-26T10:01:59.354Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 6,
-          "price": 1,
-          "color": "RED",
-          "storage": "64BB"
-        }
-      ]
-    },
-    {
-      "id": 14,
-      "userId": 10,
-      "orderCode": "ORD-QULKZ",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35002,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T10:29:36.771Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 2,
-          "price": 1,
-          "color": "Đen",
-          "storage": "8GB"
-        }
-      ]
-    },
-    {
-      "id": 15,
-      "userId": 10,
-      "orderCode": "ORD-NBKO5",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T10:54:24.276Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "Blue",
-          "storage": "1T"
-        }
-      ]
-    },
-    {
-      "id": 16,
-      "userId": 10,
-      "orderCode": "ORD-FM2VH",
-      "customerName": "hieu test chỉ tiết",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T11:06:18.182Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "RED",
-          "storage": "64BB"
-        }
-      ]
-    },
-    {
-      "id": 17,
-      "userId": 10,
-      "orderCode": "ORD-H8STL",
-      "customerName": "hieu mua iphone",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "Bank",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 5035000,
-      "status": "Đã hủy",
-      "date": "2025-06-26T12:02:54.181Z",
-      "isPaid": true,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 3,
-          "productName": "iphone 100",
-          "soluong": 1,
-          "price": 5000000,
-          "color": "Blue",
-          "storage": "1T"
-        }
-      ]
-    },
-    {
-      "id": 18,
-      "userId": 10,
-      "orderCode": "ORD-C36SN",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 8035000,
-      "status": "Đã hủy",
-      "date": "2025-06-26T14:43:42.614Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 3,
-          "productName": "iphone 100",
-          "soluong": 2,
-          "price": 4000000,
-          "color": "RED",
-          "storage": "64BB"
-        }
-      ]
-    },
-    {
-      "id": 19,
+      "id": 1,
       "userId": 10,
       "orderCode": "ORD-K5RNV",
       "customerName": "hieu",
@@ -774,6 +302,80 @@
           "storage": "1T"
         }
       ]
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "orderCode": "ORD-1E9TH",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 158456,
+      "status": "Chờ xác nhận",
+      "date": "2025-06-27T11:56:51.760Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 6,
+          "productName": "Test Xphone",
+          "soluong": 1,
+          "price": 123456,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    }
+  ],
+  "news": [
+    {
+      "id": 1,
+      "title": "Apple chính thức ra mắt MacBook M3 Pro",
+      "content": "Apple vừa chính thức trình làng MacBook M3 Pro với hiệu năng vượt trội, sử dụng chip Apple Silicon thế hệ mới. Sản phẩm này được thiết kế tối ưu cho dân lập trình, thiết kế đồ hoạ và dân văn phòng chuyên nghiệp. MacBook M3 Pro hứa hẹn sẽ mở ra một kỷ nguyên mới về hiệu năng và thời lượng pin cho dòng laptop mỏng nhẹ. Với thiết kế nhôm nguyên khối sang trọng, màn hình Liquid Retina XDR, khả năng xử lý đồ họa cao cấp và thời lượng pin lên tới 20 giờ, đây được đánh giá là mẫu máy đáng sở hữu nhất năm nay.",
+      "category": "Công Nghệ",
+      "author": "Admin",
+      "image": "https://tse1.mm.bing.net/th?id=OIP.7jKj-lgzx9fMlCfqLLlLGAHaE8&pid=Api&P=0&h=180",
+      "createdAt": "2024-06-01T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "title": "Top 5 laptop gaming đáng mua năm 2024",
+      "content": "Năm 2024 chứng kiến sự bùng nổ của các mẫu laptop gaming cấu hình khủng, thiết kế bắt mắt và khả năng tản nhiệt ấn tượng. Dẫn đầu là ASUS ROG Strix G16 với RTX 4070 và màn hình 240Hz, tiếp đến là Acer Predator Helios, MSI Raider GE78, Lenovo Legion 7i và Alienware m18. Những cỗ máy này không chỉ chơi mượt mọi tựa game AAA ở thiết lập max setting mà còn hỗ trợ tốt cho stream và làm việc sáng tạo. Nếu bạn là một game thủ hoặc creator, đừng bỏ qua danh sách này.",
+      "category": "Gaming",
+      "author": "Minh Gamer",
+      "image": "https://tse4.mm.bing.net/th?id=OIP.yGn75UJI0I0L5y4exOfgQAHaE7&pid=Api&P=0&h=180",
+      "createdAt": "2024-06-15T14:30:00Z"
+    },
+    {
+      "id": 3,
+      "title": "Hướng dẫn chọn laptop cho sinh viên năm học mới",
+      "content": "Sinh viên đang chuẩn bị vào năm học mới thường phân vân không biết chọn laptop nào vừa rẻ vừa chất lượng. Gợi ý: bạn nên chọn dòng máy có CPU Intel i5 hoặc AMD Ryzen 5, RAM từ 8GB trở lên, SSD ít nhất 256GB. Các mẫu như ASUS Vivobook, HP Pavilion, hoặc MacBook Air M1 đều là lựa chọn hợp lý. Đặc biệt, hãy ưu tiên laptop nhẹ, mỏng, pin trâu để tiện mang đi học và làm việc nhóm. Đừng ham rẻ mà mua laptop quá yếu sẽ ảnh hưởng đến việc học tập lâu dài.",
+      "category": "Mẹo vặt",
+      "author": "Tư Vấn Viên",
+      "image": "https://tse4.mm.bing.net/th?id=OIP.W9KjL7iX1KiAV3DewCaZDwHaD7&pid=Api&P=0&h=180",
+      "createdAt": "2024-06-20T09:00:00Z"
+    },
+    {
+      "id": 4,
+      "title": "Tablet có thể thay thế laptop? Câu trả lời bất ngờ",
+      "content": "Nhiều người đặt câu hỏi liệu tablet hiện nay có thể thay thế laptop truyền thống? Câu trả lời là 'có thể' – tuỳ vào mục đích sử dụng. Với các dòng như iPad Air M1 hoặc Samsung Galaxy Tab S9, bạn hoàn toàn có thể làm việc văn phòng, học online, thậm chí edit video cơ bản nhờ hệ điều hành ngày càng tối ưu. Tuy nhiên, với những công việc đòi hỏi phần mềm chuyên sâu như lập trình, thiết kế 3D, bạn vẫn cần laptop. Vì vậy, nếu bạn chỉ cần thiết bị nhẹ gọn cho công việc cơ bản, tablet là lựa chọn sáng giá.",
+      "category": "Công Nghệ",
+      "author": "Kỹ Sư Đô",
+      "image": "https://cdn.tgdd.vn/Products/Images/522/247517/ipad-air-5-m1-2022-xanh-duong-600x600.jpg",
+      "createdAt": "2024-06-22T16:00:00Z"
+    },
+    {
+      "id": 5,
+      "title": "Máy tính cũ có nên nâng cấp hay mua mới?",
+      "content": "Bạn đang phân vân giữa việc nâng cấp chiếc máy cũ hay sắm máy mới? Nếu máy bạn dưới 5 năm tuổi, việc nâng cấp RAM lên 16GB, thay SSD tốc độ cao sẽ giúp cải thiện hiệu suất đáng kể. Tuy nhiên, nếu máy đã quá cũ, CPU yếu, pin chai, card đồ hoạ tích hợp yếu kém thì đầu tư máy mới sẽ hợp lý hơn. Đặc biệt trong bối cảnh công nghệ thay đổi nhanh như hiện nay, việc sở hữu một máy mới sẽ đảm bảo bạn bắt kịp yêu cầu phần mềm, học tập và làm việc hiệu quả hơn.",
+      "category": "Tư vấn",
+      "author": "Chuyên gia IT",
+      "image": "https://cdn.tgdd.vn/Products/Images/44/309774/TimerThumb/macbook-air-m2-15-inch-2023-thumb-600x600.jpg",
+      "createdAt": "2024-06-10T12:00:00Z"
     }
   ],
   "users": [
@@ -837,6 +439,20 @@
       "password": "$2a$10$OiT.chAJPQp2OOhpG7Quv.3nrRjnNAFFU7yfOPHb6BOFljdCx1vpS",
       "name": "hieu",
       "id": 10
+    },
+    {
+      "email": "duc29309@gmail.com",
+      "password": "$2a$10$eHDGGBqvRLo.KOjPiG5MjeuWZP7e.fShQ5u4qbPEAeFdnmR/4PZim",
+      "name": "duc",
+      "id": 11
+    },
+    {
+      "email": "m@gmail.com",
+      "password": "$2a$10$.rfAddaD5Tu3y.XzXtXDn.VsfW4ssMLuFQ8z8WDnMH99xckDHrzhK",
+      "name": "duc",
+      "role": "admin",
+      "active": true,
+      "id": 12
     }
   ],
   "banners": [
@@ -874,53 +490,6 @@
       "endDate": "2025-06-25",
       "status": "Hoạt động",
       "id": 2
-    }
-  ],
-  "news": [
-    {
-      "id": 1,
-      "title": "Apple chính thức ra mắt MacBook M3 Pro",
-      "content": "Apple vừa chính thức trình làng MacBook M3 Pro với hiệu năng vượt trội, sử dụng chip Apple Silicon thế hệ mới. Sản phẩm này được thiết kế tối ưu cho dân lập trình, thiết kế đồ hoạ và dân văn phòng chuyên nghiệp. MacBook M3 Pro hứa hẹn sẽ mở ra một kỷ nguyên mới về hiệu năng và thời lượng pin cho dòng laptop mỏng nhẹ. Với thiết kế nhôm nguyên khối sang trọng, màn hình Liquid Retina XDR, khả năng xử lý đồ họa cao cấp và thời lượng pin lên tới 20 giờ, đây được đánh giá là mẫu máy đáng sở hữu nhất năm nay.",
-      "category": "Công Nghệ",
-      "author": "Admin",
-      "image": "https://tse1.mm.bing.net/th?id=OIP.7jKj-lgzx9fMlCfqLLlLGAHaE8&pid=Api&P=0&h=180",
-      "createdAt": "2024-06-01T10:00:00Z"
-    },
-    {
-      "id": 2,
-      "title": "Top 5 laptop gaming đáng mua năm 2024",
-      "content": "Năm 2024 chứng kiến sự bùng nổ của các mẫu laptop gaming cấu hình khủng, thiết kế bắt mắt và khả năng tản nhiệt ấn tượng. Dẫn đầu là ASUS ROG Strix G16 với RTX 4070 và màn hình 240Hz, tiếp đến là Acer Predator Helios, MSI Raider GE78, Lenovo Legion 7i và Alienware m18. Những cỗ máy này không chỉ chơi mượt mọi tựa game AAA ở thiết lập max setting mà còn hỗ trợ tốt cho stream và làm việc sáng tạo. Nếu bạn là một game thủ hoặc creator, đừng bỏ qua danh sách này.",
-      "category": "Gaming",
-      "author": "Minh Gamer",
-      "image": "https://tse4.mm.bing.net/th?id=OIP.yGn75UJI0I0L5y4exOfgQAHaE7&pid=Api&P=0&h=180",
-      "createdAt": "2024-06-15T14:30:00Z"
-    },
-    {
-      "id": 3,
-      "title": "Hướng dẫn chọn laptop cho sinh viên năm học mới",
-      "content": "Sinh viên đang chuẩn bị vào năm học mới thường phân vân không biết chọn laptop nào vừa rẻ vừa chất lượng. Gợi ý: bạn nên chọn dòng máy có CPU Intel i5 hoặc AMD Ryzen 5, RAM từ 8GB trở lên, SSD ít nhất 256GB. Các mẫu như ASUS Vivobook, HP Pavilion, hoặc MacBook Air M1 đều là lựa chọn hợp lý. Đặc biệt, hãy ưu tiên laptop nhẹ, mỏng, pin trâu để tiện mang đi học và làm việc nhóm. Đừng ham rẻ mà mua laptop quá yếu sẽ ảnh hưởng đến việc học tập lâu dài.",
-      "category": "Mẹo vặt",
-      "author": "Tư Vấn Viên",
-      "image": "https://tse4.mm.bing.net/th?id=OIP.W9KjL7iX1KiAV3DewCaZDwHaD7&pid=Api&P=0&h=180",
-      "createdAt": "2024-06-20T09:00:00Z"
-    },
-    {
-      "id": 4,
-      "title": "Tablet có thể thay thế laptop? Câu trả lời bất ngờ",
-      "content": "Nhiều người đặt câu hỏi liệu tablet hiện nay có thể thay thế laptop truyền thống? Câu trả lời là 'có thể' – tuỳ vào mục đích sử dụng. Với các dòng như iPad Air M1 hoặc Samsung Galaxy Tab S9, bạn hoàn toàn có thể làm việc văn phòng, học online, thậm chí edit video cơ bản nhờ hệ điều hành ngày càng tối ưu. Tuy nhiên, với những công việc đòi hỏi phần mềm chuyên sâu như lập trình, thiết kế 3D, bạn vẫn cần laptop. Vì vậy, nếu bạn chỉ cần thiết bị nhẹ gọn cho công việc cơ bản, tablet là lựa chọn sáng giá.",
-      "category": "Công Nghệ",
-      "author": "Kỹ Sư Đô",
-      "image": "https://cdn.tgdd.vn/Products/Images/522/247517/ipad-air-5-m1-2022-xanh-duong-600x600.jpg",
-      "createdAt": "2024-06-22T16:00:00Z"
-    },
-    {
-      "id": 5,
-      "title": "Máy tính cũ có nên nâng cấp hay mua mới?",
-      "content": "Bạn đang phân vân giữa việc nâng cấp chiếc máy cũ hay sắm máy mới? Nếu máy bạn dưới 5 năm tuổi, việc nâng cấp RAM lên 16GB, thay SSD tốc độ cao sẽ giúp cải thiện hiệu suất đáng kể. Tuy nhiên, nếu máy đã quá cũ, CPU yếu, pin chai, card đồ hoạ tích hợp yếu kém thì đầu tư máy mới sẽ hợp lý hơn. Đặc biệt trong bối cảnh công nghệ thay đổi nhanh như hiện nay, việc sở hữu một máy mới sẽ đảm bảo bạn bắt kịp yêu cầu phần mềm, học tập và làm việc hiệu quả hơn.",
-      "category": "Tư vấn",
-      "author": "Chuyên gia IT",
-      "image": "https://cdn.tgdd.vn/Products/Images/44/309774/TimerThumb/macbook-air-m2-15-inch-2023-thumb-600x600.jpg",
-      "createdAt": "2024-06-10T12:00:00Z"
     }
   ]
 }
