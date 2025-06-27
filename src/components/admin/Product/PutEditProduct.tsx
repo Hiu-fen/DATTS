@@ -5,11 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 interface ICategory { id: number; name: string; }
-
 interface IVariantValue { value: string; key: number; }
 
 interface IVariantForm {
-   id?: number;
+  id?: number;
   ram: string;
   color: string;
   quantity: number;
@@ -40,6 +39,7 @@ const PutEditProduct = () => {
     formState: { errors },
     watch,
     reset,
+    setValue // ✅ Thêm setValue để cập nhật số lượng tự động
   } = useForm<IProduct>({
     defaultValues: {
       score: 0,
@@ -47,85 +47,95 @@ const PutEditProduct = () => {
       type: "simple",
       album: [],
       price: 1,
-      quantity: 1,
+      quantity: 0, // ✅ Mặc định là 0
     },
   });
+
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [albumFields, setAlbumFields] = useState<string[]>([""]);
   const [variantValues, setVariantValues] = useState<Record<string, IVariantValue[]>>({});
   const [variantForms, setVariantForms] = useState<IVariantForm[]>([]);
-  const [variantNames, setVariantNames] = useState<string[]>([]);
   const nav = useNavigate();
 
-  // Load product, categories, variantNames/Values
+  // Load data
   useEffect(() => {
     axios.get<ICategory[]>("http://localhost:4000/category")
       .then(res => setCategories(res.data))
       .catch(() => message.error("Lỗi tải danh mục"));
 
-    axios.get<IVariantValue[]>("http://localhost:4000/variants")
+    axios.get<any[]>("http://localhost:4000/variants")
       .then(res => {
-        if (res.data[0]) {
-          // Giả sử db trả: { id, ram: [..], color: [..] }
-          const v = res.data[0] as any;
-          setVariantNames(["ram", "color"]);
-          setVariantValues({ ram: v.ram.map((r: string, i: number) => ({ value:r, key:i })), color: v.color.map((c: string, i: number) => ({ value:c, key:i })) });
-        }
+        const v = res.data[0];
+        setVariantValues({
+          ram: v.ram.map((r: string, i: number) => ({ value: r, key: i })),
+          color: v.color.map((c: string, i: number) => ({ value: c, key: i }))
+        });
       })
       .catch(() => message.error("Lỗi tải biến thể"));
 
-    // Fetch product
     axios.get<IProduct>(`http://localhost:4000/products/${id}`)
       .then(res => {
         const p = res.data;
         reset(p);
-        setAlbumFields(p.album && p.album.length>0 ? p.album : [""]);
+        setAlbumFields(p.album?.length ? p.album : [""]);
         setVariantForms(p.variants || []);
       })
       .catch(() => message.error("Lỗi tải sản phẩm"));
   }, [id, reset]);
 
-  // Album handlers
-  const handleAlbumChange = (i: number, v: string) => {
-    const a = [...albumFields]; a[i]=v; setAlbumFields(a);
-  };
-  const addAlbumField = () => setAlbumFields([...albumFields,""]);
-  const removeAlbumField = (i: number) => setAlbumFields(albumFields.filter((_,idx)=>idx!==i));
+  // ✅ Tính tổng số lượng từ biến thể
+  useEffect(() => {
+    const total = variantForms.reduce((sum, v) => sum + (v.quantity || 0), 0);
+    setValue("quantity", total);
+  }, [variantForms, setValue]);
 
-  // Variant handlers
-  const addVariant = () => setVariantForms([...variantForms, { ram:"", color:"", quantity:1, price:1 }]);
-  const updateVariant = (i: number, field: keyof IVariantForm, val: any) => {
-    const v = [...variantForms]; (v[i] as any)[field] = val; setVariantForms(v);
+  // Album
+  const handleAlbumChange = (i: number, v: string) => {
+    const updated = [...albumFields];
+    updated[i] = v;
+    setAlbumFields(updated);
   };
-  const removeVariant = (i: number) => setVariantForms(variantForms.filter((_,idx)=>idx!==i));
+  const addAlbumField = () => setAlbumFields([...albumFields, ""]);
+  const removeAlbumField = (i: number) =>
+    setAlbumFields(albumFields.filter((_, idx) => idx !== i));
+
+  // Variants
+  const addVariant = () =>
+    setVariantForms([...variantForms, { ram: "", color: "", quantity: 1, price: 1 }]);
+  const updateVariant = <K extends keyof IVariantForm>(
+  i: number,
+  field: K,
+  val: IVariantForm[K]
+) => {
+  const updated = [...variantForms];
+  updated[i] = { ...updated[i], [field]: val };
+  setVariantForms(updated);
+};
+
+  const removeVariant = (i: number) =>
+    setVariantForms(variantForms.filter((_, idx) => idx !== i));
 
   // Submit
   const onSubmit = async (data: IProduct) => {
-    // Gán album
-    data.album = albumFields.filter(u=>u.trim()!=="");
-    // Xác định variants hợp lệ
-    const valids = variantForms.filter(v=>v.ram&&v.color&&v.quantity>0&&v.price>0);
-    data.type = valids.length ? "variable" : "simple";
-    data.parent = 0; data.score = 0;
+    data.album = albumFields.filter(u => u.trim() !== "");
+    const validVariants = variantForms.filter(v =>
+      v.ram && v.color && v.quantity > 0 && v.price > 0
+    );
+    data.type = validVariants.length ? "variable" : "simple";
+    data.parent = 0;
+    data.score = 0;
 
-    // Payload một PUT duy nhất
     const payload = {
       ...data,
-      variants: valids.map(v=>({
-        id: v.id,
-        ram: v.ram,
-        color: v.color,
-        quantity: v.quantity,
-        price: v.price
-      }))
+      variants: validVariants
     };
 
     try {
       await axios.put(`http://localhost:4000/products/${id}`, payload);
       message.success("Cập nhật sản phẩm thành công");
       nav("/admin/phone/list");
-    } catch(err:any) {
-      message.error("Cập nhật thất bại: "+err.message);
+    } catch (err: any) {
+      message.error("Cập nhật thất bại: " + err.message);
     }
   };
 
@@ -136,62 +146,94 @@ const PutEditProduct = () => {
         {/* Tên */}
         <div>
           <label className="block mb-1">Tên sản phẩm</label>
-          <input {...register("name",{required:true,minLength:5})}
-                 className="w-full border px-3 py-2 rounded"/>
+          <input
+            {...register("name", { required: true, minLength: 5 })}
+            className="w-full border px-3 py-2 rounded"
+          />
           {errors.name && <p className="text-red-500">Phải ít nhất 5 ký tự</p>}
         </div>
         {/* Ảnh */}
         <div>
           <label className="block mb-1">Ảnh đại diện</label>
-          <input {...register("image",{required:true})}
-                 className="w-full border px-3 py-2 rounded"/>
-          {watch("image")&&<img src={watch("image")} alt="" className="mt-2 w-32 h-32 object-cover"/>}
+          <input
+            {...register("image", { required: true })}
+            className="w-full border px-3 py-2 rounded"
+          />
+          {watch("image") && (
+            <img src={watch("image")} alt="" className="mt-2 w-32 h-32 object-cover" />
+          )}
         </div>
         {/* Album */}
         <div>
           <label className="block mb-1">Album ảnh</label>
-          {albumFields.map((u,i)=>(
+          {albumFields.map((u, i) => (
             <div key={i} className="flex gap-2 mb-2">
-              <input value={u} onChange={e=>handleAlbumChange(i,e.target.value)}
-                     className="flex-1 border px-2 py-1 rounded"/>
-              <button type="button" onClick={()=>removeAlbumField(i)} className="text-red-500">✕</button>
+              <input
+                value={u}
+                onChange={e => handleAlbumChange(i, e.target.value)}
+                className="flex-1 border px-2 py-1 rounded"
+              />
+              <button type="button" onClick={() => removeAlbumField(i)} className="text-red-500">
+                ✕
+              </button>
             </div>
           ))}
-          <button type="button" onClick={addAlbumField} className="text-blue-600">+ Thêm ảnh</button>
+          <button type="button" onClick={addAlbumField} className="text-blue-600">
+            + Thêm ảnh
+          </button>
         </div>
-        {/* Giá & SL */}
+        {/* Giá & Số lượng */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label>Giá (VND)</label>
-            <input type="number" {...register("price",{required:true,min:1,valueAsNumber:true})}
-                   className="w-full border px-3 py-2 rounded"/>
+            <input
+              type="number"
+              {...register("price", { required: true, min: 1, valueAsNumber: true })}
+              className="w-full border px-3 py-2 rounded"
+            />
           </div>
           <div>
-            <label>Số lượng</label>
-            <input type="number" {...register("quantity",{required:true,min:1,valueAsNumber:true})}
-                   className="w-full border px-3 py-2 rounded"/>
+            <label>Số lượng (tự tính từ biến thể)</label>
+            <input
+              type="number"
+              {...register("quantity", { required: true })}
+              className="w-full border px-3 py-2 rounded bg-gray-100"
+              readOnly
+              disabled
+            />
           </div>
         </div>
         {/* Mô tả */}
         <div>
           <label className="block mb-1">Mô tả</label>
-          <textarea {...register("description",{required:true})}
-                    className="w-full border px-3 py-2 rounded" rows={4}/>
+          <textarea
+            {...register("description", { required: true })}
+            className="w-full border px-3 py-2 rounded"
+            rows={4}
+          />
         </div>
-        {/* Category & Status */}
+        {/* Danh mục & Trạng thái */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label>Danh mục</label>
-            <select {...register("category",{required:true,valueAsNumber:true})}
-                    className="w-full border px-3 py-2 rounded">
+            <select
+              {...register("category", { required: true, valueAsNumber: true })}
+              className="w-full border px-3 py-2 rounded"
+            >
               <option value="">--Chọn--</option>
-              {categories.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}
+              {categories.map(c => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
             </select>
           </div>
           <div>
             <label>Trạng thái</label>
-            <select {...register("status",{required:true})}
-                    className="w-full border px-3 py-2 rounded">
+            <select
+              {...register("status", { required: true })}
+              className="w-full border px-3 py-2 rounded"
+            >
               <option value="">--Chọn--</option>
               <option value="Còn hàng">Còn hàng</option>
               <option value="Hết hàng">Hết hàng</option>
@@ -202,44 +244,62 @@ const PutEditProduct = () => {
         <div>
           <div className="flex justify-between items-center mb-2">
             <label className="font-medium">Biến thể (RAM & Color)</label>
-            <button type="button" onClick={addVariant}
-                    className="px-3 py-1 bg-blue-600 text-white rounded">
+            <button
+              type="button"
+              onClick={addVariant}
+              className="px-3 py-1 bg-blue-600 text-white rounded"
+            >
               + Thêm biến thể
             </button>
           </div>
-          {variantForms.map((v,i)=>(
-            <div key={i}
-              className="grid grid-cols-1 md:grid-cols-5 gap-3 p-3 mb-3 border rounded bg-gray-50">
-              {/* RAM */}
-              <Select placeholder="Chọn RAM" value={v.ram||undefined}
-                      onChange={val=>updateVariant(i,"ram",val)}>
-                {variantValues.ram?.map(opt=>
-                  <Select.Option key={opt.key} value={opt.value}>{opt.value}</Select.Option>
-                )}
+          {variantForms.map((v, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-1 md:grid-cols-5 gap-3 p-3 mb-3 border rounded bg-gray-50"
+            >
+              <Select
+                placeholder="Chọn RAM"
+                value={v.ram || undefined}
+                onChange={val => updateVariant(i, "ram", val)}
+              >
+                {variantValues.ram?.map(opt => (
+                  <Select.Option key={opt.key} value={opt.value}>
+                    {opt.value}
+                  </Select.Option>
+                ))}
               </Select>
-              {/* Color */}
-              <Select placeholder="Chọn Color" value={v.color||undefined}
-                      onChange={val=>updateVariant(i,"color",val)}>
-                {variantValues.color?.map(opt=>
-                  <Select.Option key={opt.key} value={opt.value}>{opt.value}</Select.Option>
-                )}
+              <Select
+                placeholder="Chọn Color"
+                value={v.color || undefined}
+                onChange={val => updateVariant(i, "color", val)}
+              >
+                {variantValues.color?.map(opt => (
+                  <Select.Option key={opt.key} value={opt.value}>
+                    {opt.value}
+                  </Select.Option>
+                ))}
               </Select>
-              {/* Quantity */}
-              <InputNumber min={1} value={v.quantity}
-                           onChange={val=>updateVariant(i,"quantity",val||1)}
-                           className="w-full" placeholder="Số lượng"/>
-              {/* Price */}
-              <InputNumber min={1} value={v.price}
-                           onChange={val=>updateVariant(i,"price",val||1)}
-                           className="w-full" placeholder="Giá"/>
-              {/* Remove */}
-              <Button danger onClick={()=>removeVariant(i)}>Xóa</Button>
+              <InputNumber
+                min={1}
+                value={v.quantity}
+                onChange={val => updateVariant(i, "quantity", val || 1)}
+                className="w-full"
+                placeholder="Số lượng"
+              />
+              <InputNumber
+                min={1}
+                value={v.price}
+                onChange={val => updateVariant(i, "price", val || 1)}
+                className="w-full"
+                placeholder="Giá"
+              />
+              <Button danger onClick={() => removeVariant(i)}>
+                Xóa
+              </Button>
             </div>
           ))}
         </div>
-        {/* Submit */}
-        <button type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded mt-4">
+        <button type="submit" className="w-full bg-green-600 text-white py-2 rounded mt-4">
           Cập nhật sản phẩm
         </button>
       </form>
