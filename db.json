@@ -357,31 +357,6 @@
           "quantity": 1
         }
       ]
-    },
-    {
-      "id": 18,
-      "score": 0,
-      "parent": 0,
-      "type": "variable",
-      "album": [
-        "https://picsum.photos/200"
-      ],
-      "price": 1,
-      "quantity": 1,
-      "name": "Híu đây hẹ hẹ",
-      "image": "https://picsum.photos/200",
-      "description": "áertyuio",
-      "category": 3,
-      "status": "Hết hàng",
-      "variants": [
-        {
-          "id": 1,
-          "ram": "64BB",
-          "color": "Blue",
-          "price": 1,
-          "quantity": 1
-        }
-      ]
     }
   ],
   "variants": [
