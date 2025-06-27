@@ -8,17 +8,25 @@ interface ICategory {
   id: number;
   name: string;
 }
-
 interface IVariantValue {
   value: string;
   key: number;
 }
 
 interface IVariantForm {
+  id?: number;
   ram: string;
   color: string;
   quantity: number;
   price: number;
+}
+
+interface IVariantError {
+  ram?: string;
+  color?: string;
+  quantity?: string;
+  price?: string;
+  duplicate?: string;
 }
 
 interface IProduct {
@@ -45,6 +53,7 @@ const PutEditProduct = () => {
     formState: { errors },
     watch,
     reset,
+    setValue,
   } = useForm<IProduct>({
     defaultValues: {
       score: 0,
@@ -52,19 +61,20 @@ const PutEditProduct = () => {
       type: "simple",
       album: [],
       price: 1,
-      quantity: 1,
+      quantity: 0,
     },
   });
+
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [albumFields, setAlbumFields] = useState<string[]>([""]);
   const [variantValues, setVariantValues] = useState<
     Record<string, IVariantValue[]>
   >({});
   const [variantForms, setVariantForms] = useState<IVariantForm[]>([]);
-  const [variantNames, setVariantNames] = useState<string[]>([]);
+  const [variantErrors, setVariantErrors] = useState<IVariantError[]>([]);
   const nav = useNavigate();
 
-  // Load product, categories, variantNames/Values
+  // Load data
   useEffect(() => {
     axios
       .get<ICategory[]>("http://localhost:4000/category")
@@ -72,40 +82,88 @@ const PutEditProduct = () => {
       .catch(() => message.error("Lỗi tải danh mục"));
 
     axios
-      .get<IVariantValue[]>("http://localhost:4000/variants")
+      .get<any[]>("http://localhost:4000/variants")
       .then((res) => {
-        if (res.data[0]) {
-          // Giả sử db trả: { id, ram: [..], color: [..] }
-          const v = res.data[0] as any;
-          setVariantNames(["ram", "color"]);
-          setVariantValues({
-            ram: v.ram.map((r: string, i: number) => ({ value: r, key: i })),
-            color: v.color.map((c: string, i: number) => ({
-              value: c,
-              key: i,
-            })),
-          });
-        }
+        const v = res.data[0];
+        setVariantValues({
+          ram: v.ram.map((r: string, i: number) => ({ value: r, key: i })),
+          color: v.color.map((c: string, i: number) => ({ value: c, key: i })),
+        });
       })
       .catch(() => message.error("Lỗi tải biến thể"));
 
-    // Fetch product
     axios
       .get<IProduct>(`http://localhost:4000/products/${id}`)
       .then((res) => {
         const p = res.data;
         reset(p);
-        setAlbumFields(p.album && p.album.length > 0 ? p.album : [""]);
+        setAlbumFields(p.album?.length ? p.album : [""]);
         setVariantForms(p.variants || []);
       })
       .catch(() => message.error("Lỗi tải sản phẩm"));
   }, [id, reset]);
 
+  // Calculate total quantity from variants
+  useEffect(() => {
+    const total = variantForms.reduce((sum, v) => sum + (v.quantity || 0), 0);
+    setValue("quantity", total);
+  }, [variantForms, setValue]);
+
+  // Validate variants
+  const validateVariants = (variants: IVariantForm[]): IVariantError[] => {
+    const errors: IVariantError[] = variants.map((variant, index) => {
+      const error: IVariantError = {};
+      // Validate RAM
+      if (!variant.ram) {
+        error.ram = "Vui lòng chọn RAM";
+      } else if (
+        variantValues.ram &&
+        !variantValues.ram.some(opt => opt.value === variant.ram)
+      ) {
+        error.ram = "RAM không hợp lệ";
+      }
+      // Validate Color
+      if (!variant.color) {
+        error.color = "Vui lòng chọn màu";
+      } else if (
+        variantValues.color &&
+        !variantValues.color.some(opt => opt.value === variant.color)
+      ) {
+        error.color = "Màu không hợp lệ";
+      }
+      // Validate Quantity
+      if (!variant.quantity || variant.quantity <= 0) {
+        error.quantity = "Số lượng phải lớn hơn 0";
+      }
+      // Validate Price
+      if (!variant.price || variant.price <= 0) {
+        error.price = "Giá phải lớn hơn 0";
+      }
+      // Check for duplicate RAM + Color combination
+      const isDuplicate = variants.some(
+        (v, i) =>
+          i !== index &&
+          v.ram === variant.ram &&
+          v.color === variant.color
+      );
+      if (isDuplicate) {
+        error.duplicate = "Biến thể này đã tồn tại";
+      }
+      return error;
+    });
+    return errors;
+  };
+
+  // Update variant errors
+  useEffect(() => {
+    setVariantErrors(validateVariants(variantForms));
+  }, [variantForms, variantValues]);
+
   // Album handlers
   const handleAlbumChange = (i: number, v: string) => {
-    const a = [...albumFields];
-    a[i] = v;
-    setAlbumFields(a);
+    const updated = [...albumFields];
+    updated[i] = v;
+    setAlbumFields(updated);
   };
   const addAlbumField = () => setAlbumFields([...albumFields, ""]);
   const removeAlbumField = (i: number) =>
@@ -113,39 +171,43 @@ const PutEditProduct = () => {
 
   // Variant handlers
   const addVariant = () =>
-    setVariantForms([
-      ...variantForms,
-      { ram: "", color: "", quantity: 1, price: 1 },
-    ]);
-  const updateVariant = (i: number, field: keyof IVariantForm, val: any) => {
-    const v = [...variantForms];
-    (v[i] as any)[field] = val;
-    setVariantForms(v);
+    setVariantForms([...variantForms, { ram: "", color: "", quantity: 1, price: 1 }]);
+  const updateVariant = <K extends keyof IVariantForm>(
+    i: number,
+    field: K,
+    val: IVariantForm[K]
+  ) => {
+    const updated = [...variantForms];
+    updated[i] = { ...updated[i], [field]: val };
+    setVariantForms(updated);
   };
   const removeVariant = (i: number) =>
     setVariantForms(variantForms.filter((_, idx) => idx !== i));
 
   // Submit
   const onSubmit = async (data: IProduct) => {
-    // Gán album
+    const currentErrors = validateVariants(variantForms);
+    setVariantErrors(currentErrors);
+
+    const hasErrors = currentErrors.some((error) =>
+      Object.keys(error).length > 0
+    );
+    if (hasErrors) {
+      message.error("Vui lòng kiểm tra lại các biến thể");
+      return;
+    }
+
     data.album = albumFields.filter((u) => u.trim() !== "");
-    // Xác định variants hợp lệ
-    const valids = variantForms.filter(
+    const validVariants = variantForms.filter(
       (v) => v.ram && v.color && v.quantity > 0 && v.price > 0
     );
-    data.type = valids.length ? "variable" : "simple";
+    data.type = validVariants.length ? "variable" : "simple";
     data.parent = 0;
     data.score = 0;
 
-    // Payload một PUT duy nhất
     const payload = {
       ...data,
-      variants: valids.map((v) => ({
-        ram: v.ram,
-        color: v.color,
-        quantity: v.quantity,
-        price: v.price,
-      })),
+      variants: validVariants,
     };
 
     try {
@@ -161,15 +223,15 @@ const PutEditProduct = () => {
     <div className="max-w-2xl mx-auto p-8 bg-white shadow rounded mt-10">
       <h2 className="text-2xl font-bold mb-6 text-center">Sửa sản phẩm</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Tên */}
+        {/* Name */}
         <div>
           <label className="block mb-1">Tên sản phẩm</label>
           <input
             {...register("name", {
-              required: "Tên sản phẩm là bắt buộc",
+              required: "Tên không được để trống",
               minLength: {
                 value: 5,
-                message: "Tên sản phẩm phải có ít nhất 5 ký tự",
+                message: "Tên sản phẩm phải lớn hơn 5 ký tự",
               },
               maxLength: {
                 value: 100,
@@ -181,13 +243,11 @@ const PutEditProduct = () => {
           {errors.name && <p className="text-red-500">{errors.name.message}</p>}
         </div>
 
-        {/* Ảnh */}
+        {/* Image */}
         <div>
           <label className="block mb-1">Ảnh đại diện</label>
           <input
-            {...register("image", {
-              required: "Ảnh đại diện là bắt buộc",
-            })}
+            {...register("image", { required: "Vui lòng chọn ảnh đại diện" })}
             className="w-full border px-3 py-2 rounded"
           />
           {errors.image && (
@@ -196,21 +256,23 @@ const PutEditProduct = () => {
           {watch("image") && (
             <img
               src={watch("image")}
-              alt="Preview"
+              alt=""
               className="mt-2 w-32 h-32 object-cover"
             />
           )}
         </div>
 
-        {/* Album ảnh */}
+        {/* Album */}
         <div>
-          <label className="block mb-1 font-medium">Album ảnh</label>
+          <label className="block mb-1">Album ảnh</label>
 
+          {/* Các input nhập URL ảnh */}
           <div className="space-y-3">
-            {albumFields.map((url, index) => (
+            {albumFields.map((field, index) => (
               <div key={index} className="flex gap-2 items-center">
                 <input
-                  value={url}
+                  type="text"
+                  value={field}
                   onChange={(e) => handleAlbumChange(index, e.target.value)}
                   className="flex-1 border px-3 py-2 rounded"
                   placeholder={`Ảnh ${index + 1}`}
@@ -219,7 +281,6 @@ const PutEditProduct = () => {
                   type="button"
                   onClick={() => removeAlbumField(index)}
                   className="text-red-600 text-xl font-bold"
-                  title="Xoá ảnh"
                 >
                   ✕
                 </button>
@@ -230,13 +291,13 @@ const PutEditProduct = () => {
           {/* Nút thêm ảnh */}
           <button
             type="button"
-            onClick={() => addAlbumField("")}
+            onClick={addAlbumField}
             className="mt-3 text-blue-600 text-sm hover:underline"
           >
             + Thêm ảnh
           </button>
 
-          {/* Hiển thị ảnh preview  */}
+          {/* Ảnh preview – hiển thị nằm ngang bên dưới */}
           {albumFields.some((url) => url.trim()) && (
             <div className="mt-4 flex flex-wrap gap-4">
               {albumFields.map(
@@ -246,25 +307,25 @@ const PutEditProduct = () => {
                       key={index}
                       src={url}
                       alt={`Preview ${index}`}
-                      className="w-28 h-28 object-cover rounded border"
+                      className="w-24 h-24 object-cover rounded border"
                     />
                   )
               )}
             </div>
           )}
         </div>
-
-        {/* Giá & SL */}
+        {/* Giá & Số lượng */}
         <div className="grid grid-cols-2 gap-4">
+          {/* Price */}
           <div>
-            <label>Giá (VND)</label>
+            <label className="block mb-1">Giá (VND)</label>
             <input
               type="number"
               {...register("price", {
-                required: "Giá là bắt buộc",
+                required: "Vui lòng nhập giá",
                 min: {
-                  value: 1000,
-                  message: "Giá phải lớn hơn hoặc bằng 1,000 VND",
+                  value: 1,
+                  message: "Giá phải lớn hơn 0",
                 },
                 valueAsNumber: true,
               })}
@@ -275,22 +336,14 @@ const PutEditProduct = () => {
             )}
           </div>
           <div>
-            <label>Số lượng</label>
+            <label>Số lượng (tự tính từ biến thể)</label>
             <input
               type="number"
-              {...register("quantity", {
-                required: "Số lượng là bắt buộc",
-                min: {
-                  value: 1,
-                  message: "Số lượng phải lớn hơn hoặc bằng 1",
-                },
-                valueAsNumber: true,
-              })}
-              className="w-full border px-3 py-2 rounded"
+              {...register("quantity", { required: true })}
+              className="w-full border px-3 py-2 rounded bg-gray-100"
+              readOnly
+              disabled
             />
-            {errors.quantity && (
-              <p className="text-red-500">{errors.quantity.message}</p>
-            )}
           </div>
         </div>
 
@@ -298,37 +351,23 @@ const PutEditProduct = () => {
         <div>
           <label className="block mb-1">Mô tả</label>
           <textarea
-            {...register("description", {
-              required: "Mô tả là bắt buộc",
-              minLength: {
-                value: 10,
-                message: "Mô tả phải có ít nhất 10 ký tự",
-              },
-              maxLength: {
-                value: 500,
-                message: "Mô tả không được vượt quá 500 ký tự",
-              },
-            })}
+            {...register("description", { required: "Vui lòng nhập mô tả" })}
             className="w-full border px-3 py-2 rounded"
             rows={4}
           />
-          {errors.description && (
-            <p className="text-red-500">{errors.description.message}</p>
-          )}
+                      {errors.description && (
+              <p className="text-red-500">{errors.description.message}</p>
+            )}
         </div>
-
-        {/* Category & Status */}
+        {/* Danh mục & Trạng thái */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label>Danh mục</label>
             <select
-              {...register("category", {
-                required: "Vui lòng chọn danh mục",
-                valueAsNumber: true,
-              })}
+              {...register("category", { required: "Vui lòng chọn danh mục", valueAsNumber: true })}
               className="w-full border px-3 py-2 rounded"
             >
-              <option value="">--Chọn danh mục--</option>
+              <option value="">--Chọn--</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
@@ -342,12 +381,10 @@ const PutEditProduct = () => {
           <div>
             <label>Trạng thái</label>
             <select
-              {...register("status", {
-                required: "Vui lòng chọn trạng thái",
-              })}
+              {...register("status", { required: "Vui lòng chọn trạng thái" })}
               className="w-full border px-3 py-2 rounded"
             >
-              <option value="">--Chọn trạng thái--</option>
+              <option value="">--Chọn--</option>
               <option value="Còn hàng">Còn hàng</option>
               <option value="Hết hàng">Hết hàng</option>
             </select>
@@ -356,7 +393,7 @@ const PutEditProduct = () => {
             )}
           </div>
         </div>
-        {/* Biến thể */}
+         {/* Variants */}
         <div>
           <div className="flex justify-between items-center mb-2">
             <label className="font-medium">Biến thể (RAM & Color)</label>
@@ -373,54 +410,74 @@ const PutEditProduct = () => {
               key={i}
               className="grid grid-cols-1 md:grid-cols-5 gap-3 p-3 mb-3 border rounded bg-gray-50"
             >
-              {/* RAM */}
-              <Select
-                placeholder="Chọn RAM"
-                value={v.ram || undefined}
-                onChange={(val) => updateVariant(i, "ram", val)}
-              >
-                {variantValues.ram?.map((opt) => (
-                  <Select.Option key={opt.key} value={opt.value}>
-                    {opt.value}
-                  </Select.Option>
-                ))}
-              </Select>
-              {/* Color */}
-              <Select
-                placeholder="Chọn Color"
-                value={v.color || undefined}
-                onChange={(val) => updateVariant(i, "color", val)}
-              >
-                {variantValues.color?.map((opt) => (
-                  <Select.Option key={opt.key} value={opt.value}>
-                    {opt.value}
-                  </Select.Option>
-                ))}
-              </Select>
-              {/* Quantity */}
-              <InputNumber
-                min={1}
-                value={v.quantity}
-                onChange={(val) => updateVariant(i, "quantity", val || 1)}
-                className="w-full"
-                placeholder="Số lượng"
-              />
-              {/* Price */}
-              <InputNumber
-                min={1}
-                value={v.price}
-                onChange={(val) => updateVariant(i, "price", val || 1)}
-                className="w-full"
-                placeholder="Giá"
-              />
-              {/* Remove */}
-              <Button danger onClick={() => removeVariant(i)}>
-                Xóa
-              </Button>
+              <div>
+                <Select
+                  placeholder="Chọn RAM"
+                  value={v.ram || undefined}
+                  onChange={(val) => updateVariant(i, "ram", val)}
+                >
+                  {variantValues.ram?.map((opt) => (
+                    <Select.Option key={opt.key} value={opt.value}>
+                      {opt.value}
+                    </Select.Option>
+                  ))}
+                </Select>
+                {variantErrors[i]?.ram && (
+                  <p className="text-red-500 text-sm">{variantErrors[i].ram}</p>
+                )}
+              </div>
+              <div>
+                <Select
+                  placeholder="Chọn Color"
+                  value={v.color || undefined}
+                  onChange={(val) => updateVariant(i, "color", val)}
+                >
+                  {variantValues.color?.map((opt) => (
+                    <Select.Option key={opt.key} value={opt.value}>
+                      {opt.value}
+                    </Select.Option>
+                  ))}
+                </Select>
+                {variantErrors[i]?.color && (
+                  <p className="text-red-500 text-sm">{variantErrors[i].color}</p>
+                )}
+              </div>
+              <div>
+                <InputNumber
+                  min={1}
+                  value={v.quantity}
+                  onChange={(val) => updateVariant(i, "quantity", val || 1)}
+                  className="w-full"
+                  placeholder="Số lượng"
+                />
+                {variantErrors[i]?.quantity && (
+                  <p className="text-red-500 text-sm">{variantErrors[i].quantity}</p>
+                )}
+              </div>
+              <div>
+                <InputNumber
+                  min={1}
+                  value={v.price}
+                  onChange={(val) => updateVariant(i, "price", val || 1)}
+                  className="w-full"
+                  placeholder="Giá"
+                />
+                {variantErrors[i]?.price && (
+                  <p className="text-red-500 text-sm">{variantErrors[i].price}</p>
+                )}
+              </div>
+              <div className="flex flex-col items-center">
+                <Button danger onClick={() => removeVariant(i)}>
+                  Xóa
+                </Button>
+                {variantErrors[i]?.duplicate && (
+                  <p className="text-red-500 text-sm mt-2">{variantErrors[i].duplicate}</p>
+                )}
+              </div>
             </div>
           ))}
         </div>
-        {/* Submit */}
+
         <button
           type="submit"
           className="w-full bg-green-600 text-white py-2 rounded mt-4"

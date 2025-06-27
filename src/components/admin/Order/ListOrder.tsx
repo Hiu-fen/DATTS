@@ -1,3 +1,4 @@
+// src/components/admin/OrderList.tsx
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -170,10 +171,12 @@ const OrderList = () => {
     returnMutation.mutate({ id, returnStatus });
   };
 
-  const filteredOrders = orders?.filter((o) => {
-    const text = `${o.orderCode} ${o.customerName} ${o.phone} ${o.total}`.toLowerCase();
-    return text.includes(searchText.toLowerCase());
-  });
+  const filteredOrders = orders
+    ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .filter((o) => {
+      const text = `${o.orderCode} ${o.customerName} ${o.phone} ${o.total}`.toLowerCase();
+      return text.includes(searchText.toLowerCase());
+    });
 
   const columns = [
     {
