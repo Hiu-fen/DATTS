@@ -80,6 +80,15 @@ const AdminSidebar = () => {
       ],
       },
       {
+      key: 'news-manage',
+      label: 'Tin tức',
+      icon: <ReadOutlined />,
+      children: [
+        { key: 'news-list', label: 'Danh sách' },
+        { key: 'news-add', label: 'Thêm mới' },
+      ],
+    },
+      {
       key: 'banner-manage',
       label: 'Quản lý banner',
       icon: <ReadOutlined />,
@@ -115,6 +124,8 @@ const AdminSidebar = () => {
       'variant-custom-add': '/admin/variant/custom-add',
       'comment-list': '/admin/comment/list',
       'comment-add': '/admin/comment/add',
+      'news-list': '/admin/news/list',
+      'news-add': '/admin/news/add',
       'contact-list': '/admin/contacts',
       'contact-add': '/admin/contacts/add',
       'orders': '/admin/orders',
