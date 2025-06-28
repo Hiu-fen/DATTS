@@ -184,7 +184,7 @@
       "name": "Test Xphone",
       "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
       "description": "test ",
-      "category": 1,
+      "category": 2,
       "status": "Còn hàng",
       "variants": [
         {
@@ -272,10 +272,27 @@
           "quantity": 1
         }
       ]
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "items": [
+        {
+          "productId": {
+            "id": 6,
+            "name": "Test Xphone",
+            "price": 123456,
+            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "test ",
+            "ram": "1T",
+            "color": "Blue"
+          },
+          "quantity": 1
+        }
+      ]
     }
   ],
   "orders": [
-    
     {
       "id": 1,
       "userId": 10,
