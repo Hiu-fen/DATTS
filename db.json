@@ -253,7 +253,14 @@
       "id": 6
     }
   ],
-  "contacts": [],
+  "contacts": [
+    {
+      "id": 1,
+      "userId": "213",
+      "mota": "cákclsa",
+      "date": "2025-06-29T14:28:55.461Z"
+    }
+  ],
   "carts": [
     {
       "id": 1,
