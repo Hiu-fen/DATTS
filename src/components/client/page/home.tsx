@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 
 const Home = () => {
   const nav = useNavigate();
@@ -18,30 +19,34 @@ const Home = () => {
     queryFn: async () => (await axios.get("http://localhost:4000/category")).data,
   });
 
-  // Dữ liệu giả cho sản phẩm nổi bật
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Laptop Dell XPS 13",
-      image: "https://via.placeholder.com/300x200",
-      price: 25000000,
-      description: "Mẫu laptop mỏng nhẹ với hiệu năng mạnh mẽ, thích hợp cho công việc và học tập.",
-    },
-    {
-      id: 2,
-      name: "MacBook Pro 14\"",
-      image: "https://via.placeholder.com/300x200",
-      price: 45000000,
-      description: "Laptop hiệu suất cao, thiết kế tinh tế, phù hợp cho sáng tạo và công việc chuyên nghiệp.",
-    },
-    {
-      id: 3,
-      name: "Laptop ASUS ROG Zephyrus G14",
-      image: "https://via.placeholder.com/300x200",
-      price: 30000000,
-      description: "Laptop gaming với hiệu năng vượt trội, thích hợp cho những game thủ chuyên nghiệp.",
-    },
-  ];
+   // Lấy tất cả đơn hàng
+  const { data: orders } = useQuery({
+    queryKey: ["orders"],
+    queryFn: async () => (await axios.get("http://localhost:4000/orders")).data,
+  });
+
+  // Tính sản phẩm bán chạy nhất
+  const bestSellingProducts = useMemo(() => {
+    if (!orders || !products) return [];
+
+    const productSales: Record<number, number> = {};
+
+    orders.forEach((order: any) => {
+      order.items.forEach((item: any) => {
+        const id = item.productId;
+        productSales[id] = (productSales[id] || 0) + item.soluong;
+      });
+    });
+
+    const top3Ids = Object.entries(productSales)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([id]) => Number(id));
+
+    return products.filter((p: any) => top3Ids.includes(p.id));
+  }, [orders, products]);
+
+  
 
   // Hàm điều hướng tới trang chi tiết sản phẩm
   const goToProductDetail = (productId: number) => {
@@ -64,16 +69,15 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Sản phẩm nổi bật */}
+      {/* Top 3 sản phẩm bán chạy */}
       <div className="max-w-7xl mx-auto py-16 px-6">
-        <h2 className="text-3xl font-semibold text-center mb-8">Sản Phẩm Nổi Bật</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
-          {featuredProducts.map((product) => (
-            <div key={product.id} className="bg-white shadow-lg rounded-lg p-6 text-center transform hover:scale-105 transition-all duration-300">
+        <h2 className="text-3xl font-semibold text-center mb-8">Top 3 Sản Phẩm Bán Chạy</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          {bestSellingProducts.map((product: any) => (
+            <div key={product.id} className="bg-white shadow-md rounded-lg p-6 text-center hover:scale-105 transition">
               <img src={product.image} alt={product.name} className="w-full h-40 object-cover rounded-md" />
               <h3 className="mt-4 text-xl font-semibold">{product.name}</h3>
               <p className="text-gray-500">{product.price.toLocaleString()} VND</p>
-              <p className="text-gray-400">{product.description}</p>
               <Button className="mt-4" type="primary" onClick={() => goToProductDetail(product.id)}>
                 Xem Chi Tiết
               </Button>
