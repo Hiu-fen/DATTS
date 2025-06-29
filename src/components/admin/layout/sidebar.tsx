@@ -45,8 +45,7 @@ const AdminSidebar = () => {
       icon: <ReadOutlined />,
       children: [
         { key: 'variant-list', label: 'Danh sách biến thể' },
-        { key: 'variant-add', label: 'Thêm giá trị' },
-        { key: 'variant-custom-add', label: 'Thêm tên biến thể' },
+        
       ],
     },
     {
@@ -80,6 +79,15 @@ const AdminSidebar = () => {
         { key: 'contact-add', label: 'Thêm liên hệ' },
       ],
       },
+      {
+      key: 'news-manage',
+      label: 'Tin tức',
+      icon: <ReadOutlined />,
+      children: [
+        { key: 'news-list', label: 'Danh sách' },
+        { key: 'news-add', label: 'Thêm mới' },
+      ],
+    },
       {
       key: 'banner-manage',
       label: 'Quản lý banner',
@@ -116,6 +124,8 @@ const AdminSidebar = () => {
       'variant-custom-add': '/admin/variant/custom-add',
       'comment-list': '/admin/comment/list',
       'comment-add': '/admin/comment/add',
+      'news-list': '/admin/news/list',
+      'news-add': '/admin/news/add',
       'contact-list': '/admin/contacts',
       'contact-add': '/admin/contacts/add',
       'orders': '/admin/orders',

@@ -7,14 +7,14 @@ const ClientHeader = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user'); // nếu có lưu user
-    navigate('/client/login');
+    navigate('/login');
   };
 
   return (
     <header className="bg-gray-800 text-white">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
         <div className="text-2xl font-semibold">LOGO</div>
-        
+
         {/* Tìm kiếm ở giữa */}
         <div className="flex justify-center w-full md:w-[300px]">
           <form className="relative w-full">
@@ -25,7 +25,7 @@ const ClientHeader = () => {
             />
             <button className="absolute top-2 right-2 text-gray-600">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 512 512">
-                <path d="M352 224c0 70.7-57.3 128-128 128-39.7 0-75.3-17.8-100.2-46.3l-141.5 141.5c-9.4 9.4-24.6 9.4-34.1 0-9.4-9.4-9.4-24.6 0-34.1l141.5-141.5c-28.5-38.7-46.3-86.1-46.3-135.6C56 100.3 112.3 44 176 44c70.7 0 128 57.3 128 128 0 39.7-17.8 75.3-46.3 100.2l141.5 141.5c9.4 9.4 9.4 24.6 0 34.1-9.4 9.4-24.6 9.4-34.1 0l-141.5-141.5C296.7 148.3 352 185.3 352 224z"/>
+                <path d="M352 224c0 70.7-57.3 128-128 128-39.7 0-75.3-17.8-100.2-46.3l-141.5 141.5c-9.4 9.4-24.6 9.4-34.1 0-9.4-9.4-9.4-24.6 0-34.1l141.5-141.5c-28.5-38.7-46.3-86.1-46.3-135.6C56 100.3 112.3 44 176 44c70.7 0 128 57.3 128 128 0 39.7-17.8 75.3-46.3 100.2l141.5 141.5c9.4 9.4 9.4 24.6 0 34.1-9.4 9.4-24.6 9.4-34.1 0l-141.5-141.5C296.7 148.3 352 185.3 352 224z" />
               </svg>
             </button>
           </form>
@@ -86,7 +86,16 @@ const ClientHeader = () => {
                   Đăng xuất
                 </button>
               </li>
+
             )}
+            <li>
+              <Link to="/carts" className="hover:text-gray-300">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 3h2l.4 2M7 13h14l-1.35 6.45a2 2 0 01-1.97 1.55H7.42a2 2 0 01-1.98-1.75L4 6H2"></path>
+                </svg>
+              </Link>
+            </li>
+
           </ul>
         </nav>
       </div>

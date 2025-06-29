@@ -7,8 +7,8 @@ import PostAddProduct from './components/admin/Product/PostAddProduct'
 import PutEditProduct from './components/admin/Product/PutEditProduct'
 import GetProductDetail from './components/admin/Product/GetProductDetail'
 
-import Register from './components/admin/UserClient/Register'
-import Login from './components/admin/UserClient/Login'
+import Register from './components/client/UserClient/Register'
+import Login from './components/client/UserClient/Login'
 import GetListCategory from './components/admin/Category/GetListCategory'
 import PostAddCategory from './components/admin/Category/PostAddCategory'
 import PutEditCategory from './components/admin/Category/PutEditCategory'
@@ -23,7 +23,8 @@ import BannerList from './components/admin/Banner/BannerList'
 import BannerAdd from './components/admin/Banner/BannerAdd'
 import BannerEdit from './components/admin/Banner/BannerEdit'
 import BannerDetail from './components/admin/Banner/BannerDetail'
-import VariantList from './components/admin/Variant/VariantList'
+import VariantPage from './components/admin/Variant/VariantList'
+
 import VariantAdd from './components/admin/Variant/VariantAdd'
 import VariantCustomAdd from './components/admin/Variant/VariantCustomAdd'
 
@@ -38,14 +39,23 @@ import Details from './components/client/page/details'
 import NewsClient from './components/client/page/news'
 // import Contact from './components/client/page/contact'
 import ContactPage from './components/client/page/contact'
+import Cart from './components/client/page/cart'
 
 
+import NewsAdd from './components/admin/News/NewsAdd'
+import NewsEdit from './components/admin/News/NewsEdit'
+import NewsAdmin from './components/admin/News/NewsList'
 // import Books from './components/test/books'
 // import AddBook from './components/test/books'
 
 import PromotionList from './components/admin/Promotion/PromotionList'
 import PromotionAdd from './components/admin/Promotion/PromotionAdd'
 import PromotionEdit from './components/admin/Promotion/PromotionEdit'
+import NewsDetail from './components/client/page/NewsDetail'
+import Checkout from './components/client/page/checkoutCart'
+import DetailOrders from './components/client/page/orderDetailClient'
+import OrderHistory from './components/client/page/history'
+
 
 type Props = {}
 
@@ -59,7 +69,14 @@ const App = (props: Props) => {
         { path: '/product', element: <ProductPage /> },
         { path: '/product/:id', element: <Details /> },
         { path: '/news', element: <NewsClient /> },
+        { path: '/news/:id', element: <NewsDetail /> },
+
         { path: '/call', element: <ContactPage /> },
+        { path: '/carts', element: <Cart /> },
+        { path: '/checkout', element: <Checkout /> },
+        { path: '/history', element: <OrderHistory /> },
+        { path: '/detail_order/:id', element: <DetailOrders /> },
+
         
 
 
@@ -91,7 +108,7 @@ const App = (props: Props) => {
         { path: 'category/:id/edit', element: <PutEditCategory /> },
         {
           path: 'variant/list',
-          element: <VariantList />,
+          element: <VariantPage />,
         },
         {
           path: 'variant/custom-add',
@@ -114,6 +131,16 @@ const App = (props: Props) => {
         { path: 'comment/list', element: <CommentAdmin /> },
         { path: 'comment/add', element: <CommentAdd /> },
         // {path:'login',element:<Login/>},
+      
+      //Router bình luận  
+      {path:'comment/list',element:<CommentAdmin/>},
+      {path:'comment/add',element:<CommentAdd/>},
+      // {path:'login',element:<Login/>},
+
+      //Route tin tức
+      {path:'news/list',element:<NewsAdmin/>},
+      {path:'news/add',element:<NewsAdd/>},
+      {path:'news/edit/:id',element:<NewsEdit/>},
 
 
       //Router liên hệ

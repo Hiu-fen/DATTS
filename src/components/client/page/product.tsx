@@ -33,8 +33,9 @@ const ProductPage = () => {
 
   // Lọc theo danh mục
   if (selectedCategory) {
-    filtered = filtered.filter((product: IProduct) => product.category === String(selectedCategory)); // Chuyển selectedCategory thành string
-  }
+  filtered = filtered.filter((product: IProduct) => product.category === Number(selectedCategory));
+}
+
 
   // Lọc theo tên sản phẩm
   if (searchText) {
