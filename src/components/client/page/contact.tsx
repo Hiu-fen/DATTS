@@ -5,85 +5,97 @@ import axios from 'axios';
 import { message } from 'antd';
 
 const ContactPage = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<IContact>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<IContact>();
 
+  // Gửi dữ liệu tới backend
   const mutation = useMutation({
     mutationFn: async (data: IContact) => {
       const res = await axios.post('http://localhost:4000/contacts', data);
-      console.log(data);
       return res.data;
     },
     onSuccess: () => {
-      message.success('Gửi liên hệ thành công');
+      message.success('Liên hệ của bạn đã được gửi!');
       reset();
     },
     onError: () => {
-      message.error('Gửi liên hệ thất bại, vui lòng thử lại!');
-    }
+      message.error('Gửi liên hệ thất bại. Vui lòng thử lại.');
+    },
   });
 
-  const onSubmit = (data: IContact) => {
+  // Xử lý gửi form
+  const onSubmit = (data: Omit<IContact, 'status' | 'date'>) => {
     const contactData: IContact = {
       ...data,
       status: false,
       date: new Date().toLocaleDateString('en-GB'),
     };
     mutation.mutate(contactData);
-    console.log(contactData);
   };
 
   return (
-    <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+      {/* Thông tin liên hệ */}
       <div>
-        {/* Store information */}
-        <div className="bg-white rounded shadow p-6 mb-4">
-          <h2 className="text-xl font-bold mb-2 text-red-600">Cửa hàng XPhone</h2>
-          <p className="text-gray-700 text-sm mb-2">
-            Hệ thống cửa hàng XPhone chuyên bán lẻ điện thoại, máy tính laptop, smartwatch, smartphone, phụ kiện chính hãng - Giá tốt, giao miễn phí.
+        <div className="bg-white rounded shadow p-6 mb-6">
+          <h2 className="text-xl font-bold mb-2 text-red-600">SneakTrend Shop</h2>
+          <p className="text-gray-700 mb-2">
+            Chuyên giày sneaker chính hãng, phong cách – chất lượng – giá tốt!
           </p>
-          <p className="mb-1"><span className="font-semibold">Địa chỉ:</span> Trịnh Văn Bô</p>
-          <p className="mb-1"><span className="font-semibold">Hotline:</span> Gọi cho Hiếu</p>
-          <p className="mb-1"><span className="font-semibold">Email:</span> trinhthiduong@gmail.com</p>
+          <p><strong>Địa chỉ:</strong> Trịnh Văn Bô, Nam Từ Liêm, Hà Nội</p>
+          <p><strong>Hotline:</strong> 0989 999 999</p>
+          <p><strong>Email:</strong> support@sneaktrend.vn</p>
         </div>
 
-        {/* Contact form */}
+        {/* Form liên hệ */}
         <div className="bg-gray-100 rounded shadow p-6">
-          <h3 className="font-bold mb-3">Liên hệ</h3>
-          <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex gap-2">
-              <input 
-                {...register('name', { required: 'Tên không được để trống' })}            
-                type="text" 
-                placeholder="Họ và tên" 
-                className="border rounded px-3 py-2 w-1/2" 
-              />
-              <span className="text-red-500">{errors.name?.message}</span>
-              <input 
-                {...register('email', { required: "Email không được để trống" })} 
-                type="email" 
-                placeholder="Email" 
-                className="border rounded px-3 py-2 w-1/2" 
-              />
-              <span className="text-red-500">{errors.email?.message}</span>
+          <h3 className="font-semibold text-lg mb-4">Gửi liên hệ cho chúng tôi</h3>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="w-full">
+                <input
+                  {...register('name', { required: 'Tên không được để trống' })}
+                  type="text"
+                  placeholder="Họ và tên"
+                  className="w-full px-3 py-2 border rounded"
+                />
+                {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+              </div>
+              <div className="w-full">
+                <input
+                  {...register('email', { required: 'Email không được để trống' })}
+                  type="email"
+                  placeholder="Email"
+                  className="w-full px-3 py-2 border rounded"
+                />
+                {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+              </div>
             </div>
-            <input 
-              {...register('phone', { required: 'Số điện thoại không được để trống' })} 
-              type="text" 
-              placeholder="Số điện thoại" 
-              className="border rounded px-3 py-2 w-full" 
-            />
-            <span className="text-red-500">{errors.phone?.message}</span>
-            <textarea 
-              {...register('message', { required: 'Nội dung không được để trống' })} 
-              placeholder="Nội dung" 
-              className="border rounded px-3 py-2 w-full" 
-              rows={3}
-            ></textarea>
-            <span className="text-red-500">{errors.message?.message}</span>
-
-            <button 
-              type="submit" 
-              className="bg-red-600 text-white px-4 py-2 rounded w-full"
+            <div>
+              <input
+                {...register('phone', { required: 'Số điện thoại không được để trống' })}
+                type="text"
+                placeholder="Số điện thoại"
+                className="w-full px-3 py-2 border rounded"
+              />
+              {errors.phone && <p className="text-red-500 text-sm">{errors.phone.message}</p>}
+            </div>
+            <div>
+              <textarea
+                {...register('message', { required: 'Nội dung không được để trống' })}
+                placeholder="Nội dung liên hệ"
+                rows={4}
+                className="w-full px-3 py-2 border rounded"
+              />
+              {errors.message && <p className="text-red-500 text-sm">{errors.message.message}</p>}
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition"
             >
               Gửi liên hệ
             </button>
@@ -91,13 +103,15 @@ const ContactPage = () => {
         </div>
       </div>
 
-      {/* Google Maps */}
+      {/* Bản đồ Google Maps */}
       <div>
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.8639311820666!2d105.74468687503176!3d21.03812978061353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455e940879933%3A0xcf10b34e9f1a03df!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1svi!2s!4v1747882891526!5m2!1svi!2s" 
-          width="600" 
-          height="550" 
-          loading="lazy" 
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.8639311820666!2d105.74468687503176!3d21.03812978061353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455e940879933%3A0xcf10b34e9f1a03df!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1svi!2s!4v1747882891526!5m2!1svi!2s"
+          width="100%"
+          height="550"
+          loading="lazy"
+          allowFullScreen
+          className="rounded shadow"
         ></iframe>
       </div>
     </div>
