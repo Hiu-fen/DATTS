@@ -23,7 +23,7 @@ const NewsEdit = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(`http://localhost:3000/news/${id}`);
+      const res = await axios.get(`http://localhost:4000/news/${id}`);
       reset(res.data);
     };
     fetchData();
@@ -31,7 +31,7 @@ const NewsEdit = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: INews) => {
-      return await axios.patch(`http://localhost:3000/news/${id}`, data);
+      return await axios.patch(`http://localhost:4000/news/${id}`, data);
     },
     onSuccess: () => {
       message.success('Cập nhật tin tức thành công');

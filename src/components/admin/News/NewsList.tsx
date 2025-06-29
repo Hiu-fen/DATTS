@@ -23,7 +23,7 @@ const NewsAdmin = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/news');
+        const res = await axios.get('http://localhost:4000/news');
         setNewsList(res.data);
       } catch (err) {
         message.error('Không thể lấy dữ liệu tin tức');
@@ -34,7 +34,7 @@ const NewsAdmin = () => {
   }, []);
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: number) => await axios.delete(`http://localhost:3000/news/${id}`),
+    mutationFn: async (id: number) => await axios.delete(`http://localhost:4000/news/${id}`),
     onSuccess: (_, id) => {
       setNewsList(prev => prev.filter(item => item.id !== id));
       message.success("Xóa tin tức thành công");
@@ -44,7 +44,7 @@ const NewsAdmin = () => {
 
   const toggleStatus = async (id: number, currentStatus: boolean) => {
     try {
-      const res = await axios.patch(`http://localhost:3000/news/${id}`, {
+      const res = await axios.patch(`http://localhost:4000/news/${id}`, {
         status: !currentStatus,
       });
       setNewsList(prev =>

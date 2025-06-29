@@ -17,7 +17,7 @@ const ContactAdd = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: IContact) => {
-      const response = await axios.post('http://localhost:3000/contacts', data);
+      const response = await axios.post('http://localhost:4000/contacts', data);
       return response.data;
     },
     onSuccess: () => {
