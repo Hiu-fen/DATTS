@@ -6,9 +6,12 @@ import { useMutation } from '@tanstack/react-query';
 
 interface IContact {
   id: number;
-  userId: number;
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
   date: string;
-  mota: string;
+  status: boolean;
 }
 
 const ContactAdmin = () => {
@@ -28,42 +31,39 @@ const ContactAdmin = () => {
   }, []);
 
   const mutation = useMutation({
-  mutationFn: async (id: number) => await axios.delete(`http://localhost:4000/contacts/${id}`),
-  onSuccess: (_, id) => {
-    setContacts(prev => prev.filter(contact => contact.id !== id));
-    message.success("Xóa liên hệ thành công");
-  },
-  onError: (error: any) => {
-    message.error("Xóa liên hệ thất bại");
-    console.error("Lỗi khi xóa liên hệ:", error);
-  },
-});
-
+    mutationFn: async (id: number) => await axios.delete(`http://localhost:4000/contacts/${id}`),
+    onSuccess: (_, id) => {
+      setContacts(prev => prev.filter(contact => contact.id !== id));
+      message.success("Xóa liên hệ thành công");
+    },
+    onError: (error: any) => {
+      message.error("Xóa liên hệ thất bại");
+      console.error("Lỗi khi xóa liên hệ:", error);
+    },
+  });
 
   const onDelete = (id: number) => {
-  mutation.mutate(id);
-};
-
+    mutation.mutate(id);
+  };
 
   const columns = [
     { title: 'ID', dataIndex: 'id' },
-    { title: 'User ID', dataIndex: 'userId' },
-    { title: 'Ngày', dataIndex: 'date' },
-    { title: 'Mô tả', dataIndex: 'mota' },
+    { title: 'Họ tên', dataIndex: 'name' },
+    { title: 'Email', dataIndex: 'email' },
+    { title: 'Số điện thoại', dataIndex: 'phone' },
+    { title: 'Tin nhắn', dataIndex: 'message' },
+    { title: 'Ngày liên hệ', dataIndex: 'date' },
     {
       title: 'Thao tác',
-      key: 'id',
       dataIndex: 'id',
       render: (id: number) => (
         <Popconfirm
-          title="Thông báo"
-          description="Bạn chắc chắn muốn xóa?"
-          icon={<DeleteOutlined />}
+          title="Bạn chắc chắn muốn xóa?"
           onConfirm={() => onDelete(id)}
           okText="OK"
-          cancelText="NO"
+          cancelText="Không"
         >
-          <Button danger><DeleteOutlined /></Button>
+          <Button danger icon={<DeleteOutlined />} />
         </Popconfirm>
       ),
     },
@@ -72,11 +72,7 @@ const ContactAdmin = () => {
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Danh sách liên hệ</h2>
-      <Table
-        columns={columns}
-        dataSource={contacts}
-        rowKey="id"
-      />
+      <Table columns={columns} dataSource={contacts} rowKey="id" />
     </div>
   );
 };

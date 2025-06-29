@@ -14,7 +14,6 @@ import PostAddCategory from './components/admin/Category/PostAddCategory'
 import PutEditCategory from './components/admin/Category/PutEditCategory'
 import CommentAdmin from './components/admin/Comment/CommentList'
 import CommentAdd from './components/admin/Comment/CommentAdd'
-import ContactAdd from './components/admin/Contact/ContactAdd'
 import ContactList from './components/admin/Contact/ContactList'
 import OrderDetail from './components/admin/Order/OrderDetail'
 import OrderList from './components/admin/Order/ListOrder'
@@ -145,7 +144,6 @@ const App = (props: Props) => {
 
       //Router liên hệ
       {path:"contacts", element:<ContactList />},
-      {path:'contacts/add', element:<ContactAdd />},
       
       // Khuyến mãi
       { path: 'promotion/list', element: <PromotionList /> },

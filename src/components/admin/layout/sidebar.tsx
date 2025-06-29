@@ -76,7 +76,6 @@ const AdminSidebar = () => {
       icon: <ReadOutlined />,
       children: [
         { key: 'contact-list', label: 'Liên hệ' },
-        { key: 'contact-add', label: 'Thêm liên hệ' },
       ],
       },
       {
@@ -127,7 +126,6 @@ const AdminSidebar = () => {
       'news-list': '/admin/news/list',
       'news-add': '/admin/news/add',
       'contact-list': '/admin/contacts',
-      'contact-add': '/admin/contacts/add',
       'orders': '/admin/orders',
       'orders/add': '/admin/orders/add',
       'banner-list': '/admin/banner/list',
