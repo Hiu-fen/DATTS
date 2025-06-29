@@ -184,7 +184,7 @@
       "name": "Test Xphone",
       "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
       "description": "test ",
-      "category": 1,
+      "category": 2,
       "status": "Còn hàng",
       "variants": [
         {
@@ -272,484 +272,29 @@
           "quantity": 1
         }
       ]
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "items": [
+        {
+          "productId": {
+            "id": 6,
+            "name": "Test Xphone",
+            "price": 123456,
+            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "test ",
+            "ram": "1T",
+            "color": "Blue"
+          },
+          "quantity": 1
+        }
+      ]
     }
   ],
   "orders": [
     {
-      "id": "1",
-      "orderCode": "DH001",
-      "customerName": "Nguyễn Văn A",
-      "phone": 912345678,
-      "address": "123 Lê Lợi, Hà Nội",
-      "date": "2025-06-10T08:00:00.000Z",
-      "status": "Chờ xác nhận",
-      "items": [
-        {
-          "productId": "p1",
-          "productName": "iPhone 15",
-          "soluong": 1,
-          "price": 25000000,
-          "snapshot": {
-            "name": "iPhone 15 Pro Max",
-            "price": 25000000,
-            "color": "Đen",
-            "storage": "256GB"
-          }
-        }
-      ],
-      "total": 25000000,
-      "isPaid": false,
-      "paymentMethod": "COD",
-      "returnStatus": "",
-      "statusHistory": []
-    },
-    {
-      "id": "2",
-      "orderCode": "DH002",
-      "customerName": "Trần Thị B",
-      "phone": 934567890,
-      "address": "456 Nguyễn Huệ, TP.HCM",
-      "date": "2025-06-11T10:30:00.000Z",
-      "status": "Đang giao",
-      "items": [
-        {
-          "productId": "p2",
-          "productName": "Samsung Galaxy S24",
-          "soluong": 2,
-          "price": 18000000,
-          "snapshot": {
-            "name": "Samsung S24 Ultra",
-            "price": 18000000,
-            "color": "Trắng",
-            "storage": "512GB"
-          }
-        }
-      ],
-      "total": 36000000,
-      "isPaid": true,
-      "paymentMethod": "Chuyển khoản",
-      "returnStatus": "Đang chờ duyệt",
-      "statusHistory": []
-    },
-    {
-      "id": "3",
-      "orderCode": "DH003",
-      "customerName": "Lê Văn C",
-      "phone": 987654321,
-      "address": "789 Trần Phú, Đà Nẵng",
-      "date": "2025-06-09T15:45:00.000Z",
-      "status": "Giao thành công",
-      "items": [
-        {
-          "productId": "p3",
-          "productName": "Laptop Dell XPS",
-          "soluong": 1,
-          "price": 32000000,
-          "snapshot": {
-            "name": "Dell XPS 13",
-            "price": 32000000,
-            "color": "Bạc",
-            "storage": "1TB SSD"
-          }
-        }
-      ],
-      "total": 32000000,
-      "isPaid": true,
-      "paymentMethod": "COD",
-      "returnStatus": "",
-      "statusHistory": []
-    },
-    {
-      "id": 4,
-      "userId": 2,
-      "orderCode": "DH0001",
-      "date": "2025-06-13T09:18:21.277Z",
-      "status": "Giao thành công",
-      "isPaid": false,
-      "total": 1000000,
-      "paymentMethod": "COD",
-      "items": []
-    },
-    {
-      "id": 5,
-      "userId": 2,
-      "orderCode": "DHK8CA40",
-      "customerName": "hiếu",
-      "phone": "0987654321",
-      "address": "hà nội",
-      "date": "2025-06-13T09:21:41.991Z",
-      "status": "Chờ xác nhận",
-      "isPaid": false,
-      "paymentMethod": "COD",
-      "notes": "",
-      "total": 2000,
-      "items": [
-        {
-          "soluong": 2,
-          "price": 1000,
-          "snapshot": {
-            "name": "test",
-            "price": 1000,
-            "color": "Red",
-            "storage": "64GB"
-          }
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "userId": 2,
-      "orderCode": "DHGITFTY",
-      "customerName": "hiếu",
-      "phone": "0987654321",
-      "address": "147 nam từ liêm",
-      "date": "2025-06-13T09:25:23.916Z",
-      "status": "Chờ xác nhận",
-      "isPaid": true,
-      "paymentMethod": "Chuyển khoản",
-      "returnStatus": "",
-      "statusHistory": [],
-      "items": [
-        {
-          "productName": "test",
-          "soluong": 3,
-          "price": 22000000,
-          "snapshot": {
-            "name": "test",
-            "price": 22000000,
-            "color": "blue",
-            "storage": "64GB"
-          }
-        }
-      ],
-      "total": 66000000
-    },
-    {
-      "id": 7,
-      "userId": 10,
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "test",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35002,
-      "date": "2025-06-26T09:18:29.064Z",
-      "status": "Chờ xác nhận",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "color": "Blue",
-          "price": 1
-        },
-        {
-          "productId": 1,
-          "productName": "Híu đây hẹ hẹ 2",
-          "color": "RED",
-          "price": 1
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "userId": 10,
-      "customerName": "hieu 2",
-      "phone": "0987654321",
-      "address": "147 phương canh, Phường Phương Canh, Quận Nam Từ Liêm, Thành phố Hà Nội",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35002,
-      "date": "2025-06-26T09:20:24.599Z",
-      "status": "Đã hủy",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 1,
-          "productName": "Híu đây hẹ hẹ 2",
-          "color": "RED",
-          "price": 1
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "userId": 10,
-      "orderCode": "ORD-PDHI9",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T09:23:01.528Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "Blue",
-          "storage": "1T"
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "userId": 10,
-      "orderCode": "ORD-NAHJV",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T09:52:50.602Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "",
-          "storage": ""
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "userId": 10,
-      "orderCode": "ORD-9JZ8O",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T09:55:45.473Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "",
-          "storage": ""
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "userId": 10,
-      "orderCode": "ORD-P33P7",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T10:00:55.386Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "Blue",
-          "storage": "1T"
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "userId": 10,
-      "orderCode": "ORD-C16C1",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "J&T Express",
-      "total": 35006,
-      "status": "Đã hủy",
-      "date": "2025-06-26T10:01:59.354Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 6,
-          "price": 1,
-          "color": "RED",
-          "storage": "64BB"
-        }
-      ]
-    },
-    {
-      "id": 14,
-      "userId": 10,
-      "orderCode": "ORD-QULKZ",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35002,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T10:29:36.771Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 2,
-          "price": 1,
-          "color": "Đen",
-          "storage": "8GB"
-        }
-      ]
-    },
-    {
-      "id": 15,
-      "userId": 10,
-      "orderCode": "ORD-NBKO5",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T10:54:24.276Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "Blue",
-          "storage": "1T"
-        }
-      ]
-    },
-    {
-      "id": 16,
-      "userId": 10,
-      "orderCode": "ORD-FM2VH",
-      "customerName": "hieu test chỉ tiết",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 35001,
-      "status": "Chờ xác nhận",
-      "date": "2025-06-26T11:06:18.182Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Test Xphone4",
-          "soluong": 1,
-          "price": 1,
-          "color": "RED",
-          "storage": "64BB"
-        }
-      ]
-    },
-    {
-      "id": 17,
-      "userId": 10,
-      "orderCode": "ORD-H8STL",
-      "customerName": "hieu mua iphone",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "Bank",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 5035000,
-      "status": "Đã hủy",
-      "date": "2025-06-26T12:02:54.181Z",
-      "isPaid": true,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 3,
-          "productName": "iphone 100",
-          "soluong": 1,
-          "price": 5000000,
-          "color": "Blue",
-          "storage": "1T"
-        }
-      ]
-    },
-    {
-      "id": 18,
-      "userId": 10,
-      "orderCode": "ORD-C36SN",
-      "customerName": "hieu",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "6@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 8035000,
-      "status": "Đã hủy",
-      "date": "2025-06-26T14:43:42.614Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 3,
-          "productName": "iphone 100",
-          "soluong": 2,
-          "price": 4000000,
-          "color": "RED",
-          "storage": "64BB"
-        }
-      ]
-    },
-    {
-      "id": 19,
+      "id": 1,
       "userId": 10,
       "orderCode": "ORD-K5RNV",
       "customerName": "hieu",
@@ -770,6 +315,33 @@
           "productName": "iphone 100",
           "soluong": 2,
           "price": 5000000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "orderCode": "ORD-1E9TH",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 158456,
+      "status": "Chờ xác nhận",
+      "date": "2025-06-27T11:56:51.760Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 6,
+          "productName": "Test Xphone",
+          "soluong": 1,
+          "price": 123456,
           "color": "Blue",
           "storage": "1T"
         }

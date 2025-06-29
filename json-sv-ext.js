@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
+import axios from "axios";
 
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
@@ -438,17 +439,43 @@ server.post("/orders", Permission, (req, res) => {
     items: data.items.map(it => ({
       productId: typeof it.productId === "object" ? it.productId.id : it.productId,
       productName: it.productName,
-      soluong: it.soluong,
+      quantity: it.quantity,
       price: it.price,
       color: it.color || "",
-      storage: it.storage || ""
-    }))
+      storage: it.storage || "",
+    })),
   };
+
+  // 🔥 TRỪ SỐ LƯỢNG BIẾN THỂ
+  for (let item of newOrder.items) {
+    const product = db.products.find(p => p.id === item.productId);
+    if (!product) continue;
+
+    const variant = (product.variants || []).find(
+      v =>
+        v.color?.toLowerCase() === item.color?.toLowerCase() &&
+        v.ram?.toLowerCase() === item.storage?.toLowerCase()
+    );
+
+    if (variant) {
+      if (variant.quantity < item.quantity) {
+        return res.status(400).json({
+          message: `Không đủ hàng: ${product.name} - ${variant.ram}/${variant.color}`,
+        });
+      }
+      variant.quantity -= item.quantity;
+    } else {
+      return res.status(400).json({
+        message: `Không tìm thấy biến thể cho sản phẩm: ${product.name}`,
+      });
+    }
+  }
 
   db.orders.push(newOrder);
   fs.writeFileSync("db.json", JSON.stringify(db, null, 2), "utf-8");
   return res.status(201).json({ message: "Đặt hàng thành công!", data: newOrder });
 });
+
 
 server.get("/orders/user/:userId", Permission, (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
@@ -643,6 +670,9 @@ server.get("/news", (req, res) => {
   const { news } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
   res.status(200).json(news.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 });
+
+
+
 
 
 
