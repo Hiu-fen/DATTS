@@ -21,7 +21,7 @@ const NewsAdd = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: INews) => {
-      return await axios.post('http://localhost:3000/news', data);
+      return await axios.post('http://localhost:4000/news', data);
     },
     onSuccess: () => {
       message.success('Thêm tin tức thành công');

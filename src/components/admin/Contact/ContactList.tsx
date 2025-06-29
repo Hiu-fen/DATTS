@@ -17,7 +17,7 @@ const ContactAdmin = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/contacts');
+        const response = await axios.get('http://localhost:4000/contacts');
         setContacts(response.data);
       } catch (error) {
         console.error('Lỗi khi lấy liên hệ:', error);
@@ -28,7 +28,7 @@ const ContactAdmin = () => {
   }, []);
 
   const mutation = useMutation({
-  mutationFn: async (id: number) => await axios.delete(`http://localhost:3000/contacts/${id}`),
+  mutationFn: async (id: number) => await axios.delete(`http://localhost:4000/contacts/${id}`),
   onSuccess: (_, id) => {
     setContacts(prev => prev.filter(contact => contact.id !== id));
     message.success("Xóa liên hệ thành công");
