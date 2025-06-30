@@ -1,46 +1,26 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { message } from "antd";
-import BannerClient from "../componentChild/Home/banner";
+import { Link } from "react-router-dom";
 import { IProduct } from "../../../interface/product";
-import { ICategory } from "../../../interface/category";
-import { useCart } from "../context/CartContext";
-
-interface CartItem {
-  productId: string;
-  productName: string;
-  price: number;   // Kiểu string, vì addToCart định nghĩa price là string
-  soluong: number;
-  image: string;
-}
+import { Icatagory } from "../../../interface/category";
 
 const Categorys: React.FC = () => {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
-  const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
-  // Fetch danh sách danh mục
-  const { data: categories, isLoading: categoriesLoading } = useQuery<ICategory[]>({
+
+  // Lấy danh mục
+  const { data: categories, isLoading: categoriesLoading } = useQuery<Icatagory[]>({
     queryKey: ["categories"],
-    queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/api/category");
-      return res.data;
-    },
+    queryFn: async () => (await axios.get("http://localhost:4000/category")).data,
   });
 
-  // Fetch danh sách sản phẩm
+  // Lấy sản phẩm
   const { data: products, isLoading: productsLoading } = useQuery<IProduct[]>({
     queryKey: ["products"],
-    queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/api/products");
-      return res.data;
-    },
+    queryFn: async () => (await axios.get("http://localhost:4000/products")).data,
   });
 
-  
-  // Scroll container cho slider danh mục
   const scrollLeft = () => {
     const container = document.getElementById("scroll-container");
     if (container) container.scrollLeft -= 200;
@@ -51,141 +31,101 @@ const Categorys: React.FC = () => {
     if (container) container.scrollLeft += 200;
   };
 
-  // Lọc sản phẩm theo danh mục đã chọn
   const filteredProducts = useMemo(() => {
     if (!products) return [];
     if (!selectedCategoryId) return products;
-    return products.filter((product) => product.danhmuc === selectedCategoryId);
+    return products.filter((product) => product.category === selectedCategoryId);
   }, [products, selectedCategoryId]);
 
-  // Lấy tên danh mục đã chọn
   const selectedCategoryName = useMemo(() => {
     if (!selectedCategoryId || !categories) return "";
-    const category = categories.find((cat) => cat._id === selectedCategoryId);
-    return category ? category.name : "";
+    const category = categories.find((cat) => cat.id === selectedCategoryId);
+    return category?.name || "";
   }, [selectedCategoryId, categories]);
 
   if (categoriesLoading || productsLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="animate-spin h-12 w-12 rounded-full border-4 border-blue-500 border-t-transparent" />
       </div>
     );
   }
 
   return (
-    <div className="w-full">
-      {/* Banner */}
-      <BannerClient />
-
-      {/* Slider danh mục */}
-      <div className="w-full flex flex-col items-center">
-        <h2 className="text-xl md:text-2xl font-bold my-4 text-center">Danh mục</h2>
-        <div className="relative w-full px-4 overflow-hidden">
-          <button
-            className="absolute left-1 top-1/2 -translate-y-1/2 bg-white border border-gray-300 text-gray-600 rounded-full w-8 h-8 text-sm md:w-9 md:h-9 md:text-lg flex items-center justify-center hover:bg-gray-100 z-10"
-            onClick={scrollLeft}
-          >
-            ←
-          </button>
+    <div className="w-full p-4 md:p-8 bg-gray-50 min-h-screen">
+      {/* DANH MỤC */}
+      <div className="mb-6">
+        <h2 className="text-xl font-bold text-center mb-3">Danh mục sản phẩm</h2>
+        <div className="relative">
+          
           <div
             id="scroll-container"
-            className="flex gap-3 overflow-x-auto scroll-smooth px-10 py-2 no-scrollbar"
+            className="flex gap-3 overflow-x-auto px-10 py-2 scroll-smooth no-scrollbar"
           >
+            <div
+              className={`px-4 py-2 rounded-full text-sm cursor-pointer border ${
+                !selectedCategoryId ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"
+              }`}
+              onClick={() => setSelectedCategoryId(null)}
+            >
+              Tất cả
+            </div>
             {categories?.map((cat) => (
               <div
-                key={cat._id}
-                className="flex flex-col items-center cursor-pointer"
-                onClick={() => setSelectedCategoryId(cat._id)}
+                key={cat.id}
+                className={`px-4 py-2 rounded-full text-sm cursor-pointer border whitespace-nowrap ${
+                  selectedCategoryId === cat.id ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"
+                }`}
+                onClick={() => setSelectedCategoryId(cat.id)}
               >
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className={`w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] object-cover rounded-lg border transition-transform hover:scale-105 ${
-                    selectedCategoryId === cat._id ? "ring-4 ring-blue-500" : ""
-                  }`}
-                />
-                <span className="mt-2 text-sm text-gray-600">{cat.name}</span>
+                {cat.name}
               </div>
             ))}
           </div>
-          <button
-            className="absolute right-1 top-1/2 -translate-y-1/2 bg-white border border-gray-300 text-gray-600 rounded-full w-8 h-8 text-sm md:w-9 md:h-9 md:text-lg flex items-center justify-center hover:bg-gray-100 z-10"
-            onClick={scrollRight}
-          >
-            →
-          </button>
+          
         </div>
       </div>
 
-      {/* Nút hiển thị tất cả khi đang lọc */}
-      {selectedCategoryId && (
-        <div className="mt-2 text-center">
-          <button
-            onClick={() => setSelectedCategoryId(null)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Hiện tất cả sản phẩm
-          </button>
-        </div>
-      )}
-
-      {/* Tiêu đề và số lượng sản phẩm */}
-      <div className="mb-2 text-center">
-        <h2 className="text-xl md:text-2xl font-bold my-4">
+      {/* SẢN PHẨM */}
+      <div className="text-center mb-4">
+        <h2 className="text-xl font-semibold">
           {selectedCategoryId
-            ? `Sản phẩm ${selectedCategoryName}`
+            ? `Sản phẩm trong danh mục "${selectedCategoryName}"`
             : "Tất cả sản phẩm"}
         </h2>
-        <p className="text-gray-600">
-          {selectedCategoryId
-            ? `Hiển thị ${filteredProducts.length} sản phẩm trong danh mục ${selectedCategoryName}`
-            : `Hiển thị ${filteredProducts.length} sản phẩm`}
+        <p className="text-gray-500 text-sm">
+          Hiển thị {filteredProducts.length} sản phẩm
         </p>
       </div>
 
-      {/* Lưới sản phẩm */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-[1400px] mx-auto p-4">
-  {filteredProducts.map((product) => (
-    <Link
-      to={`/detail/${product._id}`}
-      key={product._id}
-      className="group bg-white rounded-lg shadow-sm border overflow-hidden flex flex-col justify-between transition-transform hover:-translate-y-1"
-    >
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-full h-[120px] sm:h-[160px] md:h-[200px] object-cover"
-      />
-      <div className="p-3 flex flex-col gap-2">
-        <h3 className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 line-clamp-2">
-          {product.name}
-        </h3>
-        <p className="text-sm sm:text-lg md:text-xl text-red-600 font-bold">
-          {product.price.toLocaleString()} VND
-        </p>
-        <span
-          className={`text-sm px-2 py-1 rounded-full ${
-            product.trangthai === "còn hàng"
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
-        >
-          {product.trangthai}
-        </span>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 max-w-screen-xl mx-auto">
+        {filteredProducts.map((product) => (
+          <Link
+            to={`/detail/${product.id}`}
+            key={product.id}
+            className="bg-white rounded-lg shadow hover:shadow-md transition duration-300 overflow-hidden group"
+          >
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-48 object-cover group-hover:scale-105 transition-transform"
+            />
+            <div className="p-4">
+              <h3 className="text-base font-semibold text-gray-800 line-clamp-2">{product.name}</h3>
+              <p className="text-red-600 font-bold text-sm mt-2">
+                {Number(product.price).toLocaleString()} VNĐ
+              </p>
+            </div>
+          </Link>
+        ))}
       </div>
-    </Link>
-  ))}
-</div>
 
-      {/* Thông báo nếu không có sản phẩm */}
+      {/* KHÔNG CÓ SẢN PHẨM */}
       {filteredProducts.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-gray-500">
-            {selectedCategoryId
-              ? `Không tìm thấy sản phẩm nào trong danh mục ${selectedCategoryName}`
-              : "Không tìm thấy sản phẩm nào"}
-          </p>
+        <div className="text-center py-12 text-gray-500">
+          {selectedCategoryId
+            ? `Không có sản phẩm trong danh mục "${selectedCategoryName}"`
+            : "Không có sản phẩm nào."}
         </div>
       )}
     </div>

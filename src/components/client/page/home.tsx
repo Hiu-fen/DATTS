@@ -2,30 +2,49 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 
 const Home = () => {
   const nav = useNavigate();
 
-  // Fetch sản phẩm từ API (laptop)
+  // State banner hiện tại
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+
+  // Lấy danh sách banners
+  const { data: banners } = useQuery({
+    queryKey: ["banners"],
+    queryFn: async () => (await axios.get("http://localhost:4000/banners")).data,
+  });
+
+  // Tự động đổi banner mỗi 5s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBannerIndex((prevIndex) =>
+        banners && banners.length > 0 ? (prevIndex + 1) % banners.length : 0
+      );
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [banners]);
+
+  // Fetch sản phẩm
   const { data: products } = useQuery({
     queryKey: ["products"],
     queryFn: async () => (await axios.get("http://localhost:4000/products")).data,
   });
 
-  // Fetch danh mục từ API (laptop)
+  // Fetch danh mục
   const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => (await axios.get("http://localhost:4000/category")).data,
   });
 
-   // Lấy tất cả đơn hàng
+  // Fetch đơn hàng
   const { data: orders } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => (await axios.get("http://localhost:4000/orders")).data,
   });
 
-  // Tính sản phẩm bán chạy nhất
+  // Tính top 3 sản phẩm bán chạy
   const bestSellingProducts = useMemo(() => {
     if (!orders || !products) return [];
 
@@ -46,9 +65,6 @@ const Home = () => {
     return products.filter((p: any) => top3Ids.includes(p.id));
   }, [orders, products]);
 
-  
-
-  // Hàm điều hướng tới trang chi tiết sản phẩm
   const goToProductDetail = (productId: number) => {
     nav(`/product/${productId}`);
   };
@@ -56,13 +72,18 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Banner */}
-      <div className="bg-cover bg-center h-[50vh] text-white relative" style={{ backgroundImage: 'url(https://via.placeholder.com/1500x500?text=Laptop+Shop)' }}>
+      <div
+        className="bg-cover bg-center h-[50vh] text-white relative"
+        style={{
+          backgroundImage: `url(${banners?.[currentBannerIndex]?.image || "https://via.placeholder.com/1500x500?text=Laptop+Shop"})`,
+        }}
+      >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="absolute inset-0 flex justify-center items-center text-center px-6">
           <div>
             <h1 className="text-5xl font-bold">Chào mừng đến với Shop Laptop</h1>
             <p className="mt-4 text-xl">Khám phá các mẫu laptop mới nhất với giá ưu đãi hấp dẫn</p>
-            <Button className="mt-6 text-white bg-blue-600 hover:bg-blue-700" size="large" onClick={() => nav("/products")}>
+            <Button className="mt-6 text-white bg-blue-600 hover:bg-blue-700" size="large" onClick={() => nav("/product")}>
               Khám Phá Laptop Ngay
             </Button>
           </div>
@@ -86,7 +107,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Danh mục sản phẩm (Laptop) */}
+      {/* Danh mục sản phẩm */}
       <div className="max-w-7xl mx-auto py-16 px-6">
         <h2 className="text-3xl font-semibold text-center mb-8">Danh Mục Laptop</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -103,7 +124,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Danh sách sản phẩm (Laptop) */}
+      {/* Tất cả sản phẩm */}
       <div className="max-w-7xl mx-auto py-16 px-6">
         <h2 className="text-3xl font-semibold text-center mb-8">Tất Cả Sản Phẩm</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -121,10 +142,10 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Giới thiệu về cửa hàng */}
+      {/* Giới thiệu */}
       <div className="max-w-7xl mx-auto py-16 px-6 flex items-center justify-between">
         <div className="w-1/2">
-          <img src="https://via.placeholder.com/600x400" alt="Laptop Shop" className="w-full h-auto object-cover rounded-lg" />
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTUP7WjdLYwGdLC99X28tuR-aBmnd7Iw59Ig&s" alt="Laptop Shop" className="w-full h-auto object-cover rounded-lg" />
         </div>
         <div className="w-1/2 pl-12">
           <h2 className="text-3xl font-semibold mb-4">Về Chúng Tôi</h2>

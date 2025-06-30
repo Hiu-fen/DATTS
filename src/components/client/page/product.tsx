@@ -2,57 +2,60 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { IProduct } from '../../../interface/product';
 import { Icatagory } from '../../../interface/category';
-import { Card, Row, Col, Typography, Button, Input, Select, Space, Spin } from 'antd';
+import {
+  Card,
+  Row,
+  Col,
+  Typography,
+  Input,
+  Spin,
+  Divider,
+  Empty,
+} from 'antd';
 import { Link } from 'react-router-dom';
 import { useState, useMemo } from 'react';
-// import BannerClient from "../componentChild/Home/banner";
 
 const { Title, Text } = Typography;
-const { Option } = Select;
 const { Search } = Input;
 
 const ProductPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [searchText, setSearchText] = useState('');
 
-  // Fetch danh sách sản phẩm từ API
+  // Fetch sản phẩm
   const { data: products, isLoading: productsLoading } = useQuery({
     queryKey: ['products'],
-    queryFn: async () => (await axios.get('http://localhost:4000/products')).data,
+    queryFn: async () =>
+      (await axios.get('http://localhost:4000/products')).data,
   });
 
-  // Fetch danh mục từ API
+  // Fetch danh mục
   const { data: categories, isLoading: categoriesLoading } = useQuery({
     queryKey: ['categories'],
-    queryFn: async () => (await axios.get('http://localhost:4000/category')).data,
+    queryFn: async () =>
+      (await axios.get('http://localhost:4000/category')).data,
   });
 
-  // Lọc sản phẩm
+  // Xử lý lọc
   const filteredProducts = useMemo(() => {
-  let filtered = products || [];
+    let filtered = products || [];
 
-  // Lọc theo danh mục
-  if (selectedCategory) {
-  filtered = filtered.filter((product: IProduct) => product.category === Number(selectedCategory));
-}
+    if (selectedCategory) {
+      filtered = filtered.filter(
+        (product: IProduct) => product.category === selectedCategory
+      );
+    }
 
+    if (searchText.trim()) {
+      const normalizedSearch = searchText.toLowerCase().trim();
+      filtered = filtered.filter((product: IProduct) =>
+        product.name.toLowerCase().includes(normalizedSearch)
+      );
+    }
 
-  // Lọc theo tên sản phẩm
-  if (searchText) {
-    filtered = filtered.filter((product: IProduct) =>
-      product.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }
+    return filtered;
+  }, [products, selectedCategory, searchText]);
 
-  return filtered;
-}, [products, selectedCategory, searchText]);
-
-
-  const handleCategoryChange = (value: number | null) => {
-    setSelectedCategory(value);
-  };
-
-  // Loading spinner khi dữ liệu đang được tải
   if (productsLoading || categoriesLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -62,51 +65,76 @@ const ProductPage = () => {
   }
 
   return (
-    <div>
-      {/* <BannerClient /> */}
-      <Title level={2} className="text-center mb-8 text-3xl font-bold text-gray-800">Danh sách sản phẩm</Title>
+    <div className="px-4 md:px-12 py-6 bg-gray-100 min-h-screen">
+      <Title level={2} className="text-center mb-8 text-3xl font-bold text-gray-800">
+        Danh sách sản phẩm
+      </Title>
 
-      {/* Bộ lọc sản phẩm */}
-      <div className="bg-white p-6 rounded-xl shadow-lg mb-8 border border-gray-100">
-        <Space direction="vertical" size="large" className="w-full">
-          {/* Danh mục sản phẩm và tìm kiếm */}
-          <div className="mb-4 flex justify-between items-center">
-            <div className="w-1/2">
-              <Text strong className="block mb-3 text-lg text-gray-700">Danh mục sản phẩm:</Text>
-              <Select
-                value={selectedCategory}
-                onChange={handleCategoryChange}
-                className="w-full rounded-lg"
-                allowClear
-                placeholder="Chọn danh mục"
+      {/* Bộ lọc */}
+      <div className="bg-white p-6 rounded-xl shadow-md mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Tìm kiếm */}
+          <div>
+            <Text strong className="block mb-2 text-gray-700">
+              Tìm kiếm sản phẩm:
+            </Text>
+            <Search
+              placeholder="Nhập tên sản phẩm..."
+              allowClear
+              enterButton="Tìm"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              size="large"
+            />
+          </div>
+
+          {/* Danh mục sản phẩm */}
+          <div>
+            <Text strong className="block mb-2 text-gray-700">
+              Lọc theo danh mục:
+            </Text>
+            <div className="flex flex-wrap gap-2">
+              <button
+                className={`px-4 py-2 rounded-full border ${
+                  !selectedCategory
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700'
+                } hover:bg-blue-500 hover:text-white transition`}
+                onClick={() => setSelectedCategory(null)}
               >
-                {categories?.map((category: Icatagory) => (
-                  <Option key={category.id} value={category.id}>{category.name}</Option>
-                ))}
-              </Select>
-            </div>
-            <div className="w-1/2">
-              <Text strong className="block mb-3 text-lg text-gray-700">Tìm kiếm sản phẩm:</Text>
-              <Search
-                placeholder="Tìm kiếm sản phẩm"
-                allowClear
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                className="w-full rounded-lg"
-              />
+                Tất cả
+              </button>
+              {categories?.map((cat: Icatagory) => (
+                <button
+                  key={cat.id}
+                  className={`px-4 py-2 rounded-full border ${
+                    selectedCategory === cat.id
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700'
+                  } hover:bg-blue-500 hover:text-white transition`}
+                  onClick={() => setSelectedCategory(cat.id)}
+                >
+                  {cat.name}
+                </button>
+              ))}
             </div>
           </div>
-        </Space>
+        </div>
       </div>
 
-      {/* Hiển thị số lượng sản phẩm đã lọc */}
-      <div className="mb-6">
-        <Text className="text-gray-600">
+      {/* Thông tin tổng sản phẩm */}
+      <div className="text-center mb-4">
+        <Text type="secondary" className="text-lg">
           {selectedCategory
-            ? `Hiển thị ${filteredProducts.length} sản phẩm trong danh mục ${categories?.find((c: Icatagory) => c.id === selectedCategory)?.name}`
-            : `Hiển thị ${filteredProducts.length} sản phẩm`}
+            ? `Hiển thị ${filteredProducts.length} sản phẩm trong danh mục: ${
+                categories?.find((c: Icatagory) => c.id === selectedCategory)
+                  ?.name || ''
+              }`
+            : `Tổng cộng ${filteredProducts.length} sản phẩm`}
         </Text>
       </div>
+
+      <Divider />
 
       {/* Danh sách sản phẩm */}
       <Row gutter={[24, 24]}>
@@ -115,21 +143,19 @@ const ProductPage = () => {
             <Link to={`/product/${product.id}`}>
               <Card
                 hoverable
-                className="h-full transition-all duration-300 hover:shadow-xl"
+                className="h-full rounded-lg overflow-hidden shadow-md"
                 cover={
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      alt={product.name}
-                      src={product.image}
-                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                    />
-                  </div>
+                  <img
+                    alt={product.name}
+                    src={product.image}
+                    className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                  />
                 }
               >
-                <Title level={4} className="mb-2 line-clamp-2 text-gray-800 hover:text-blue-600 transition-colors">
+                <Title level={5} className="text-gray-800 mb-2 line-clamp-2">
                   {product.name}
                 </Title>
-                <Text className="block text-lg font-bold text-red-600 mb-2">
+                <Text strong className="text-red-600 block text-lg">
                   {Number(product.price).toLocaleString('vi-VN')} VNĐ
                 </Text>
               </Card>
@@ -138,14 +164,10 @@ const ProductPage = () => {
         ))}
       </Row>
 
-      {/* Thông báo khi không có sản phẩm */}
+      {/* Không có sản phẩm */}
       {filteredProducts.length === 0 && (
-        <div className="text-center py-12 bg-white rounded-xl shadow-sm">
-          <Text className="text-gray-500 text-lg">
-            {selectedCategory
-              ? `Không tìm thấy sản phẩm nào trong danh mục ${categories?.find((c: Icatagory) => c.id === selectedCategory)?.name}`
-              : 'Không tìm thấy sản phẩm phù hợp'}
-          </Text>
+        <div className="text-center py-16">
+          <Empty description="Không tìm thấy sản phẩm phù hợp" />
         </div>
       )}
     </div>

@@ -671,6 +671,42 @@ server.get("/news", (req, res) => {
   res.status(200).json(news.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 });
 
+// API GET comment theo productId, sort mới nhất
+server.get("/comments", (req, res) => {
+  const { comments } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const { productId } = req.query;
+
+  let filtered = comments;
+  if (productId) {
+    filtered = filtered.filter(c => String(c.productId) === String(productId));
+  }
+
+  res.status(200).json(
+    filtered.sort((a, b) => new Date(b.date) - new Date(a.date))
+  );
+});
+
+// API POST thêm comment
+server.post("/comments", (req, res) => {
+  const { comments } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  const newComment = {
+    id: comments.length ? comments[comments.length - 1].id + 1 : 1,
+    userId: req.body.userId,
+    content: req.body.content,
+    productId: req.body.productId,
+    date: req.body.date,
+    status: req.body.status,
+  };
+
+  comments.push(newComment);
+  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
+  db.comments = comments;
+  fs.writeFileSync("db.json", JSON.stringify(db, null, 2));
+
+  res.status(201).json(newComment);
+});
+
+
 
 
 

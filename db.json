@@ -301,13 +301,6 @@
       "status": true,
       "date": "21/06/2025",
       "id": 11
-    },
-    {
-      "email": "mai@gmail.com",
-      "password": "$2a$10$vZA85rFFtMPTVhsonQssQOjFR.w8YseKzUiP7kAQwFBllHLdueVB.",
-      "role": "admin",
-      "active": true,
-      "id": 6
     }
   ],
   "contacts": [
@@ -337,10 +330,37 @@
       "status": false,
       "date": "29/06/2025",
       "id": 3
+    },
+    {
+      "id": 4,
+      "name": "test",
+      "email": "hiu-fen@gmail.com",
+      "phone": "0987654321",
+      "message": "gút chop shop ơi",
+      "status": false,
+      "date": "2025-06-29T14:23:55.366Z"
     }
   ],
-  "carts": [],
-  
+  "carts": [
+    {
+      "id": 1,
+      "userId": 3,
+      "items": [
+        {
+          "productId": {
+            "id": 3,
+            "name": "iphone 100",
+            "price": 5000000,
+            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
+            "description": "hiếu đây",
+            "ram": "1T",
+            "color": "Blue"
+          },
+          "quantity": 1
+        }
+      ]
+    }
+  ],
   "orders": [
     {
       "id": 1,
@@ -445,6 +465,33 @@
           "productName": "Híu đây hẹ hẹ",
           "soluong": 1,
           "price": 50000000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "userId": 3,
+      "orderCode": "ORD-UNGUW",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 5035000,
+      "status": "Đã hủy",
+      "date": "2025-06-30T03:24:44.019Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 3,
+          "productName": "iphone 100",
+          "soluong": 1,
+          "price": 5000000,
           "color": "Blue",
           "storage": "1T"
         }
@@ -600,24 +647,24 @@
   "banners": [
     {
       "id": 2,
-      "image": "https://picsum.photos/200",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOIQyBKJsaR_yFBJmGpMuCVnkRzOJTGyeoDA&s",
       "startDate": "2025-07-20",
       "endDate": "2025-08-01"
     },
     {
       "id": 3,
-      "image": "https://tse4.mm.bing.net/th?id=OIP.lNeZztIjL3RGIWZDkihuggHaHa&pid=Api&P=0&h=180",
+      "image": "https://i.pinimg.com/736x/6a/4a/92/6a4a9250679050818495017601ae0d63.jpg",
       "startDate": "2025-07-01",
       "endDate": "2025-07-20"
     },
     {
-      "image": "https://picsum.photos/200",
+      "image": "https://laptopbaominh.com/wp-content/uploads/2015/08/banner-n05.jpg",
       "startDate": "2025-06-13",
       "endDate": "2025-06-20",
       "id": 5
     },
     {
-      "image": "https://picsum.photos/200",
+      "image": "https://laptopbaominh.com/wp-content/uploads/2015/08/banner-n04.jpg",
       "startDate": "2025-06-13",
       "endDate": "2025-06-20",
       "id": 6
