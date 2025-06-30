@@ -39,6 +39,7 @@ import NewsClient from './components/client/page/news'
 // import Contact from './components/client/page/contact'
 import ContactPage from './components/client/page/contact'
 import Cart from './components/client/page/cart'
+import DashboardAdmin from './components/admin/Dashboard/DashboardAdmin'
 
 
 import NewsAdd from './components/admin/News/NewsAdd'
@@ -163,6 +164,8 @@ const App = (props: Props) => {
         { path: 'banner/add', element: <BannerAdd /> },
         { path: 'banner/:id/edit', element: <BannerEdit /> },
         { path: 'banner/:id', element: <BannerDetail /> },
+        { path: 'dashboard', element: <DashboardAdmin /> },
+        { path: 'report', element: <DashboardAdmin /> },
       ]
     },
 
