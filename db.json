@@ -279,28 +279,28 @@
   ],
   "comments": [
     {
-      "user": "admin",
-      "content": "123123123123",
-      "product": "",
-      "status": false,
-      "date": "07/05/2025",
-      "id": 9
-    },
-    {
-      "user": "amthucv1",
-      "content": "1231312312",
-      "product": "",
-      "status": false,
-      "date": "07/05/2025",
-      "id": 10
-    },
-    {
+      "id": 1,
+      "content": "hieu",
       "user": "hiếu",
-      "content": "test",
-      "product": "",
+      "productId": "",
+      "status": false,
+      "createdAt": "2025-06-30T05:38:03.460Z"
+    },
+    {
+      "id": 2,
+      "content": "test bình luân 2 ",
+      "user": "hiếu",
+      "productId": "",
+      "status": false,
+      "createdAt": "2025-06-30T05:40:19.375Z"
+    },
+    {
+      "id": 3,
+      "content": "Chào pro",
+      "user": "hieu-fen@gmail.com",
+      "productId": 3,
       "status": true,
-      "date": "21/06/2025",
-      "id": 11
+      "createdAt": "2025-06-30T05:57:30.449Z"
     }
   ],
   "contacts": [
@@ -341,26 +341,7 @@
       "date": "2025-06-29T14:23:55.366Z"
     }
   ],
-  "carts": [
-    {
-      "id": 1,
-      "userId": 3,
-      "items": [
-        {
-          "productId": {
-            "id": 3,
-            "name": "iphone 100",
-            "price": 5000000,
-            "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-            "description": "hiếu đây",
-            "ram": "1T",
-            "color": "Blue"
-          },
-          "quantity": 1
-        }
-      ]
-    }
-  ],
+  "carts": [],
   "orders": [
     {
       "id": 1,
@@ -455,7 +436,7 @@
       "paymentMethod": "COD",
       "shippingProvider": "Giao hàng tiêu chuẩn",
       "total": 50035000,
-      "status": "Chờ xác nhận",
+      "status": "Đã hủy",
       "date": "2025-06-29T13:44:31.465Z",
       "isPaid": false,
       "refunded": false,
@@ -465,33 +446,6 @@
           "productName": "Híu đây hẹ hẹ",
           "soluong": 1,
           "price": 50000000,
-          "color": "Blue",
-          "storage": "1T"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "userId": 3,
-      "orderCode": "ORD-UNGUW",
-      "customerName": "Híu đây hẹ hẹ",
-      "phone": "0987654321",
-      "address": "hà nội thứ 7 phải lên đồ",
-      "email": "hiu-fen@gmail.com",
-      "notes": "",
-      "paymentMethod": "COD",
-      "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 5035000,
-      "status": "Đã hủy",
-      "date": "2025-06-30T03:24:44.019Z",
-      "isPaid": false,
-      "refunded": false,
-      "items": [
-        {
-          "productId": 3,
-          "productName": "iphone 100",
-          "soluong": 1,
-          "price": 5000000,
           "color": "Blue",
           "storage": "1T"
         }

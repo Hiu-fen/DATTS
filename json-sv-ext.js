@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
 import axios from "axios";
+import { fileURLToPath } from 'url';
 
 const server = jsonServer.create();
 const router = jsonServer.router("db.json");
@@ -543,15 +544,15 @@ server.get("/orders/:id", (req, res) => {
 // Xử lý khi thêm bình luận mới
 server.post("/comments", (req, res) => {
   const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const { text, userId } = req.body;
-
-  const newComment = {
-    id: GetMaxID("comments") + 1,
-    text: text,
-    userId: userId,
-    status: false,  // Mặc định trạng thái là false khi thêm mới
-    createdAt: new Date().toISOString(),
-  };
+const { content, user, productId } = req.body;
+const newComment = {
+  id: GetMaxID("comments") + 1,
+  content,
+  user,
+  productId,
+  status: false,
+  createdAt: new Date().toISOString()
+};
 
   db.comments.push(newComment);
 
@@ -561,18 +562,21 @@ server.post("/comments", (req, res) => {
 });
 
 
+// Tạo __filename và __dirname cho ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Custom API để sửa trạng thái
 server.patch('/comments/:id', (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
-  const db = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'db.json'), 'utf8'));
+
+  const dbPath = path.join(__dirname, 'db.json');   // Lấy đường dẫn tuyệt đối an toàn
+  const db = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
 
   const comment = db.comments.find(c => c.id === parseInt(id));
-
   if (comment) {
     comment.status = status;
-    fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(db, null, 2));
+    fs.writeFileSync(dbPath, JSON.stringify(db, null, 2), 'utf-8');
     res.json(comment);
   } else {
     res.status(404).send({ error: 'Bình luận không tồn tại' });
@@ -671,40 +675,9 @@ server.get("/news", (req, res) => {
   res.status(200).json(news.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 });
 
-// API GET comment theo productId, sort mới nhất
-server.get("/comments", (req, res) => {
-  const { comments } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const { productId } = req.query;
 
-  let filtered = comments;
-  if (productId) {
-    filtered = filtered.filter(c => String(c.productId) === String(productId));
-  }
 
-  res.status(200).json(
-    filtered.sort((a, b) => new Date(b.date) - new Date(a.date))
-  );
-});
 
-// API POST thêm comment
-server.post("/comments", (req, res) => {
-  const { comments } = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  const newComment = {
-    id: comments.length ? comments[comments.length - 1].id + 1 : 1,
-    userId: req.body.userId,
-    content: req.body.content,
-    productId: req.body.productId,
-    date: req.body.date,
-    status: req.body.status,
-  };
-
-  comments.push(newComment);
-  const db = JSON.parse(fs.readFileSync("db.json", "utf-8"));
-  db.comments = comments;
-  fs.writeFileSync("db.json", JSON.stringify(db, null, 2));
-
-  res.status(201).json(newComment);
-});
 
 
 

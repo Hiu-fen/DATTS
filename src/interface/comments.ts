@@ -3,6 +3,6 @@ export interface IComment {
     content: string,
     status: boolean,
     user:string,
-    product: string,
+    productId: string,
     date:string
 }

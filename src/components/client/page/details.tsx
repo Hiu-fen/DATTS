@@ -88,26 +88,27 @@ const Details: React.FC = () => {
     fetchComments();
   }, [id]);
   const handleAddComment = async () => {
-    const email = localStorage.getItem("email");
-    if (!email) return message.warning("Bạn cần đăng nhập để bình luận.");
-    if (!newComment.trim()) return message.warning("Vui lòng nhập nội dung bình luận.");
+  const email = localStorage.getItem("email");  // Lấy email người dùng đã đăng nhập
+  if (!email) return message.warning("Bạn cần đăng nhập để bình luận.");
+  if (!newComment.trim()) return message.warning("Vui lòng nhập nội dung bình luận.");
 
-    try {
-      await axios.post("http://localhost:4000/comments", {
-        userId: email,
-        content: newComment,
-        productId: Number(id),
-        date: new Date().toISOString(),
-        status: true,
-      });
-      message.success("Đã thêm bình luận!");
-      setNewComment("");
-      fetchComments();
-    } catch (err) {
-      console.error(err);
-      message.error("Không thể thêm bình luận.");
-    }
-  };
+  try {
+    await axios.post("http://localhost:4000/comments", {
+      user: email,                  // 👈 Lưu email làm tên người bình luận
+      content: newComment,          // 👈 Nội dung bình luận
+      productId: Number(id),        // 👈 ID sản phẩm
+      createdAt: new Date().toISOString(), // 👈 Thời gian tạo
+      status: false,                // 👈 Trạng thái mặc định: chưa duyệt
+    });
+    message.success("Đã thêm bình luận!");
+    setNewComment("");
+    fetchComments();  // Load lại danh sách bình luận
+  } catch (err) {
+    console.error(err);
+    message.error("Không thể thêm bình luận.");
+  }
+};
+
 
 
 
@@ -311,16 +312,17 @@ const Details: React.FC = () => {
         <div className="mt-4 space-y-2">
           {comments.map((c) => (
             <div key={c.id} className="border rounded p-2">
-              <div className="flex justify-between">
-                <span className="font-medium">{c.userId}</span>
-                <span className="text-sm text-gray-500">
-                  {new Date(c.date).toLocaleString()}
-                </span>
-              </div>
-              <p>{c.content}</p>
+             <div className="flex justify-between">
+  <span className="font-medium">{c.user}</span>
+  <span className="text-sm text-gray-500">
+    {new Date(c.createdAt).toLocaleString()}
+  </span>
+</div>
+<p>{c.content}</p>
+
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
       </div>
 
 

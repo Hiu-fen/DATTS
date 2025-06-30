@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { IComment } from '../../interface/comments';
+import { IComment } from '../../../interface/comments';
 
 const CommentAdd = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<IComment>();
@@ -12,13 +12,11 @@ const CommentAdd = () => {
   const nav = useNavigate();
   const { productIdParam } = useParams(); 
 
-  
   useEffect(() => {
     if (productIdParam) {
       setProductId(productIdParam);
     }
   }, [productIdParam]);
-
 
   const mutation = useMutation({
     mutationFn: async (data: IComment) => {
@@ -27,25 +25,24 @@ const CommentAdd = () => {
     },
     onSuccess: () => {
       message.success("Thêm bình luận thành công");
-      nav(`/admin/comment/list`); 
+      nav(`/admin/comment/list`);
     },
-    onError: (error) => {
+    onError: () => {
       message.error("Có lỗi xảy ra. Vui lòng thử lại");
     },
   });
 
-
   const onSubmit = (data: IComment) => {
     const commentData: IComment = {
       ...data,
-      product: productId,  
-      status: true, 
-      date: new Date().toLocaleDateString('en-GB'),  
+      productId: productId,   // ✅ Dùng productId đúng theo BE và db.json
+      status: false,          // Mặc định khi thêm là false
+      date: new Date().toISOString(),  // ✅ ISO cho nhất quán
     };
-    mutation.mutate(commentData);  
- };
-  
-  return ( 
+    mutation.mutate(commentData);
+  };
+
+  return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Thêm bình luận cho sản phẩm</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -59,7 +56,7 @@ const CommentAdd = () => {
           />
           <span className="text-red-700">{errors.user?.message}</span>
         </div>
-        <div>                                                                                                                              
+        <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Nội dung bình luận</label>
           <textarea
             {...register('content', { required: "Không để trống" })}
@@ -78,7 +75,6 @@ const CommentAdd = () => {
       </form>
     </div>
   );
-  <h1>test commit</h1>
 };
 
 export default CommentAdd;

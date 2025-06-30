@@ -52,7 +52,6 @@ const CheckoutProduct: React.FC = () => {
     shippingProvider: "Giao hàng tiêu chuẩn",
   });
 
-  // ✅ Lấy dữ liệu từ localStorage
   useEffect(() => {
     const itemStr = localStorage.getItem("checkoutItem");
     if (itemStr) {
@@ -128,10 +127,10 @@ const CheckoutProduct: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      localStorage.removeItem("checkoutItem"); // ✅ Xoá sau khi đặt xong
+      localStorage.removeItem("checkoutItem");
 
       message.success(`Đặt hàng thành công! Mã đơn: ${orderCode}`);
-      navigate("/");
+      navigate("/history");
     } catch (err: any) {
       console.error(err);
       message.error(err.response?.data?.message || "Đặt hàng thất bại");
