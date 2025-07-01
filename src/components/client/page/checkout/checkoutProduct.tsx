@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  message,
-  Row,
-  Col,
-  Image,
-  InputNumber,
-  Button,
-  Spin,
-} from "antd";
+import { message, Row, Col, Image, Spin } from "antd";
 import axios from "axios";
-import { useUser } from "../context/UserContext";
+import { useUser } from "../../context/UserContext";
 
 interface ICartItemFull {
   productId: {
@@ -89,9 +81,11 @@ const CheckoutProduct: React.FC = () => {
       message.error("Vui lòng đăng nhập để đặt hàng");
       return navigate("/login");
     }
+
     if (!form.name || !form.phone || !form.address || !form.email) {
       return message.error("Vui lòng điền đầy đủ thông tin bắt buộc");
     }
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       return message.error("Email không hợp lệ");
     }
@@ -123,14 +117,30 @@ const CheckoutProduct: React.FC = () => {
 
     try {
       const token = localStorage.getItem("token");
+
+      // Gửi đơn hàng trước
       await axios.post("http://localhost:4000/orders", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      localStorage.removeItem("checkoutItem");
+      // Nếu thanh toán bằng VNPAY thì tạo URL VNPAY
+      if (form.paymentMethod === "Bank") {
+        const res = await axios.post(
+          "http://localhost:5000/api/vnpay/create_payment_url",
+          {
+            amount: totalWithShipping,
+            orderCode: orderCode,
+          }
+        );
 
-      message.success(`Đặt hàng thành công! Mã đơn: ${orderCode}`);
-      navigate("/history");
+        const paymentUrl = res.data.paymentUrl;
+        window.location.href = paymentUrl; // chuyển hướng đến trang VNPAY
+      } else {
+        // Nếu COD thì hiển thị thông báo và chuyển sang trang lịch sử
+        message.success(`Đặt hàng thành công! Mã đơn: ${orderCode}`);
+        localStorage.removeItem("checkoutItem");
+        navigate("/history");
+      }
     } catch (err: any) {
       console.error(err);
       message.error(err.response?.data?.message || "Đặt hàng thất bại");
@@ -161,6 +171,7 @@ const CheckoutProduct: React.FC = () => {
       <p className="text-center text-gray-600 mb-6">
         Mã đơn hàng của bạn: <span className="font-mono">{orderCode}</span>
       </p>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <div>
           <h2 className="text-2xl font-semibold mb-6 border-b pb-2">

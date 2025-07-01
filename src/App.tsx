@@ -52,11 +52,14 @@ import PromotionList from './components/admin/Promotion/PromotionList'
 import PromotionAdd from './components/admin/Promotion/PromotionAdd'
 import PromotionEdit from './components/admin/Promotion/PromotionEdit'
 import NewsDetail from './components/client/page/NewsDetail'
-import Checkout from './components/client/page/checkoutCart'
+import Checkout from './components/client/page/checkout/checkoutCart'
 import DetailOrders from './components/client/page/orderDetailClient'
 import OrderHistory from './components/client/page/history'
 import Categorys from './components/client/page/categorys'
-import CheckoutProduct from './components/client/page/checkoutProduct'
+
+import VnpayReturn from './components/client/page/checkout/VnpayReturn'
+import CheckoutProduct from './components/client/page/checkout/checkoutProduct'
+
 
 
 type Props = {}
@@ -80,6 +83,7 @@ const App = (props: Props) => {
         { path: '/history', element: <OrderHistory /> },
         { path: '/detail_order/:id', element: <DetailOrders /> },
         { path: '/category/:id', element: <Categorys /> },
+        { path: '/vnpay_return', element: <VnpayReturn  /> },
 
         
 
