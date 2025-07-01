@@ -84,74 +84,78 @@ const Checkout: React.FC = () => {
   };
 
   const handleOrder = async () => {
-  if (!userId) {
-    message.error("Vui lòng đăng nhập để đặt hàng");
-    return navigate("/login");
-  }
-  if (!form.name || !form.phone || !form.address || !form.email) {
-    return message.error("Vui lòng điền đầy đủ thông tin bắt buộc");
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-    return message.error("Email không hợp lệ");
-  }
-
-  const payload = {
-    orderCode,
-    customerName: form.name,
-    phone: form.phone,
-    address: form.address,
-    email: form.email,
-    notes: form.note,
-    paymentMethod: form.paymentMethod,
-    shippingProvider: form.shippingProvider,
-    total: totalWithShipping,
-    status: "Chờ xác nhận",
-    date: new Date().toISOString(),
-    isPaid: form.paymentMethod !== "COD",
-    refunded: false,
-    items: cartItems.map(item => ({
-      productId: item.productId.id,
-      productName: item.productId.name,
-      soluong: item.quantity,
-      price: item.productId.price,
-      color: item.color,
-      storage: item.storage,
-    })),
-    userId,
-  };
-
-  try {
-    const token = localStorage.getItem("token");
-    await axios.post(
-      "http://localhost:4000/orders",
-      payload,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    await axios.delete(
-      `http://localhost:4000/carts/${userId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    message.success(`Đặt hàng thành công! Mã đơn: ${orderCode}`);
-
-    // Đợi lâu hơn để json-server chắc chắn commit
-    await new Promise(res => setTimeout(res, 500));
-
-    const res = await axios.get(`http://localhost:4000/orders?orderCode=${orderCode}`);
-    console.log("Kết quả tìm đơn sau POST:", res.data);
-    if (res.data && res.data.length > 0 && res.data[0].id) {
-      navigate(`/detail_order/${res.data[0].id}`);
-    } else {
-      message.warning("Đặt hàng thành công nhưng không tìm thấy chi tiết đơn.");
-      navigate("/history");
+    if (!userId) {
+      message.error("Vui lòng đăng nhập để đặt hàng");
+      return navigate("/login");
     }
-  } catch (err: any) {
-    console.error(err);
-    message.error(err.response?.data?.message || "Đặt hàng thất bại");
-  }
-};
+    if (!form.name || !form.phone || !form.address || !form.email) {
+      return message.error("Vui lòng điền đầy đủ thông tin bắt buộc");
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      return message.error("Email không hợp lệ");
+    }
 
+    const payload = {
+      orderCode,
+      customerName: form.name,
+      phone: form.phone,
+      address: form.address,
+      email: form.email,
+      notes: form.note,
+      paymentMethod: form.paymentMethod,
+      shippingProvider: form.shippingProvider,
+      total: totalWithShipping,
+      status: "Chờ xác nhận",
+      date: new Date().toISOString(),
+      isPaid: form.paymentMethod !== "COD",
+      refunded: false,
+      items: cartItems.map(item => ({
+        productId: item.productId.id,
+        productName: item.productId.name,
+        soluong: item.quantity,
+        price: item.productId.price,
+        color: item.color,
+        storage: item.storage,
+      })),
+      userId,
+    };
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        "http://localhost:4000/orders",
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (form.paymentMethod === "Bank") {
+        const res = await axios.post("http://localhost:5000/api/vnpay/create_payment_url", {
+          amount: totalWithShipping,
+          orderCode,
+        });
+        const paymentUrl = res.data.paymentUrl;
+        return (window.location.href = paymentUrl);
+      }
+
+      await axios.delete(
+        `http://localhost:4000/carts/${userId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      message.success(`Đặt hàng thành công! Mã đơn: ${orderCode}`);
+      await new Promise(res => setTimeout(res, 500));
+      const res = await axios.get(`http://localhost:4000/orders?orderCode=${orderCode}`);
+      if (res.data && res.data.length > 0 && res.data[0].id) {
+        navigate(`/detail_order/${res.data[0].id}`);
+      } else {
+        message.warning("Đặt hàng thành công nhưng không tìm thấy chi tiết đơn.");
+        navigate("/history");
+      }
+    } catch (err: any) {
+      console.error(err);
+      message.error(err.response?.data?.message || "Đặt hàng thất bại");
+    }
+  };
 
   if (loading) {
     return (

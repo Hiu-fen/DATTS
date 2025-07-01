@@ -646,6 +646,77 @@
         }
       ],
       "paymentStatus": "Đã thanh toán"
+    },
+    {
+      "id": 11,
+      "userId": 3,
+      "orderCode": "ORD-OTD56",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "Bank",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 50035001,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-01T06:40:33.097Z",
+      "isPaid": true,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 7,
+          "productName": "Test Xphone",
+          "soluong": 1,
+          "price": 1,
+          "color": "Blue",
+          "storage": "1T"
+        },
+        {
+          "productId": 4,
+          "productName": "Híu đây hẹ hẹ",
+          "soluong": 1,
+          "price": 50000000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "userId": 3,
+      "orderCode": "ORD-BMQ4E",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "Bank",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 50035001,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-01T06:41:07.466Z",
+      "isPaid": true,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 7,
+          "productName": "Test Xphone",
+          "soluong": 1,
+          "price": 1,
+          "color": "Blue",
+          "storage": "1T"
+        },
+        {
+          "productId": 4,
+          "productName": "Híu đây hẹ hẹ",
+          "soluong": 1,
+          "price": 50000000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ],
+      "paymentStatus": "Đã thanh toán"
     }
   ],
   "news": [
