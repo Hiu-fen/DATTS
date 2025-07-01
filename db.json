@@ -301,6 +301,14 @@
       "productId": 3,
       "status": true,
       "createdAt": "2025-06-30T05:57:30.449Z"
+    },
+    {
+      "id": 4,
+      "content": "sản phẩm ok đấy",
+      "user": "hieu-fen@gmail.com",
+      "productId": 2,
+      "status": true,
+      "createdAt": "2025-07-01T06:50:29.274Z"
     }
   ],
   "contacts": [
@@ -860,6 +868,20 @@
       "role": "admin",
       "active": true,
       "id": 12
+    },
+    {
+      "email": "hiuhehe@gmail.com",
+      "password": "$2a$10$EAj8jPTVkUS4BoBDqol76OxTyBL/Hwzo4Mv2MdR9U/xlgN8t4Waia",
+      "name": "hieu",
+      "id": 13
+    },
+    {
+      "email": "hiuhehehe@gmail.com",
+      "password": "$2a$10$So9GDIBAPcxQfKu6rjkXcOYWZGLU.xJOm9WfCp1RUIcVhySpXXHTG",
+      "name": "hieu",
+      "role": "admin",
+      "active": true,
+      "id": 14
     }
   ],
   "banners": [

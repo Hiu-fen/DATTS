@@ -9,26 +9,23 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<User>();
 
-  const nav = useNavigate();
+  const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: async (data: User) => {
-      try {
-        const res = await axios.post(`http://localhost:4000/register`, data); // ✅ sửa endpoint
-        return res.data;
-      } catch (error) {
-        console.log(error);
-        message.error("Đăng ký thất bại");
-        throw error;
-      }
+      const res = await axios.post("http://localhost:4000/register", data);
+      return res.data;
     },
     onSuccess: () => {
       message.success("Đăng ký thành công");
-      nav("/login");
-    }
+      navigate("/login");
+    },
+    onError: (err: any) => {
+      message.error(err?.response?.data?.message || "Đăng ký thất bại");
+    },
   });
 
   const onSubmit = (data: User) => {
@@ -36,68 +33,94 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-32 px-4">
-      <div className="max-w-md mx-auto p-8 bg-white border rounded-lg shadow-md">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">Đăng ký</h2>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Name */}
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="flex flex-col md:flex-row w-full max-w-5xl bg-white rounded-3xl overflow-hidden shadow-xl">
+        {/* Bên trái - hình ảnh và giới thiệu */}
+        <div className="md:w-1/2 bg-gradient-to-br from-blue-700 to-blue-500 text-white p-10 flex flex-col justify-between">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tên</label>
-            <input
-              type="text"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("name", {
-                required: "Tên không được để trống",
-              })}
+            <img
+              src="https://adsmo.vn/wp-content/uploads/2020/12/quan-tri-web-chuyen-nghiep-gia-re-adsmo.png"
+              alt="logo"
+              style={{ width: "100%", height: "auto" }}
             />
-            <span className="text-red-500 text-sm">{errors.name?.message}</span>
+            <h2 className="text-3xl font-bold mb-4">Chào mừng bạn đến với XPhone</h2>
+            <p className="text-sm">
+              Tạo tài khoản ngay để khám phá hàng ngàn sản phẩm chất lượng và nhiều ưu đãi hấp dẫn dành cho bạn!
+            </p>
           </div>
+        </div>
 
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input
-              type="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("email", {
-                required: "Email không được để trống",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Vui lòng nhập đúng định dạng email",
-                },
-              })}
-            />
-            <span className="text-red-500 text-sm">{errors.email?.message}</span>
-          </div>
+        {/* Bên phải - Form đăng ký */}
+        <div className="md:w-1/2 p-10 bg-white">
+          <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">-------------Register-------------</h2>
+          <p className="text-red-500 mb-6 text-center">Vui lòng nhập thông tin để đăng ký tài khoản</p>
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
-            <input
-              type="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("password", {
-                required: "Mật khẩu không được để trống",
-                minLength: {
-                  value: 6,
-                  message: "Mật khẩu phải có ít nhất 6 ký tự",
-                },
-              })}
-            />
-            <span className="text-red-500 text-sm">{errors.password?.message}</span>
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* Tên */}
+            <div>
+              <input
+                type="text"
+                placeholder="Tên của bạn"
+                {...register("name", { required: "Tên không được để trống" })}
+                className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+              )}
+            </div>
 
-          {/* Submit */}
-          <div className="pt-4">
+            {/* Email */}
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                {...register("email", {
+                  required: "Email không được để trống",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Email không hợp lệ",
+                  },
+                })}
+                className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.email && (
+                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              )}
+            </div>
+
+            {/* Mật khẩu */}
+            <div>
+              <input
+                type="password"
+                placeholder="Mật khẩu"
+                {...register("password", {
+                  required: "Mật khẩu không được để trống",
+                  minLength: {
+                    value: 6,
+                    message: "Mật khẩu phải có ít nhất 6 ký tự",
+                  },
+                })}
+                className="w-full px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              )}
+            </div>
+
+            {/* Nút Đăng ký */}
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-full transition"
             >
               Đăng ký
             </button>
-          </div>
-        </form>
+          </form>
+
+          <p className="text-center text-sm mt-6 text-gray-600">
+            Đã có tài khoản?{" "}
+            <a href="/login" className="text-blue-600 hover:underline">Đăng nhập ngay</a>
+          </p>
+        </div>
       </div>
     </div>
   );
