@@ -45,33 +45,55 @@ const Cart: React.FC = () => {
 
   // Lấy giỏ hàng; nếu 404 → giỏ trống
   const getProductCart = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:4000/carts/${userId}`,
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-      );
-      const items: any[] = res.data.data?.items || [];
-      const mapped: ICartItemFull[] = items.map((it) => ({
-        id: `${it.productId.id}-${it.productId.ram || ""}-${it.productId.color || ""}`,
-        productId: it.productId,
-        quantity: it.quantity,
-        price: typeof it.productId.price === "number" ? it.productId.price : 0,
-        color: it.productId.color || "",
-        storage: it.productId.ram || "",
-      }));
-      setCartItems(mapped);
-    } catch (err: any) {
-      if (err.response?.status === 404) {
-        // Chưa có record giỏ hàng → hiểu là giỏ trống
-        setCartItems([]);
-      } else {
-        console.error("Lỗi khi lấy giỏ hàng:", err);
-        message.error("Không thể tải giỏ hàng");
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    message.error("Bạn chưa đăng nhập");
+    setLoading(false);
+    return;
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:4000/carts/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    } finally {
-      setLoading(false);
+    );
+
+    console.log("Response:", res.data);
+    const items: any[] = res.data?.items || res.data?.data?.items || [];
+
+    const mapped: ICartItemFull[] = items.map((it) => ({
+      id: `${it.productId.id}-${it.productId.ram || ""}-${it.productId.color || ""}`,
+      productId: it.productId,
+      quantity: it.quantity,
+      price: typeof it.productId.price === "number" ? it.productId.price : 0,
+      color: it.productId.color || "",
+      storage: it.productId.ram || "",
+    }));
+
+    setCartItems(mapped);
+  } catch (err: any) {
+    console.error("Lỗi lấy giỏ hàng:", err);
+
+    if (err.response?.status === 401) {
+      message.error("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      navigate("/login");
+    } else if (err.response?.status === 404 || err.response?.data?.message === "Cart not found") {
+      setCartItems([]);
+    } else {
+      message.error("Không thể tải giỏ hàng");
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     if (!userId) {

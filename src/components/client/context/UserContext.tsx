@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 export interface IUser {
-  id: string;
+  id: number;
   name: string;
   email: string;
   role: string;
@@ -21,15 +21,20 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem("user");
-    if (stored) {
-      try {
-        setUser(JSON.parse(stored));
-      } catch (e) {
-        console.error("Invalid user in localStorage");
+  const stored = localStorage.getItem("user");
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored);
+      if (parsed && typeof parsed.id === "number") {
+        setUser(parsed);
+      } else {
+        console.warn("User object invalid", parsed);
       }
+    } catch (e) {
+      console.error("Invalid user in localStorage");
     }
-  }, []);
+  }
+}, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
