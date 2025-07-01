@@ -21,6 +21,19 @@ const VnpayReturn = () => {
           setOrderCode(result.orderCode);
           message.success(`🎉 Thanh toán thành công! Mã đơn: ${result.orderCode}`);
           setShowConfetti(true);
+
+          // 🧹 Xóa giỏ hàng sau khi thanh toán thành công
+          const token = localStorage.getItem("token");
+          const user = JSON.parse(localStorage.getItem("user") || "{}");
+          if (user?.id && token) {
+            await fetch(`http://localhost:4000/carts/${user.id}`, {
+              method: "DELETE",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+          }
+
           setTimeout(() => navigate("/"), 5000);
         } else {
           setStatus("error");
