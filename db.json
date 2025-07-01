@@ -349,7 +349,31 @@
       "date": "2025-06-29T14:23:55.366Z"
     }
   ],
-  "carts": [],
+  "carts": [
+    {
+      "id": 1,
+      "userId": 13,
+      "items": []
+    },
+    {
+      "id": 2,
+      "userId": 14,
+      "items": [
+        {
+          "productId": {
+            "id": 4,
+            "name": "Híu đây hẹ hẹ",
+            "price": 50000000,
+            "image": "https://picsum.photos/200",
+            "description": "hiếu tets",
+            "ram": "1T",
+            "color": "Blue"
+          },
+          "quantity": 1
+        }
+      ]
+    }
+  ],
   "orders": [
     {
       "id": 1,
@@ -722,6 +746,33 @@
         }
       ],
       "paymentStatus": "Đã thanh toán"
+    },
+    {
+      "id": 14,
+      "userId": 14,
+      "orderCode": "ORD-9G0E4",
+      "customerName": "hieu",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiuhehehe@gmail.com",
+      "notes": "",
+      "paymentMethod": "Bank",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 50035000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-01T07:09:23.332Z",
+      "isPaid": true,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 4,
+          "productName": "Híu đây hẹ hẹ",
+          "soluong": 1,
+          "price": 50000000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
     }
   ],
   "news": [
