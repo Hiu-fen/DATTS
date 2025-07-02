@@ -17,15 +17,10 @@ const PostAddCategory = () => {
   const mutation = useMutation({
     mutationFn: async (data: Icatagory) => {
       try {
-        const formData = new FormData();
-        formData.append("name", data.name);
-        formData.append("mota", data.mota);
-        formData.append("image", data.image[0]); // file input
-
-        const res = await axios.post("http://localhost:4000/category", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        const res = await axios.post("http://localhost:4000/category", {
+          name: data.name,
+          mota: data.mota,
+          image: data.image, // Là chuỗi URL
         });
 
         return res.data;
@@ -36,7 +31,7 @@ const PostAddCategory = () => {
     },
     onSuccess: () => {
       message.success("Thêm mới danh mục thành công");
-      nav("/admin/category/list"); // ✅ sửa đường dẫn đúng
+      nav("/admin/category/list");
     },
     onError: () => {
       message.error("Lỗi khi thêm danh mục");
@@ -50,7 +45,7 @@ const PostAddCategory = () => {
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-        Thêm mới danh mục
+        Thêm mới danh mục (dùng URL ảnh)
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
@@ -59,11 +54,11 @@ const PostAddCategory = () => {
           </label>
           <input
             type="text"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Nhập tên"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            placeholder="Nhập tên danh mục"
             {...register("name", {
-              required: "Không để trống",
-              minLength: { value: 5, message: "Tối thiểu là 5 ký tự" },
+              required: "Không được để trống",
+              minLength: { value: 5, message: "Tối thiểu 5 ký tự" },
             })}
           />
           <span className="text-red-700">{errors.name?.message}</span>
@@ -71,14 +66,18 @@ const PostAddCategory = () => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Ảnh danh mục
+            URL ảnh danh mục
           </label>
           <input
-            type="file"
-            className="w-full"
-            accept="image/*"
+            type="text"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            placeholder="https://example.com/image.jpg"
             {...register("image", {
-              required: "Không được bỏ trống",
+              required: "Không được để trống",
+              pattern: {
+                value: /^https?:\/\/.*\.(jpg|jpeg|png|gif|webp)$/i,
+                message: "URL ảnh không hợp lệ",
+              },
             })}
           />
           <span className="text-red-700">{errors.image?.message}</span>
@@ -90,11 +89,11 @@ const PostAddCategory = () => {
           </label>
           <input
             type="text"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md"
             placeholder="Nhập mô tả"
             {...register("mota", {
-              required: "Không để trống",
-              minLength: { value: 5, message: "Tối thiểu là 5 ký tự" },
+              required: "Không được để trống",
+              minLength: { value: 5, message: "Tối thiểu 5 ký tự" },
             })}
           />
           <span className="text-red-700">{errors.mota?.message}</span>

@@ -2,22 +2,40 @@
   "books": [],
   "category": [
     {
-      "name": "Iphone",
-      "mota": "Điện thoại táo",
-      "image": "https://png.pngtree.com/png-vector/20201030/ourlarge/pngtree-cute-teddy-bear-png-image_2383062.jpg",
+      "name": "Dell ",
+      "mota": "laptop Dell",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWYKXuhh7qcrL80aLeL3Tde878FMMedvc-u_U-FBmKpCjk6Ezg9JZSA1DeeCg0zOS4zu4&usqp=CAU",
       "id": 1
     },
     {
-      "name": "SamSung",
-      "image": "https://png.pngtree.com/png-vector/20201030/ourlarge/pngtree-cute-teddy-bear-png-image_2383062.jpg",
-      "mota": "điện thoại androi",
+      "name": " HP  ",
+      "image": "https://bizweb.dktcdn.net/thumb/1024x1024/100/386/618/products/hp15-dy2095wm-2.jpg?v=1639622530480",
+      "mota": "Laptop HP",
       "id": 2
     },
     {
-      "name": "Oppo",
-      "image": "https://png.pngtree.com/png-vector/20201030/ourlarge/pngtree-cute-teddy-bear-png-image_2383062.jpg",
-      "mota": "đập thoải moãi :v",
+      "name": "Apple",
+      "image": "data:image/jpeg;base64,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",
+      "mota": "Apple",
       "id": 3
+    },
+    {
+      "name": "ASUS ",
+      "mota": "ASUS ",
+      "image": "data:image/jpeg;base64,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",
+      "id": 4
+    },
+    {
+      "name": "MSI  ",
+      "mota": "MSI  ",
+      "image": "https://product.hstatic.net/200000837185/product/2024_4_24_638495677939555516_msi_thin_15_b12u_272f92d244354b0f8761387c424e0b3d.png",
+      "id": 5
+    },
+    {
+      "name": "Levono",
+      "mota": "Levono",
+      "image": "https://laptopworld.vn/media/product/16746_lenovo_loq_15iax9_2024__11_logo.jpg",
+      "id": 6
     }
   ],
   "products": [
@@ -27,14 +45,16 @@
       "parent": 0,
       "type": "variable",
       "album": [
-        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+        "https://cdn.tgdd.vn/Products/Images/44/289472/apple-macbook-air-m2-2022-16gb-256gb-1-2-750x500.jpg",
+        "https://cdn.tgdd.vn/Products/Images/44/289472/apple-macbook-air-m2-2022-16gb-256gb-6-2-750x500.jpg",
+        "https://cdn.tgdd.vn/Products/Images/44/289472/apple-macbook-air-m2-2022-16gb-256gb-5-2-750x500.jpg"
       ],
-      "price": 1,
-      "quantity": 1,
-      "name": "Test Xphone4",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "description": "tttttttttt",
-      "category": 1,
+      "price": 20890000,
+      "quantity": 2,
+      "name": "Laptop MacBook Air 13 inch M2 16GB/256GB",
+      "image": "https://cdn.tgdd.vn/Products/Images/44/289472/apple-macbook-air-m2-2022-16gb-256gb-2-2-750x500.jpg",
+      "description": "Apple M2",
+      "category": 3,
       "status": "Còn hàng",
       "variants": [
         {
@@ -42,21 +62,14 @@
           "ram": "1T",
           "color": "Blue",
           "quantity": 1,
-          "price": 1
+          "price": 20890000
         },
         {
           "id": 2,
           "ram": "64BB",
           "color": "RED",
           "quantity": 1,
-          "price": 1
-        },
-        {
-          "id": 3,
-          "ram": "8GB",
-          "color": "Đen",
-          "quantity": 1,
-          "price": 1
+          "price": 18890000
         }
       ]
     },
@@ -66,29 +79,31 @@
       "parent": 0,
       "type": "variable",
       "album": [
-        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+        "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/327977/asus-vivobook-15-x1504za-i5-nj1546w-1-638633757298878635-750x500.jpg",
+        "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/327977/asus-vivobook-15-x1504za-i5-nj1546w-2-638633757306036481-750x500.jpg",
+        "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/327977/asus-vivobook-15-x1504za-i5-nj1546w-3-638633757312614675-750x500.jpg"
       ],
-      "price": 35000000,
-      "quantity": 10,
-      "name": "iphone 100",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "description": "hiếu đây",
-      "category": 1,
+      "price": 14690000,
+      "quantity": 113,
+      "name": "Laptop Asus Vivobook 15 X1504ZA i5 1235U/16GB/512GB/Win11 (NJ1546W)",
+      "image": "https://cdn.tgdd.vn/Products/Images/44/327977/Slider/vi-vn-asus-vivobook-15-x1504za-i5-nj1546w-slider-1.jpg",
+      "description": "Intel Core i5 Alder Lake - 1235U",
+      "category": 4,
       "status": "Còn hàng",
       "variants": [
         {
           "id": 3,
           "ram": "1T",
           "color": "Blue",
-          "quantity": 5,
-          "price": 5000000
+          "quantity": 56,
+          "price": 14690000
         },
         {
           "id": 4,
           "ram": "64BB",
           "color": "RED",
-          "quantity": 5,
-          "price": 4000000
+          "quantity": 57,
+          "price": 12690000
         }
       ]
     },
@@ -98,15 +113,16 @@
       "parent": 0,
       "type": "variable",
       "album": [
-        "https://picsum.photos/200",
-        "https://picsum.photos/200"
+        "https://surfaceviet.vn/wp-content/uploads/2025/03/hp-15-fd0095wm-i5-1235u-8gb-ssd-256gb-15-6-hd-win-11-silver-1.jpg",
+        "https://surfaceviet.vn/wp-content/uploads/2025/03/hp-15-fd0095wm-i5-1235u-8gb-ssd-256gb-15-6-hd-win-11-silver-2.jpg",
+        "https://surfaceviet.vn/wp-content/uploads/2025/03/hp-15-fd0095wm-i5-1235u-8gb-ssd-256gb-15-6-hd-win-11-silver-3.jpg"
       ],
-      "price": 50000000,
-      "quantity": 20,
-      "name": "Híu đây hẹ hẹ",
-      "image": "https://picsum.photos/200",
-      "description": "hiếu tets",
-      "category": 1,
+      "price": 11690000,
+      "quantity": 130,
+      "name": "HP 15 – FD0095WM, i5 1235U, 8GB, SSD 256GB, 15.6″ HD, Win 11, Silver",
+      "image": "https://surfaceviet.vn/wp-content/uploads/2025/03/hp-15-fd0095wm-i5-1235u-8gb-ssd-256gb-15-6-hd-win-11-silver.jpg",
+      "description": "HP 15 – FD0095WM là dòng Laptop Văn Phòng lý tưởng dành cho học sinh, sinh viên, người làm việc văn phòng chuyên nghiệp.\n\nHP 15 – FD0095WM, i5 1235U, 8GB, SSD 256GB, 15.6″ HD, Win 11, Silver với thiết kế thanh lịch, màn hình 15.6 inch sắc nét, cùng cấu hình mạnh mẽ, hiệu năng ổn định cho khả năng xử lý đa nhiệm đáp ứng tốt mọi nhu cầu sử dụng. Đây là một trong những chiếc laptop đáng để trải nghiệm trong năm 2025 này!",
+      "category": 2,
       "status": "Còn hàng",
       "variants": [
         {
@@ -114,21 +130,21 @@
           "ram": "1T",
           "color": "Blue",
           "quantity": 10,
-          "price": 50000000
+          "price": 11690000
         },
         {
           "id": 4,
           "ram": "1T",
-          "color": "Blue",
+          "color": "Đen",
           "quantity": 10,
-          "price": 50000000
+          "price": 11690000
         },
         {
           "id": 5,
           "ram": "64BB",
           "color": "RED",
           "quantity": 110,
-          "price": 50000000
+          "price": 10690000
         }
       ]
     },
@@ -138,14 +154,16 @@
       "parent": 0,
       "type": "variable",
       "album": [
-        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+        "https://surfaceviet.vn/wp-content/uploads/2025/05/gia-ban-laptop-lenovo-v14-g4-83a000fnvn-intel-core-i5-13420h-16gb-512gb-14-inch-fhd.jpg",
+        "https://surfaceviet.vn/wp-content/uploads/2025/05/laptop-lenovo-v14-g4-83a000fnvn-intel-core-i5-13420h.jpg",
+        "https://surfaceviet.vn/wp-content/uploads/2025/05/laptop-lenovo-v14-g4-83a000fnvn-gia-re.jpg"
       ],
-      "price": 3500000,
-      "quantity": 10,
-      "name": "iphone1234",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "description": "iphone vip pro ",
-      "category": 1,
+      "price": 13690000,
+      "quantity": 556,
+      "name": "Laptop Lenovo V14 G4 83A000FNVN",
+      "image": "https://surfaceviet.vn/wp-content/uploads/2025/05/laptop-lenovo-v14-g4-83a000fnvn-intel-core-i5-13420h-16gb-512gb-14-inch-fhd-intel-uhd-noos-xam.jpg",
+      "description": "Core i5 Raptor Lake",
+      "category": 6,
       "status": "Còn hàng",
       "variants": [
         {
@@ -153,21 +171,21 @@
           "ram": "1T",
           "color": "Blue",
           "quantity": 112,
-          "price": 3500000
+          "price": 17690000
         },
         {
           "id": 2,
           "ram": "64BB",
           "color": "RED",
           "quantity": 123,
-          "price": 3000000
+          "price": 13690000
         },
         {
           "id": 3,
           "ram": "36GB",
           "color": "Đen",
           "quantity": 321,
-          "price": 2500000
+          "price": 11690000
         }
       ]
     },
@@ -177,29 +195,30 @@
       "parent": 0,
       "type": "variable",
       "album": [
-        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+        "https://surfaceviet.vn/wp-content/uploads/2025/05/laptop-lenovo-thinkpad-e14-gen-6-21m7004wva.jpg",
+        "https://surfaceviet.vn/wp-content/uploads/2025/05/laptop-lenovo-thinkpad-e14-gen-6-21m7004wva-intel-core-ultra-7-155h.jpg"
       ],
-      "price": 123456,
-      "quantity": 31,
-      "name": "Test Xphone",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "description": "test ",
-      "category": 2,
+      "price": 26490000,
+      "quantity": 286,
+      "name": "Laptop Lenovo ThinkPad E14 Gen 6 21M7004WVA",
+      "image": "https://surfaceviet.vn/wp-content/uploads/2025/05/laptop-lenovo-thinkpad-e14-gen-6-21m7004wva-intel-core-ultra-7-155h-16gb-512gb-intel-arc-14-inch-wuxga-noos-den.jpg",
+      "description": "Intel® Core™ Ultra 7 155H",
+      "category": 6,
       "status": "Còn hàng",
       "variants": [
         {
           "id": 1,
           "ram": "1T",
           "color": "Blue",
-          "quantity": 11,
-          "price": 123456
+          "quantity": 151,
+          "price": 26490000
         },
         {
           "id": 2,
-          "ram": "1T",
+          "ram": "64BB",
           "color": "RED",
-          "quantity": 20,
-          "price": 654321
+          "quantity": 135,
+          "price": 23490000
         }
       ]
     },
@@ -209,13 +228,15 @@
       "parent": 0,
       "type": "variable",
       "album": [
-        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+        "https://surfaceviet.vn/wp-content/uploads/2025/03/dell-vostro-3530-i5-1334u-8gb-512gb-ssd-15-6fhd-dos-black-1.jpg",
+        "https://surfaceviet.vn/wp-content/uploads/2025/03/dell-vostro-3530-i5-1334u-8gb-512gb-ssd-15-6fhd-dos-black-2.jpg",
+        "https://surfaceviet.vn/wp-content/uploads/2025/03/dell-vostro-3530-i5-1334u-8gb-512gb-ssd-15-6fhd-dos-black-3.jpg"
       ],
-      "price": 1,
-      "quantity": 1,
-      "name": "Test Xphone",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "description": "aaaaaaaa",
+      "price": 12570000,
+      "quantity": 200,
+      "name": "Dell Vostro 3530 i5-1334U/8GB/512GB SSD/15.6″FHD/Dos/Black",
+      "image": "https://surfaceviet.vn/wp-content/uploads/2025/03/dell-vostro-3530-i5-1334u-8gb-512gb-ssd-15-6fhd-dos-black.jpg",
+      "description": "Dell Vostro 3530 là dòng laptop văn phòng có thiết kế thanh lịch, sang trọng, cùng cấu hình ổn định đáp ứng tốt nhu cầu học tập, làm việc văn phòng chuyên nghiệp.\n\nCùng Surface Việt tìm hiểu chi tiết hơn về dòng máy này qua phiên bản Dell Vostro 3530 i5-1334U/8GB/512GB SSD/15.6″FHD/Dos/Black này nhé!",
       "category": 1,
       "status": "Còn hàng",
       "variants": [
@@ -223,8 +244,15 @@
           "id": 1,
           "ram": "1T",
           "color": "Blue",
-          "quantity": 1,
-          "price": 1
+          "quantity": 100,
+          "price": 14790000
+        },
+        {
+          "id": 2,
+          "ram": "64BB",
+          "color": "RED",
+          "quantity": 100,
+          "price": 12790000
         }
       ]
     },
@@ -234,29 +262,64 @@
       "parent": 0,
       "type": "variable",
       "album": [
-        "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+        "https://surfaceviet.vn/wp-content/uploads/2025/03/dell-vostro-3520-i3-1215u-8gb-512gb-ssd-15-6fhd-dos-black-1.png",
+        "https://surfaceviet.vn/wp-content/uploads/2025/03/dell-vostro-3520-i3-1215u-8gb-512gb-ssd-15-6fhd-dos-black-2.png"
       ],
-      "price": 1,
-      "quantity": 2,
-      "name": "Test Xphone",
-      "image": "https://up.yimg.com/ib/th?id=OIP.ZG0skgfQihNQQjWgEnJpagHaHa&pid=Api&rs=1&c=1&qlt=95&w=121&h=121",
-      "description": "ádfghjk",
+      "price": 8990000,
+      "quantity": 200,
+      "name": "Dell Vostro 3520 i3-1215U/8GB/512GB SSD/15.6″FHD/Dos/Black",
+      "image": "https://surfaceviet.vn/wp-content/uploads/2025/03/dell-vostro-3520-i3-1215u-8gb-512gb-ssd-15-6fhd-dos-black.png",
+      "description": "Dell Vostro 3520 là chiếc máy tính xách tay có hiệu suất ổn định với giá bán phải chăng. Máy được trang bị chip Intel Core i3 1215U, đi cùng card đồ họa UHD Graphics, RAM 8GB và bộ nhớ SSD 512GB, mang đến khả năng xử lý mượt mà cho các tác vụ văn phòng, học tập và giải trí nhẹ nhàng.\n\nCùng tìm hiểu chi tiết hơn về dòng máy này qua phiên bản Dell Vostro 3520 i3-1215U/8GB/512GB SSD/15.6″FHD/Dos/Black này nhé!",
       "category": 1,
       "status": "Còn hàng",
       "variants": [
         {
           "id": 1,
-          "ram": "36GB",
+          "ram": "1T",
           "color": "RED",
-          "price": 1,
-          "quantity": 1
+          "quantity": 100,
+          "price": 8990000
+        },
+        {
+          "id": 2,
+          "ram": "64BB",
+          "color": "Blue",
+          "quantity": 100,
+          "price": 8990000
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "score": 0,
+      "parent": 0,
+      "type": "variable",
+      "album": [
+        "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/326124/msi-thin-15-b12ucx-i5-2046vn-3-638718440288235420-750x500.jpg",
+        "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/326124/msi-thin-15-b12ucx-i5-2046vn-2-638718440281980134-750x500.jpg",
+        "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/326124/msi-thin-15-b12ucx-i5-2046vn-4-638718440294612427-750x500.jpg"
+      ],
+      "price": 17690000,
+      "quantity": 257,
+      "name": "Laptop MSI Gaming Thin 15 B12UCX",
+      "image": "https://cdn.tgdd.vn/Products/Images/44/326124/Slider/vi-vn-msi-thin-15-b12ucx-i5-2046vn-sliders-1.jpg",
+      "description": "Intel Core i5 Alder Lake - 12450H",
+      "category": 5,
+      "status": "Còn hàng",
+      "variants": [
+        {
+          "id": 1,
+          "ram": "64BB",
+          "color": "Đen",
+          "quantity": 234,
+          "price": 17690000
         },
         {
           "id": 2,
           "ram": "1T",
           "color": "Blue",
-          "price": 1,
-          "quantity": 1
+          "quantity": 23,
+          "price": 17969000
         }
       ]
     }
@@ -773,6 +836,62 @@
           "storage": "1T"
         }
       ]
+    },
+    {
+      "id": 15,
+      "userId": 3,
+      "orderCode": "ORD-HYD16",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "Bank",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 35020.89,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-02T00:50:07.447Z",
+      "isPaid": true,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Laptop MacBook Air 13 inch M2 16GB/256GB",
+          "soluong": 1,
+          "price": 20.89,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ],
+      "paymentStatus": "Đã thanh toán"
+    },
+    {
+      "id": 16,
+      "userId": 3,
+      "orderCode": "ORD-Y975Z",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "Bank",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 13725000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-02T01:09:00.198Z",
+      "isPaid": true,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 5,
+          "productName": "Laptop Lenovo V14 G4 83A000FNVN",
+          "soluong": 1,
+          "price": 13690000,
+          "color": "RED",
+          "storage": "64BB"
+        }
+      ],
+      "paymentStatus": "Đã thanh toán"
     }
   ],
   "news": [

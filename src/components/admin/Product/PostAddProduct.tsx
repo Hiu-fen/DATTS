@@ -189,12 +189,13 @@ const PostAddProduct = () => {
     data.score = 0;
 
     const variantsPayload = valids.map((v, i) => ({
-      id: i + 1,
-      ram: v.ram,
-      color: v.color,
-      price: v.price,
-      quantity: v.quantity,
-    }));
+  id: i + 1,
+  ram: v.ram,
+  color: v.color,
+  price: Number(v.price),
+  quantity: Number(v.quantity),
+}));
+
 
     const payload = { ...data, variants: variantsPayload };
 
@@ -439,12 +440,16 @@ const PostAddProduct = () => {
               </div>
               <div>
                 <InputNumber
-                  min={1}
-                  value={v.price}
-                  onChange={(val) => updateVariant(i, "price", val || 1)}
-                  className="w-full"
-                  placeholder="Giá (VND)"
-                />
+  min={0}
+  stringMode
+  precision={6} // số thập phân tối đa được giữ (6 số 0 sau dấu .)
+  value={v.price}
+  onChange={(val) => updateVariant(i, "price", Number(val))}
+
+  className="w-full"
+  placeholder="Giá (VND)"
+/>
+
                 {variantErrors[i]?.price && (
                   <p className="text-red-500 text-sm">{variantErrors[i].price}</p>
                 )}

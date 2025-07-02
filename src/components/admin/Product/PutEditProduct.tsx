@@ -18,7 +18,7 @@ interface IVariantForm {
   ram: string;
   color: string;
   quantity: number;
-  price: number;
+  price: string;
 }
 
 interface IVariantError {
@@ -74,7 +74,6 @@ const PutEditProduct = () => {
   const [variantErrors, setVariantErrors] = useState<IVariantError[]>([]);
   const nav = useNavigate();
 
-  // Load data
   useEffect(() => {
     axios
       .get<ICategory[]>("http://localhost:4000/category")
@@ -103,48 +102,43 @@ const PutEditProduct = () => {
       .catch(() => message.error("Lỗi tải sản phẩm"));
   }, [id, reset]);
 
-  // Calculate total quantity from variants
   useEffect(() => {
     const total = variantForms.reduce((sum, v) => sum + (v.quantity || 0), 0);
     setValue("quantity", total);
   }, [variantForms, setValue]);
 
-  // Validate variants
   const validateVariants = (variants: IVariantForm[]): IVariantError[] => {
     const errors: IVariantError[] = variants.map((variant, index) => {
       const error: IVariantError = {};
-      // Validate RAM
       if (!variant.ram) {
         error.ram = "Vui lòng chọn RAM";
       } else if (
         variantValues.ram &&
-        !variantValues.ram.some(opt => opt.value === variant.ram)
+        !variantValues.ram.some((opt) => opt.value === variant.ram)
       ) {
         error.ram = "RAM không hợp lệ";
       }
-      // Validate Color
+
       if (!variant.color) {
         error.color = "Vui lòng chọn màu";
       } else if (
         variantValues.color &&
-        !variantValues.color.some(opt => opt.value === variant.color)
+        !variantValues.color.some((opt) => opt.value === variant.color)
       ) {
         error.color = "Màu không hợp lệ";
       }
-      // Validate Quantity
+
       if (!variant.quantity || variant.quantity <= 0) {
         error.quantity = "Số lượng phải lớn hơn 0";
       }
-      // Validate Price
-      if (!variant.price || variant.price <= 0) {
+
+      if (!variant.price || Number(variant.price) <= 0) {
         error.price = "Giá phải lớn hơn 0";
       }
-      // Check for duplicate RAM + Color combination
+
       const isDuplicate = variants.some(
         (v, i) =>
-          i !== index &&
-          v.ram === variant.ram &&
-          v.color === variant.color
+          i !== index && v.ram === variant.ram && v.color === variant.color
       );
       if (isDuplicate) {
         error.duplicate = "Biến thể này đã tồn tại";
@@ -154,12 +148,10 @@ const PutEditProduct = () => {
     return errors;
   };
 
-  // Update variant errors
   useEffect(() => {
     setVariantErrors(validateVariants(variantForms));
   }, [variantForms, variantValues]);
 
-  // Album handlers
   const handleAlbumChange = (i: number, v: string) => {
     const updated = [...albumFields];
     updated[i] = v;
@@ -169,9 +161,9 @@ const PutEditProduct = () => {
   const removeAlbumField = (i: number) =>
     setAlbumFields(albumFields.filter((_, idx) => idx !== i));
 
-  // Variant handlers
   const addVariant = () =>
-    setVariantForms([...variantForms, { ram: "", color: "", quantity: 1, price: 1 }]);
+    setVariantForms([...variantForms, { ram: "", color: "", quantity: 1, price: "1" }]);
+
   const updateVariant = <K extends keyof IVariantForm>(
     i: number,
     field: K,
@@ -184,7 +176,6 @@ const PutEditProduct = () => {
   const removeVariant = (i: number) =>
     setVariantForms(variantForms.filter((_, idx) => idx !== i));
 
-  // Submit
   const onSubmit = async (data: IProduct) => {
     const currentErrors = validateVariants(variantForms);
     setVariantErrors(currentErrors);
@@ -199,7 +190,7 @@ const PutEditProduct = () => {
 
     data.album = albumFields.filter((u) => u.trim() !== "");
     const validVariants = variantForms.filter(
-      (v) => v.ram && v.color && v.quantity > 0 && v.price > 0
+      (v) => v.ram && v.color && v.quantity > 0 && Number(v.price) > 0
     );
     data.type = validVariants.length ? "variable" : "simple";
     data.parent = 0;
@@ -207,7 +198,7 @@ const PutEditProduct = () => {
 
     const payload = {
       ...data,
-      variants: validVariants,
+      variants: validVariants.map((v) => ({ ...v, price: Number(v.price) })),
     };
 
     try {
@@ -355,9 +346,9 @@ const PutEditProduct = () => {
             className="w-full border px-3 py-2 rounded"
             rows={4}
           />
-                      {errors.description && (
-              <p className="text-red-500">{errors.description.message}</p>
-            )}
+          {errors.description && (
+            <p className="text-red-500">{errors.description.message}</p>
+          )}
         </div>
         {/* Danh mục & Trạng thái */}
         <div className="grid grid-cols-2 gap-4">
@@ -393,7 +384,7 @@ const PutEditProduct = () => {
             )}
           </div>
         </div>
-         {/* Variants */}
+        {/* Variants */}
         <div>
           <div className="flex justify-between items-center mb-2">
             <label className="font-medium">Biến thể (RAM & Color)</label>
@@ -456,12 +447,22 @@ const PutEditProduct = () => {
               </div>
               <div>
                 <InputNumber
-                  min={1}
+                  min="0"
+                  stringMode
+                  precision={6}
                   value={v.price}
-                  onChange={(val) => updateVariant(i, "price", val || 1)}
+                  onChange={(val) => {
+                    if (val !== null) {
+                      updateVariant(i, "price", val.toString());
+                    }
+                  }}
                   className="w-full"
-                  placeholder="Giá"
+                  placeholder="Giá (VND)"
                 />
+
+
+
+
                 {variantErrors[i]?.price && (
                   <p className="text-red-500 text-sm">{variantErrors[i].price}</p>
                 )}

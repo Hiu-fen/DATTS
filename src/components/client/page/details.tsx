@@ -35,6 +35,7 @@ interface IProductDetail {
 }
 
 const Details: React.FC = () => {
+
   const [newComment, setNewComment] = useState<string>("");
   const [comments, setComments] = useState<any[]>([]);
 
@@ -147,6 +148,7 @@ const Details: React.FC = () => {
       message.error("Thêm vào giỏ hàng thất bại.");
     }
   };
+  
 
   const handleCheckout = () => {
     if (!selectedVariantId) return message.error("Vui lòng chọn 1 biến thể.");
@@ -183,6 +185,8 @@ const Details: React.FC = () => {
   if (!product) {
     return <div className="p-10 text-center text-xl">Sản phẩm không tồn tại.</div>;
   }
+    const selectedVariant = product.variants?.find(v => v.id === selectedVariantId);
+const displayPrice = selectedVariant ? selectedVariant.price : product.price;
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -226,17 +230,17 @@ const Details: React.FC = () => {
 
           <Col xs={24} md={12}>
             <h1 className="text-3xl font-bold mb-3">{product.name}</h1>
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-              <p className="text-sm text-gray-600">Giá sản phẩm</p>
-              <div className="flex items-end gap-3">
-                <span className="text-3xl font-bold text-black">
-                  {product.price.toLocaleString()}<sup className="text-base">₫</sup>
-                </span>
-                <span className="line-through text-gray-400 text-lg">
-                  {(product.price * 1.13).toLocaleString()}₫
-                </span>
-              </div>
-            </div>
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+  <p className="text-sm text-gray-600">Giá sản phẩm</p>
+  <div className="flex items-end gap-3">
+    <span className="text-3xl font-bold text-black">
+      {displayPrice.toLocaleString()}<sup className="text-base">₫</sup>
+    </span>
+    <span className="line-through text-gray-400 text-lg">
+      {(displayPrice * 1.13).toLocaleString()}₫
+    </span>
+  </div>
+</div>
 
             <p className="mb-4 text-base">
               <span className="font-semibold">Tình trạng: </span>
