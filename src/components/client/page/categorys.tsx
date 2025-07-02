@@ -101,7 +101,7 @@ const Categorys: React.FC = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 max-w-screen-xl mx-auto">
         {filteredProducts.map((product) => (
           <Link
-            to={`/detail/${product.id}`}
+            to={`/product/${product.id}`}
             key={product.id}
             className="bg-white rounded-lg shadow hover:shadow-md transition duration-300 overflow-hidden group"
           >
