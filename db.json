@@ -868,7 +868,34 @@
     {
       "id": 16,
       "userId": 3,
-      "orderCode": "ORD-Y975Z",
+      "orderCode": "ORD-DJQ4S",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 11725000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-03T08:09:22.705Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 4,
+          "productName": "HP 15 – FD0095WM, i5 1235U, 8GB, SSD 256GB, 15.6″ HD, Win 11, Silver",
+          "soluong": 1,
+          "price": 11690000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "userId": 3,
+      "orderCode": "ORD-YFDAA",
       "customerName": "Híu đây hẹ hẹ",
       "phone": "0987654321",
       "address": "hà nội thứ 7 phải lên đồ",
@@ -876,22 +903,103 @@
       "notes": "",
       "paymentMethod": "Bank",
       "shippingProvider": "Giao hàng tiêu chuẩn",
-      "total": 13725000,
+      "total": 14825000,
       "status": "Chờ xác nhận",
-      "date": "2025-07-02T01:09:00.198Z",
+      "date": "2025-07-03T08:09:43.036Z",
       "isPaid": true,
       "refunded": false,
       "items": [
         {
-          "productId": 5,
-          "productName": "Laptop Lenovo V14 G4 83A000FNVN",
+          "productId": 7,
+          "productName": "Dell Vostro 3530 i5-1334U/8GB/512GB SSD/15.6″FHD/Dos/Black",
           "soluong": 1,
-          "price": 13690000,
-          "color": "RED",
-          "storage": "64BB"
+          "price": 14790000,
+          "color": "Blue",
+          "storage": "1T"
         }
       ],
       "paymentStatus": "Đã thanh toán"
+    },
+    {
+      "id": 18,
+      "userId": 3,
+      "orderCode": "ORD-6AQ0Y",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 14825000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-03T08:14:53.558Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 7,
+          "productName": "Dell Vostro 3530 i5-1334U/8GB/512GB SSD/15.6″FHD/Dos/Black",
+          "soluong": 1,
+          "price": 14790000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "userId": 3,
+      "orderCode": "ORD-YYM4S",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 11725000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-03T08:16:46.361Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 4,
+          "productName": "HP 15 – FD0095WM, i5 1235U, 8GB, SSD 256GB, 15.6″ HD, Win 11, Silver",
+          "soluong": 1,
+          "price": 11690000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "userId": 3,
+      "orderCode": "ORD-IB1KW",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 9025000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-03T08:17:48.886Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 8,
+          "productName": "Dell Vostro 3520 i3-1215U/8GB/512GB SSD/15.6″FHD/Dos/Black",
+          "soluong": 1,
+          "price": 8990000,
+          "color": "RED",
+          "storage": "1T"
+        }
+      ]
     }
   ],
   "news": [

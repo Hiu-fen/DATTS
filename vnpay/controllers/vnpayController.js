@@ -163,7 +163,11 @@ const verifyVnpayReturn = async (req, res) => {
         status: "Chờ xác nhận"
       });
 
-      return res.json({ success: true, orderCode });
+      return res.json({
+        success: true,
+        orderCode: order.orderCode,
+        orderId: order.id, // ✅ Trả thêm ID để FE chuyển trang
+      });
     }
 
     return res.json({ success: false, message: "Thanh toán thất bại" });
@@ -172,6 +176,7 @@ const verifyVnpayReturn = async (req, res) => {
     return res.status(500).json({ success: false, message: "Lỗi server" });
   }
 };
+
 
 module.exports = {
   createVnpayUrl,

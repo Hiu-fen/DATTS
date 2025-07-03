@@ -21,20 +21,18 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
-  const stored = localStorage.getItem("user");
-  if (stored) {
-    try {
-      const parsed = JSON.parse(stored);
-      if (parsed && typeof parsed.id === "number") {
-        setUser(parsed);
-      } else {
-        console.warn("User object invalid", parsed);
+    const stored = localStorage.getItem("user");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed && typeof parsed.id === "number") {
+          setUser(parsed);
+        }
+      } catch (e) {
+        // ignore parse errors
       }
-    } catch (e) {
-      console.error("Invalid user in localStorage");
     }
-  }
-}, []);
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
@@ -43,8 +41,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useUser = () => {
+// ✅ Dùng function declaration để fix lỗi HMR
+export function useUser() {
   const context = useContext(UserContext);
   if (!context) throw new Error("useUser must be used within a UserProvider");
   return context;
-};
+}

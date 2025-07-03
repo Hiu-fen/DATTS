@@ -23,6 +23,7 @@ const Login = () => {
       localStorage.setItem("user", JSON.stringify(res.user));
       message.success("Đăng nhập thành công");
       navigate("/");
+      window.location.reload()
     },
     onError: (err: any) => {
       message.error(err?.response?.data?.message || "Đăng nhập thất bại");
