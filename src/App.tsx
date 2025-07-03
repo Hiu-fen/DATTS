@@ -59,6 +59,7 @@ import Categorys from './components/client/page/categorys'
 
 import VnpayReturn from './components/client/page/checkout/VnpayReturn'
 import CheckoutProduct from './components/client/page/checkout/checkoutProduct'
+import CodReturn from './components/client/page/checkout/CodReturn'
 
 
 
@@ -84,6 +85,7 @@ const App = (props: Props) => {
         { path: '/detail_order/:id', element: <DetailOrders /> },
         { path: '/category/:id', element: <Categorys /> },
         { path: '/vnpay_return', element: <VnpayReturn  /> },
+        { path: '/cod_return', element: <CodReturn /> },
 
         
 

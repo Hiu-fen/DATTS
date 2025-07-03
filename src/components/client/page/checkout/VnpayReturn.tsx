@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { message, Result, Button } from "antd";
+import { Button, Spin } from "antd";
 import Confetti from "react-confetti";
+import {
+  LoadingOutlined,
+  CheckCircleTwoTone,
+  CloseCircleTwoTone,
+} from "@ant-design/icons";
 
 const VnpayReturn = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [status, setStatus] = useState<"processing" | "success" | "error">("processing");
-  const [orderCode, setOrderCode] = useState<string | null>(null);
+  const [orderId, setOrderId] = useState<number | null>(null);        // ✅ Dùng để điều hướng
+  const [orderCode, setOrderCode] = useState<string | null>(null);    // ✅ Hiển thị mã đơn
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
@@ -16,15 +23,15 @@ const VnpayReturn = () => {
         const res = await fetch(`http://localhost:5000/api/vnpay/verify_return${location.search}`);
         const result = await res.json();
 
-        if (result.success) {
+        if (result.success && result.orderId) {
           setStatus("success");
-          setOrderCode(result.orderCode);
-          message.success(`🎉 Thanh toán thành công! Mã đơn: ${result.orderCode}`);
+          setOrderId(result.orderId);          // ✅ Nhận ID đơn hàng từ backend
+          setOrderCode(result.orderCode);      // ✅ Mã đơn hàng để hiển thị
           setShowConfetti(true);
 
-          // 🧹 Xóa giỏ hàng sau khi thanh toán thành công
           const token = localStorage.getItem("token");
           const user = JSON.parse(localStorage.getItem("user") || "{}");
+
           if (user?.id && token) {
             await fetch(`http://localhost:4000/carts/${user.id}`, {
               method: "DELETE",
@@ -33,56 +40,65 @@ const VnpayReturn = () => {
               },
             });
           }
-
-          setTimeout(() => navigate("/"), 5000);
         } else {
           setStatus("error");
-          message.error(result.message || "Thanh toán thất bại.");
-          setTimeout(() => navigate("/"), 5000);
         }
       } catch (err) {
         setStatus("error");
-        message.error("⚠️ Có lỗi xảy ra khi xác minh thanh toán.");
-        setTimeout(() => navigate("/"), 5000);
       }
     };
 
     confirmVnpay();
-  }, [location.search, navigate]);
+  }, [location.search]);
+
+  const goToDetailOrder = () => {
+    if (orderId) {
+      navigate(`/detail_order/${orderId}`); // ✅ điều hướng bằng ID chứ không phải orderCode
+    }
+  };
 
   return (
-    <div className="flex justify-center items-center h-screen relative">
+    <div className="flex flex-col justify-center items-center h-screen gap-4 text-center relative bg-white">
       {showConfetti && <Confetti />}
+
+      {/* LOADING */}
       {status === "processing" && (
-        <Result
-          status="info"
-          title="Đang xử lý kết quả thanh toán..."
-          subTitle="Vui lòng chờ trong giây lát."
-        />
+        <>
+          <Spin
+            indicator={<LoadingOutlined style={{ fontSize: 60, color: "#1890ff" }} spin />}
+          />
+          <h2 className="text-lg font-semibold text-gray-700">Đang xác minh thanh toán...</h2>
+          <p className="text-gray-500 text-sm">Vui lòng chờ trong giây lát.</p>
+        </>
       )}
-      {status === "success" && (
-        <Result
-          status="success"
-          title="Thanh toán thành công!"
-          subTitle={`Mã đơn hàng: ${orderCode}`}
-          extra={[
-            <Button type="primary" key="home" onClick={() => navigate("/")}>
+
+      {/* SUCCESS */}
+      {status === "success" && orderId && (
+        <>
+          <CheckCircleTwoTone twoToneColor="#52c41a" style={{ fontSize: 80 }} />
+          <h2 className="text-2xl font-bold text-green-600">🎉 Thanh toán thành công!</h2>
+          {orderCode && (
+            <p>Mã đơn hàng: <strong>{orderCode}</strong></p>
+          )}
+          <div className="flex gap-3">
+            <Button type="primary" onClick={() => navigate("/")}>
               Về trang chủ
-            </Button>,
-          ]}
-        />
+            </Button>
+            <Button onClick={goToDetailOrder} type="default">
+              Xem chi tiết đơn hàng
+            </Button>
+          </div>
+        </>
       )}
+
+      {/* ERROR */}
       {status === "error" && (
-        <Result
-          status="error"
-          title="Thanh toán thất bại"
-          subTitle="Có lỗi xảy ra khi xác minh hoặc giao dịch không thành công."
-          extra={[
-            <Button key="home" onClick={() => navigate("/")}>
-              Về trang chủ
-            </Button>,
-          ]}
-        />
+        <>
+          <CloseCircleTwoTone twoToneColor="#f5222d" style={{ fontSize: 80 }} />
+          <h2 className="text-2xl font-bold text-red-500">Thanh toán thất bại</h2>
+          <p>Giao dịch không thành công hoặc có lỗi xảy ra.</p>
+          <Button onClick={() => navigate("/")}>Về trang chủ</Button>
+        </>
       )}
     </div>
   );

@@ -179,7 +179,7 @@ const Details: React.FC = () => {
       <div className="flex justify-center items-center h-screen">
         <Spin size="large" />
       </div>
-    );
+    );Breadcrumb
   }
 
   if (!product) {
@@ -191,15 +191,20 @@ const displayPrice = selectedVariant ? selectedVariant.price : product.price;
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto mb-4">
-        <Breadcrumb separator=">">
-          <Breadcrumb.Item onClick={() => navigate("/")} className="cursor-pointer">
-            Trang chủ
-          </Breadcrumb.Item>
-          <Breadcrumb.Item onClick={() => navigate("/category")} className="cursor-pointer">
-            {categoryName}
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>{product.name}</Breadcrumb.Item>
-        </Breadcrumb>
+        <Breadcrumb
+  items={[
+    {
+      title: <span className="cursor-pointer" onClick={() => navigate("/")}>Trang chủ</span>,
+    },
+    {
+      title: <span className="cursor-pointer" onClick={() => navigate("/category")}>{categoryName}</span>,
+    },
+    {
+      title: product.name,
+    },
+  ]}
+/>
+
       </div>
 
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden p-6">

@@ -75,7 +75,7 @@ const Home = () => {
       <div
         className="bg-cover bg-center h-[50vh] text-white relative"
         style={{
-          backgroundImage: `url(${banners?.[currentBannerIndex]?.image || "https://via.placeholder.com/1500x500?text=Laptop+Shop"})`,
+          backgroundImage: `url(${banners?.[currentBannerIndex]?.image || "https://i.pinimg.com/originals/bc/88/15/bc881536a76015d935aeae08de4a16df.jpg"})`,
         }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
