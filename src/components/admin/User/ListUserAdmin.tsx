@@ -9,37 +9,34 @@ const GetAdmin = () => {
   const nav = useNavigate();
   const [searchText, setSearchText] = useState('');
 
-  // ✅ Lấy danh sách admin từ MongoDB
-  const { data: users, refetch } = useQuery({
-    queryKey: ['admins'],
-    queryFn: async () => (await axios.get(`http://localhost:5000/api/users/admins`)).data,
-  });
-
   const currentUser = JSON.parse(localStorage.getItem("admin") || "null");
 
-  // ✅ Mutation cập nhật trạng thái active
+  // ✅ Lấy danh sách admin từ API mới
+  const { data: users = [], refetch } = useQuery({
+    queryKey: ['admins'],
+    queryFn: async () => (await axios.get(`http://localhost:4000/users`)).data,
+  });
+
+  // ✅ Cập nhật trạng thái hoạt động
   const updateStatus = useMutation({
     mutationFn: async ({ user, status }: { user: any; status: boolean }) => {
-      return await axios.patch(`http://localhost:5000/api/users/${user._id}`, {
+      return await axios.patch(`http://localhost:4000/users/${user.id}`, {
         active: status,
       });
     },
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       if (
         variables.status === false &&
         currentUser &&
-        currentUser._id === variables.user._id
+        currentUser.id === variables.user.id
       ) {
         message.error("Tài khoản của bạn đã bị tạm dừng");
         localStorage.removeItem("admin");
         localStorage.removeItem("token");
         nav("/admin/login");
       }
-
       message.success(
-        variables.status
-          ? 'Mở lại tài khoản thành công'
-          : 'Tạm dừng tài khoản thành công'
+        variables.status ? "Mở lại tài khoản thành công" : "Tạm dừng tài khoản thành công"
       );
       refetch();
     },
@@ -48,18 +45,16 @@ const GetAdmin = () => {
     },
   });
 
-  // ✅ Mutation cập nhật role (admin <=> user)
+  // ✅ Cập nhật role admin/user
   const updateRole = useMutation({
     mutationFn: async ({ user, role }: { user: User; role: string }) => {
-      return await axios.patch(`http://localhost:5000/api/users/${user._id}`, {
+      return await axios.patch(`http://localhost:4000/users/${user.id}`, {
         role,
       });
     },
     onSuccess: (_, variables) => {
       message.success(
-        variables.role === 'admin'
-          ? 'Đã chuyển thành Admin'
-          : 'Đã chuyển thành User'
+        variables.role === 'admin' ? 'Đã chuyển thành Admin' : 'Đã chuyển thành User'
       );
       refetch();
     },
@@ -122,7 +117,7 @@ const GetAdmin = () => {
               role: checked ? 'admin' : 'user',
             })
           }
-          disabled={record._id === currentUser?._id}
+          disabled={record.id === currentUser?.id}
         />
       ),
     },
@@ -140,7 +135,7 @@ const GetAdmin = () => {
       title: 'Hành động',
       key: 'action',
       render: (_: any, record: User) =>
-        record._id === currentUser?._id ? null : record.active !== false ? (
+        record.id === currentUser?.id ? null : record.active !== false ? (
           <Popconfirm
             title="Bạn có chắc muốn tạm dừng tài khoản này không?"
             onConfirm={() =>
@@ -169,15 +164,14 @@ const GetAdmin = () => {
   ];
 
   const filteredUsers = users
-  ?.filter((user: User) => user.role === 'admin')
-  ?.filter((u: User) => {
-    const text = `${u._id} ${u.email} ${u.address ?? ''} ${u.sdt ?? ''}`.toLowerCase();
-    return text.includes(searchText.toLowerCase());
-  })
-  ?.sort((a: User, b: User) => {
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(); // Mới nhất lên đầu
-  });
-
+    ?.filter((user: User) => user.role === 'admin')
+    ?.filter((u: User) => {
+      const text = `${u.id} ${u.email} ${u.address ?? ''} ${u.sdt ?? ''}`.toLowerCase();
+      return text.includes(searchText.toLowerCase());
+    })
+    ?.sort((a: User, b: User) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
 
   return (
     <div>
@@ -194,7 +188,7 @@ const GetAdmin = () => {
       <Table
         dataSource={filteredUsers}
         columns={columns}
-        rowKey="_id"
+        rowKey="id"
         pagination={{
           pageSize: 10,
           showSizeChanger: false,

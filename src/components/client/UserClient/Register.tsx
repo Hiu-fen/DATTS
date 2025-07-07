@@ -16,7 +16,11 @@ const Register = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: User) => {
-      const res = await axios.post("http://localhost:4000/register", data);
+      const res = await axios.post("http://localhost:4000/register", {
+        ...data,
+        role: "user", // Mặc định role là user
+        active: true, // Mặc định tài khoản được kích hoạt
+      });
       return res.data;
     },
     onSuccess: () => {
