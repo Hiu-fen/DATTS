@@ -1,3 +1,27 @@
+
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { FiLogOut } from 'react-icons/fi';
+import { FaUserCircle } from 'react-icons/fa';
+import axios from 'axios';
+
+const ClientHeader = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  const [keyword, setKeyword] = useState('');
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [avatar, setAvatar] = useState<string>('');
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Xử lý đăng xuất
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setShowUserMenu(false);
+    navigate('/login');
 "use client"
 
 import { Link, useNavigate } from "react-router-dom"
@@ -19,6 +43,24 @@ const ClientHeader = () => {
     localStorage.removeItem("user")
     navigate("/login")
   }
+
+  // Đóng menu khi click ra ngoài
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowUserMenu(false);
+      }
+    };
+    if (showUserMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showUserMenu]);
 
   // Fetch sản phẩm khi gõ từ khóa
   useEffect(() => {
@@ -55,6 +97,25 @@ const ClientHeader = () => {
     { to: "/news", label: "Tin tức", icon: Newspaper },
     { to: "/call", label: "Liên hệ", icon: Phone },
   ]
+
+  useEffect(() => {
+    // Lấy avatar từ localStorage mỗi lần render
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      setAvatar(user.avatar || '');
+    }
+    // Nếu muốn tự động cập nhật khi localStorage thay đổi (nhiều tab)
+    const onStorage = () => {
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        setAvatar(user.avatar || '');
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900/95 via-purple-900/95 to-slate-900/95 backdrop-blur-xl border-b border-purple-500/20 shadow-2xl">
@@ -136,6 +197,66 @@ const ClientHeader = () => {
               )
             })}
 
+        {/* Navigation */}
+        <nav className="flex gap-6 ml-auto">
+          <ul className="flex items-center gap-6">
+            <li><Link to="/" className="hover:text-gray-300">Trang chủ</Link></li>
+            <li><Link to="/about" className="hover:text-gray-300">Giới thiệu</Link></li>
+            <li><Link to="/product" className="hover:text-gray-300">Shop</Link></li>
+            <li><Link to="/news" className="hover:text-gray-300">Tin tức</Link></li>
+            <li><Link to="/call" className="hover:text-gray-300">Liên hệ</Link></li>
+
+            {!token ? (
+              <>
+                <li><Link to="/register" className="hover:text-gray-300">Đăng ký</Link></li>
+                <li><Link to="/login" className="hover:text-gray-300">Đăng nhập</Link></li>
+              </>
+            ) : (
+              <li className="relative" ref={userMenuRef}>
+                <button
+                  className="flex items-center gap-2 hover:text-gray-300"
+                  onClick={() => setShowUserMenu((prev) => !prev)}
+                >
+                  {avatar ? (
+                    <img
+                      src={avatar}
+                      alt="avatar"
+                      className="w-8 h-8 rounded-full object-cover border-2 border-pink-300"
+                    />
+                  ) : (
+                    <span className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xl">
+                      <i className="fa fa-user"></i>
+                    </span>
+                  )}
+                  <span className="hidden sm:inline">{user?.name || user?.email || "Tài khoản"}</span>
+                </button>
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50">
+                    <button
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        navigate('/account');
+                      }}
+                    >
+                      Thông tin tài khoản
+                    </button>
+                    <button
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 border-t"
+                      onClick={handleLogout}
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                )}
+              </li>
+            )}
+
+            <li>
+              <Link to="/carts" className="hover:text-gray-300">
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 3h2l.4 2M7 13h14l-1.35 6.45a2 2 0 01-1.97 1.55H7.42a2 2 0 01-1.98-1.75L4 6H2"></path>
+                </svg>
             {/* Auth Section */}
             <div className="flex items-center space-x-2 ml-6 border-l border-white/20 pl-6">
               {!token ? (

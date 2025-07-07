@@ -1211,6 +1211,27 @@
       "id": 14
     },
     {
+      "email": "hoangthanhlai2004@gmail.com",
+      "password": "$2a$10$CVmj9K.POscoBA9.S68SC.0Pf7H8OtnnVKnzPhQ76fnFdnXrZj6WG",
+      "name": "Lai",
+      "id": 15
+    },
+    {
+      "email": "abcd@gmail.com",
+      "password": "$2a$10$mW62PXOM3kxHbHF8awjywelW/epy020lTL/CssnJhg0X1F/Rv5rlC",
+      "name": "Lai",
+      "id": 16
+    },
+    {
+      "email": "lai2004@gmail.com",
+      "password": "$2a$10$9.My24EFJ92ZLPaIX1.kIOSWfNjxNguNBU7wn9J/m6vGwnKuHXuKy",
+      "name": "Hoàng Thanh Lai",
+      "id": 17,
+      "dob": "12/09/2004",
+      "avatar": "https://res.cloudinary.com/dx3ffn8li/image/upload/v1751874753/lze2xztzxb7ybbheadkf.jpg",
+      "sdt": "0346614909",
+      "address": "Bắc Ninh",
+      "gender": "Nam"
       "email": "kiendeptry123@gmail.com",
       "password": "$2a$10$t9Lqz3qbn6lom1NUQauGRedYS15SE4O9t.jI0huog6rqyrCHJ.3DC",
       "name": "Vũ Xuân Kiên",

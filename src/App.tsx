@@ -57,8 +57,9 @@ import DetailOrders from './components/client/page/orderDetailClient'
 import OrderHistory from './components/client/page/history'
 import Categorys from './components/client/page/categorys'
 
+
 import VnpayReturn from './components/client/page/checkout/VnpayReturn'
-import CheckoutProduct from './components/client/page/checkout/checkoutProduct'
+import Account from './components/client/page/account/account';
 import CodReturn from './components/client/page/checkout/CodReturn'
 import GetAdmin from './components/admin/User/ListUserAdmin'
 import GetClient from './components/admin/User/ListUserClient'
@@ -96,6 +97,7 @@ const App = (props: Props) => {
         //Router Đăng ký, Đăng nhậpCon
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
+        { path: 'account', element: <Account /> }, 
 
 
       ]
