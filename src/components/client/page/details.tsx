@@ -35,10 +35,8 @@ interface IProductDetail {
 }
 
 const Details: React.FC = () => {
-
   const [newComment, setNewComment] = useState<string>("");
   const [comments, setComments] = useState<any[]>([]);
-
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useUser();
@@ -54,9 +52,33 @@ const Details: React.FC = () => {
   const fetchComments = async () => {
     try {
       const res = await axios.get(`http://localhost:4000/comments?productId=${id}`);
-      setComments(res.data);
+      const filtered = res.data
+        .filter((c: any) => c.status === true)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      setComments(filtered);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleAddComment = async () => {
+    const email = localStorage.getItem("email");
+    if (!email) return message.warning("Bạn cần đăng nhập để bình luận.");
+    if (!newComment.trim()) return message.warning("Vui lòng nhập nội dung bình luận.");
+
+    try {
+      await axios.post("http://localhost:4000/comments", {
+        user: email,
+        content: newComment.trim(),
+        productId: Number(id),
+        createdAt: new Date().toISOString(),
+        status: false,
+      });
+      message.success("Đã gửi bình luận, đang chờ duyệt!");
+      setNewComment("");
+    } catch (err) {
+      console.error(err);
+      message.error("Không thể thêm bình luận.");
     }
   };
 
@@ -88,30 +110,6 @@ const Details: React.FC = () => {
     })();
     fetchComments();
   }, [id]);
-  const handleAddComment = async () => {
-  const email = localStorage.getItem("email");  // Lấy email người dùng đã đăng nhập
-  if (!email) return message.warning("Bạn cần đăng nhập để bình luận.");
-  if (!newComment.trim()) return message.warning("Vui lòng nhập nội dung bình luận.");
-
-  try {
-    await axios.post("http://localhost:4000/comments", {
-      user: email,                  // 👈 Lưu email làm tên người bình luận
-      content: newComment,          // 👈 Nội dung bình luận
-      productId: Number(id),        // 👈 ID sản phẩm
-      createdAt: new Date().toISOString(), // 👈 Thời gian tạo
-      status: false,                // 👈 Trạng thái mặc định: chưa duyệt
-    });
-    message.success("Đã thêm bình luận!");
-    setNewComment("");
-    fetchComments();  // Load lại danh sách bình luận
-  } catch (err) {
-    console.error(err);
-    message.error("Không thể thêm bình luận.");
-  }
-};
-
-
-
 
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
@@ -148,7 +146,6 @@ const Details: React.FC = () => {
       message.error("Thêm vào giỏ hàng thất bại.");
     }
   };
-  
 
   const handleCheckout = () => {
     if (!selectedVariantId) return message.error("Vui lòng chọn 1 biến thể.");
@@ -179,36 +176,39 @@ const Details: React.FC = () => {
       <div className="flex justify-center items-center h-screen">
         <Spin size="large" />
       </div>
-    );Breadcrumb
+    );
   }
 
   if (!product) {
     return <div className="p-10 text-center text-xl">Sản phẩm không tồn tại.</div>;
   }
-    const selectedVariant = product.variants?.find(v => v.id === selectedVariantId);
-const displayPrice = selectedVariant ? selectedVariant.price : product.price;
+
+  const selectedVariant = product.variants?.find(v => v.id === selectedVariantId);
+  const displayPrice = selectedVariant ? selectedVariant.price : product.price;
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto mb-4">
         <Breadcrumb
-  items={[
-    {
-      title: <span className="cursor-pointer" onClick={() => navigate("/")}>Trang chủ</span>,
-    },
-    {
-      title: <span className="cursor-pointer" onClick={() => navigate("/category")}>{categoryName}</span>,
-    },
-    {
-      title: product.name,
-    },
-  ]}
-/>
-
+          items={[
+            {
+              title: <span className="cursor-pointer" onClick={() => navigate("/")}>Trang chủ</span>,
+            },
+            {
+              title: <span className="cursor-pointer" onClick={() => navigate("/category")}>{categoryName}</span>,
+            },
+            {
+              title: product.name,
+            },
+          ]}
+        />
       </div>
 
+      {/* Product detail */}
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden p-6">
         <Row gutter={[32, 32]}>
+          {/* Ảnh sản phẩm */}
           <Col xs={24} md={12}>
             <Image
               src={mainImage}
@@ -233,34 +233,34 @@ const displayPrice = selectedVariant ? selectedVariant.price : product.price;
             </div>
           </Col>
 
+          {/* Thông tin sản phẩm */}
           <Col xs={24} md={12}>
             <h1 className="text-3xl font-bold mb-3">{product.name}</h1>
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-  <p className="text-sm text-gray-600">Giá sản phẩm</p>
-  <div className="flex items-end gap-3">
-    <span className="text-3xl font-bold text-black">
-      {displayPrice.toLocaleString()}<sup className="text-base">₫</sup>
-    </span>
-    <span className="line-through text-gray-400 text-lg">
-      {(displayPrice * 1.13).toLocaleString()}₫
-    </span>
-  </div>
-</div>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+              <p className="text-sm text-gray-600">Giá sản phẩm</p>
+              <div className="flex items-end gap-3">
+                <span className="text-3xl font-bold text-black">
+                  {displayPrice.toLocaleString()}<sup className="text-base">₫</sup>
+                </span>
+                <span className="line-through text-gray-400 text-lg">
+                  {(displayPrice * 1.13).toLocaleString()}₫
+                </span>
+              </div>
+            </div>
 
             <p className="mb-4 text-base">
               <span className="font-semibold">Tình trạng: </span>
-              <span
-                className={product.status === "Còn hàng" ? "text-green-600" : "text-red-600"}
-              >
+              <span className={product.status === "Còn hàng" ? "text-green-600" : "text-red-600"}>
                 {product.status}
               </span>
             </p>
 
+            {/* Biến thể */}
             {product.variants?.length ? (
               <div className="mb-6">
                 <p className="font-medium mb-2">Chọn biến thể:</p>
                 <Row gutter={[16, 16]}>
-                  {product.variants?.map((v) => (
+                  {product.variants.map((v) => (
                     <Col key={v.id} xs={24} sm={12}>
                       <div
                         onClick={() => setSelectedVariantId(v.id)}
@@ -279,7 +279,6 @@ const displayPrice = selectedVariant ? selectedVariant.price : product.price;
                 </Row>
               </div>
             ) : null}
-
 
             <div className="mb-6 text-gray-700 text-justify">{product.description}</div>
 
@@ -306,37 +305,60 @@ const displayPrice = selectedVariant ? selectedVariant.price : product.price;
           </Col>
         </Row>
       </div>
+
+      {/* Bình luận */}
       <div className="max-w-6xl mx-auto mt-6 bg-white p-4 rounded-lg shadow">
-        <h2 className="text-lg font-semibold mb-2">💬 Bình luận</h2>
-        <Input
-          placeholder="Nhập bình luận..."
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          onPressEnter={handleAddComment}
-        />
-        <Button className="mt-2" type="primary" onClick={handleAddComment}>
-          Thêm bình luận
-        </Button>
+        <h2 className="text-lg font-semibold mb-4">💬 Bình luận</h2>
 
-        <div className="mt-4 space-y-2">
-          {comments.map((c) => (
-            <div key={c.id} className="border rounded p-2">
-             <div className="flex justify-between">
-  <span className="font-medium">{c.user}</span>
-  <span className="text-sm text-gray-500">
-    {new Date(c.createdAt).toLocaleString()}
-  </span>
-</div>
-<p>{c.content}</p>
-
-            </div>
-            ))}
+        <div className="flex items-start gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center text-lg font-semibold">
+            {(localStorage.getItem("email") || "?")[0].toUpperCase()}
           </div>
+          <div className="flex-1">
+            <Input.TextArea
+              rows={3}
+              placeholder="Nhập bình luận của bạn..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              onPressEnter={(e) => {
+                if (!e.shiftKey) {
+                  e.preventDefault();
+                  handleAddComment();
+                }
+              }}
+            />
+            <div className="flex justify-end mt-2">
+              <Button type="primary" onClick={handleAddComment}>
+                Gửi bình luận
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          {comments.length === 0 ? (
+            <p className="text-gray-500 italic">Chưa có bình luận nào được duyệt.</p>
+          ) : (
+            comments.map((c) => (
+              <div key={c.id} className="border rounded p-3 bg-gray-50">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center text-sm font-medium">
+                      {c.user.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="font-medium">{c.user}</span>
+                  </div>
+                  <span className="text-sm text-gray-500">
+                    {new Date(c.createdAt).toLocaleString()}
+                  </span>
+                </div>
+                <p className="text-gray-800">{c.content}</p>
+              </div>
+            ))
+          )}
+        </div>
       </div>
-
-
     </div>
-
   );
 };
 
