@@ -4,5 +4,6 @@ export interface IComment {
     status: boolean,
     user:string,
     productId: string,
-    date:string
+    date:string,
+    createdAt: string
 }

@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import { IComment } from "../../../interface/comments";
 
 interface IVariantForm {
   id: number;
@@ -53,8 +54,9 @@ const Details: React.FC = () => {
     try {
       const res = await axios.get(`http://localhost:4000/comments?productId=${id}`);
       const filtered = res.data
-        .filter((c: any) => c.status === true)
-        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  .filter((c: IComment) => c.status === true)
+  .sort((a: IComment, b: IComment) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
       setComments(filtered);
     } catch (err) {
       console.error(err);
