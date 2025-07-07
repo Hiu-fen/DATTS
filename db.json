@@ -1131,7 +1131,11 @@
       "email": "hiu-fen@gmail.com",
       "password": "$2a$10$BUKc.olsrGk1AT.A0acwpuuavEnN0VYHSS36vEgAvOxbrc9IBpKvi",
       "name": "Híu đây hẹ hẹ",
-      "id": 3
+      "id": 3,
+      "sdt": "Chưa cập nhật0987654321",
+      "address": "Chưa cập nhật 1234",
+      "gender": "Nam",
+      "dob": "12/12/2000"
     },
     {
       "email": "login@gmail.com",
@@ -1223,19 +1227,15 @@
       "id": 16
     },
     {
-      "email": "lai2004@gmail.com",
-      "password": "$2a$10$9.My24EFJ92ZLPaIX1.kIOSWfNjxNguNBU7wn9J/m6vGwnKuHXuKy",
-      "name": "Hoàng Thanh Lai",
-      "id": 17,
+      "email": "kiendeptry123@gmail.com",
+      "password": "$2a$10$t9Lqz3qbn6lom1NUQauGRedYS15SE4O9t.jI0huog6rqyrCHJ.3DC",
+      "name": "Vũ Xuân Kiên",
+      "id": 15,
       "dob": "12/09/2004",
       "avatar": "https://res.cloudinary.com/dx3ffn8li/image/upload/v1751874753/lze2xztzxb7ybbheadkf.jpg",
       "sdt": "0346614909",
       "address": "Bắc Ninh",
       "gender": "Nam"
-      "email": "kiendeptry123@gmail.com",
-      "password": "$2a$10$t9Lqz3qbn6lom1NUQauGRedYS15SE4O9t.jI0huog6rqyrCHJ.3DC",
-      "name": "Vũ Xuân Kiên",
-      "id": 15
     },
     {
       "email": "client@gmail.com",

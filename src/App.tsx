@@ -64,6 +64,7 @@ import CodReturn from './components/client/page/checkout/CodReturn'
 import GetAdmin from './components/admin/User/ListUserAdmin'
 import GetClient from './components/admin/User/ListUserClient'
 import ProfileAdmin from './components/admin/User/ProfileAdmin'
+import CheckoutProduct from './components/client/page/checkout/checkoutProduct'
 
 
 

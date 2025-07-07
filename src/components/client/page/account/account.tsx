@@ -326,14 +326,18 @@ const InfoRow = ({
       <input
         type="text"
         name={name}
-        value={value}
+        value={value || ''} // Nếu không có giá trị, sẽ là chuỗi rỗng
+        placeholder="Chưa cập nhật" // Placeholder là 'Chưa cập nhật'
         onChange={onChange}
         className="flex-grow p-2 bg-gray-50 border border-gray-200 rounded text-gray-800 text-sm"
       />
     ) : (
-      <div className={`flex-grow text-base font-medium text-gray-800 ${className}`}>{value}</div>
+      <div className={`flex-grow text-base font-medium text-gray-800 ${className}`}>
+        {value || 'Chưa cập nhật'}
+      </div>
     )}
   </div>
 )
+
 
 export default Account

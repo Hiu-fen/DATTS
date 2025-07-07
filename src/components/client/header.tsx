@@ -1,50 +1,31 @@
+"use client";
 
-import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
-import { FiLogOut } from 'react-icons/fi';
-import { FaUserCircle } from 'react-icons/fa';
-import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { LogOut, Search, ShoppingCart, Home, Info, Store, Newspaper, Phone, UserPlus, LogIn } from "lucide-react";
+import axios from "axios";
 
 const ClientHeader = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const user = JSON.parse(localStorage.getItem('user') || 'null');
-  const [keyword, setKeyword] = useState('');
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const [keyword, setKeyword] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [avatar, setAvatar] = useState<string>('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [avatar, setAvatar] = useState<string>("");
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   // Xử lý đăng xuất
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setShowUserMenu(false);
-    navigate('/login');
-"use client"
+    navigate("/login");
+  };
 
-import { Link, useNavigate } from "react-router-dom"
-import { useState, useEffect } from "react"
-import { LogOut, Search, ShoppingCart, Home, Info, Store, Newspaper, Phone, UserPlus, LogIn } from "lucide-react"
-import axios from "axios"
-
-const ClientHeader = () => {
-  const navigate = useNavigate()
-  const token = localStorage.getItem("token")
-  const [keyword, setKeyword] = useState("")
-  const [searchResults, setSearchResults] = useState<any[]>([])
-  const [showDropdown, setShowDropdown] = useState(false)
-  const [isSearchFocused, setIsSearchFocused] = useState(false)
-
-  // Xử lý đăng xuất
-  const handleLogout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    navigate("/login")
-  }
-
-  // Đóng menu khi click ra ngoài
+  // Đóng menu người dùng khi click ra ngoài
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -55,40 +36,59 @@ const ClientHeader = () => {
       }
     };
     if (showUserMenu) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showUserMenu]);
 
-  // Fetch sản phẩm khi gõ từ khóa
+  // Tìm kiếm sản phẩm theo từ khóa
   useEffect(() => {
     const delaySearch = setTimeout(async () => {
       if (keyword.trim()) {
         try {
-          const res = await axios.get(`http://localhost:4000/products`)
-          const filtered = res.data.filter((product: any) => product.name.toLowerCase().includes(keyword.toLowerCase()))
-          setSearchResults(filtered.slice(0, 5))
-          setShowDropdown(true)
+          const res = await axios.get("http://localhost:4000/products");
+          const filtered = res.data.filter((product: any) =>
+            product.name.toLowerCase().includes(keyword.toLowerCase())
+          );
+          setSearchResults(filtered.slice(0, 5));
+          setShowDropdown(true);
         } catch (error) {
-          console.error("Search error:", error)
+          console.error("Search error:", error);
         }
       } else {
-        setSearchResults([])
-        setShowDropdown(false)
+        setSearchResults([]);
+        setShowDropdown(false);
       }
-    }, 300)
-
-    return () => clearTimeout(delaySearch)
-  }, [keyword])
+    }, 300);
+    return () => clearTimeout(delaySearch);
+  }, [keyword]);
 
   const handleSelectProduct = (id: number) => {
-    setKeyword("")
-    setSearchResults([])
-    setShowDropdown(false)
-    navigate(`/product/${id}`)
-  }
+    setKeyword("");
+    setSearchResults([]);
+    setShowDropdown(false);
+    navigate(`/product/${id}`);
+  };
+
+  useEffect(() => {
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      setAvatar(user.avatar || "");
+    }
+
+    const onStorage = () => {
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        setAvatar(user.avatar || "");
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
   const navItems = [
     { to: "/", label: "Trang chủ", icon: Home },
@@ -96,26 +96,7 @@ const ClientHeader = () => {
     { to: "/product", label: "Shop", icon: Store },
     { to: "/news", label: "Tin tức", icon: Newspaper },
     { to: "/call", label: "Liên hệ", icon: Phone },
-  ]
-
-  useEffect(() => {
-    // Lấy avatar từ localStorage mỗi lần render
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      const user = JSON.parse(userStr);
-      setAvatar(user.avatar || '');
-    }
-    // Nếu muốn tự động cập nhật khi localStorage thay đổi (nhiều tab)
-    const onStorage = () => {
-      const userStr = localStorage.getItem('user');
-      if (userStr) {
-        const user = JSON.parse(userStr);
-        setAvatar(user.avatar || '');
-      }
-    };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
-  }, []);
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900/95 via-purple-900/95 to-slate-900/95 backdrop-blur-xl border-b border-purple-500/20 shadow-2xl">
@@ -137,13 +118,11 @@ const ClientHeader = () => {
             </Link>
           </div>
 
-          {/* Search Bar */}
+          {/* Search */}
           <div className="flex-1 max-w-4xl mx-12 relative">
             <div className={`relative transition-all duration-300 ${isSearchFocused ? "scale-105" : ""}`}>
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search
-                  className={`h-5 w-5 transition-colors duration-200 ${isSearchFocused ? "text-cyan-400" : "text-gray-400"}`}
-                />
+                <Search className={`h-5 w-5 transition-colors duration-200 ${isSearchFocused ? "text-cyan-400" : "text-gray-400"}`} />
               </div>
               <input
                 type="text"
@@ -154,8 +133,6 @@ const ClientHeader = () => {
                 onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
                 className="w-full pl-12 pr-6 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50 transition-all duration-300 text-white placeholder-gray-300 text-xs hover:bg-white/15"
               />
-
-              {/* Search Dropdown */}
               {showDropdown && searchResults.length > 0 && (
                 <div className="absolute top-full left-0 w-full mt-2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50">
                   {searchResults.map((item) => (
@@ -180,55 +157,36 @@ const ClientHeader = () => {
             </div>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation + User */}
           <nav className="flex items-center space-x-4 whitespace-nowrap">
-            {navItems.map((item) => {
-              const IconComponent = item.icon
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="group relative text-gray-300 hover:text-cyan-400 transition-all duration-300 flex items-center space-x-2 px-2 py-1 rounded-lg hover:bg-white/10"
-                >
-                  <IconComponent className="h-4 w-4" />
-                  <span className="text-xs font-medium">{item.label}</span>
-                  <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full"></span>
-                </Link>
-              )
-            })}
-
-        {/* Navigation */}
-        <nav className="flex gap-6 ml-auto">
-          <ul className="flex items-center gap-6">
-            <li><Link to="/" className="hover:text-gray-300">Trang chủ</Link></li>
-            <li><Link to="/about" className="hover:text-gray-300">Giới thiệu</Link></li>
-            <li><Link to="/product" className="hover:text-gray-300">Shop</Link></li>
-            <li><Link to="/news" className="hover:text-gray-300">Tin tức</Link></li>
-            <li><Link to="/call" className="hover:text-gray-300">Liên hệ</Link></li>
+            {navItems.map(({ to, label, icon: Icon }) => (
+              <Link
+                key={to}
+                to={to}
+                className="group relative text-gray-300 hover:text-cyan-400 transition-all duration-300 flex items-center space-x-2 px-2 py-1 rounded-lg hover:bg-white/10"
+              >
+                <Icon className="h-4 w-4" />
+                <span className="text-xs font-medium">{label}</span>
+              </Link>
+            ))}
 
             {!token ? (
               <>
-                <li><Link to="/register" className="hover:text-gray-300">Đăng ký</Link></li>
-                <li><Link to="/login" className="hover:text-gray-300">Đăng nhập</Link></li>
+                <Link to="/register" className="text-gray-300 hover:text-cyan-400 flex items-center text-xs">Đăng ký</Link>
+                <Link to="/login" className="text-white bg-gradient-to-r from-cyan-500 to-purple-500 px-3 py-1.5 rounded-xl text-xs">Đăng nhập</Link>
               </>
             ) : (
-              <li className="relative" ref={userMenuRef}>
+              <div className="relative" ref={userMenuRef}>
                 <button
-                  className="flex items-center gap-2 hover:text-gray-300"
+                  className="flex items-center gap-2 text-gray-300 hover:text-white"
                   onClick={() => setShowUserMenu((prev) => !prev)}
                 >
                   {avatar ? (
-                    <img
-                      src={avatar}
-                      alt="avatar"
-                      className="w-8 h-8 rounded-full object-cover border-2 border-pink-300"
-                    />
+                    <img src={avatar} className="w-8 h-8 rounded-full object-cover" />
                   ) : (
-                    <span className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xl">
-                      <i className="fa fa-user"></i>
-                    </span>
+                    <span className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xl">👤</span>
                   )}
-                  <span className="hidden sm:inline">{user?.name || user?.email || "Tài khoản"}</span>
+                  <span className="hidden sm:inline">{user?.name || "Tài khoản"}</span>
                 </button>
                 {showUserMenu && (
                   <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50">
@@ -249,63 +207,24 @@ const ClientHeader = () => {
                     </button>
                   </div>
                 )}
-              </li>
+              </div>
             )}
 
-            <li>
-              <Link to="/carts" className="hover:text-gray-300">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M3 3h2l.4 2M7 13h14l-1.35 6.45a2 2 0 01-1.97 1.55H7.42a2 2 0 01-1.98-1.75L4 6H2"></path>
-                </svg>
-            {/* Auth Section */}
-            <div className="flex items-center space-x-2 ml-6 border-l border-white/20 pl-6">
-              {!token ? (
-                <>
-                  <Link
-                    to="/register"
-                    className="text-gray-300 hover:text-cyan-400 transition-all duration-300 flex items-center space-x-2 px-2 py-1 rounded-lg hover:bg-white/10"
-                  >
-                    <UserPlus className="h-4 w-4" />
-                    <span className="text-xs font-medium">Đăng ký</span>
-                  </Link>
-                  <Link
-                    to="/login"
-                    className="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-xl hover:from-cyan-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-2 text-xs font-medium"
-                  >
-                    <LogIn className="h-4 w-4" />
-                    <span>Đăng nhập</span>
-                  </Link>
-                </>
-              ) : (
-                <button
-                  onClick={handleLogout}
-                  className="text-gray-300 hover:text-red-400 transition-all duration-300 flex items-center space-x-2 px-2 py-1 rounded-lg hover:bg-red-500/10"
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span className="text-xs font-medium">Đăng xuất</span>
-                </button>
-              )}
-            
-
-              {/* Cart */}
-              <Link
-                to="/carts"
-                className="relative p-3 text-gray-300 hover:text-cyan-400 transition-all duration-300 rounded-lg hover:bg-white/10 group"
-              >
-                <ShoppingCart className="h-6 w-6" />
-                <span className="absolute -top-1 -right-1 h-5 w-5 bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
-                  3
-                </span>
-              </Link>
-            </div>
+            {/* Cart */}
+            <Link
+              to="/carts"
+              className="relative p-3 text-gray-300 hover:text-cyan-400 rounded-lg hover:bg-white/10 group"
+            >
+              <ShoppingCart className="h-6 w-6" />
+              <span className="absolute -top-1 -right-1 h-5 w-5 bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
+                3
+              </span>
+            </Link>
           </nav>
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default ClientHeader
-
-
-
+export default ClientHeader;
