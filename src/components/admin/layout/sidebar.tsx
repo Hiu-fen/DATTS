@@ -18,8 +18,8 @@ const AdminSidebar = () => {
 
   const items: MenuItem[] = [
     {
-      key: 'dashboard',
-      label: 'Dashboard',
+      key: 'report',
+      label: 'Thống kê',
       icon: <DashboardFilled />,
     },
     {
@@ -115,11 +115,11 @@ const AdminSidebar = () => {
           { key: 'promotion-add', label: 'Thêm khuyến mãi' }
         ],
       },
-    {
-      key: 'report',
-      label: 'Thống kê',
-      icon: <FileTextFilled />,
-    },
+    // {
+    //   key: 'report',
+    //   label: 'Thống kê',
+    //   icon: <FileTextFilled />,
+    // },
   ];
 
   const onClick: MenuProps['onClick'] = ({ key }) => {

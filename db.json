@@ -1045,6 +1045,168 @@
           "storage": "1T"
         }
       ]
+    },
+    {
+      "id": 22,
+      "userId": 8,
+      "orderCode": "ORD-28W5J",
+      "customerName": "Test Xphone",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen2@gmail.com",
+      "notes": "",
+      "paymentMethod": "Bank",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 14825000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-07T09:41:02.836Z",
+      "isPaid": true,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 7,
+          "productName": "Dell Vostro 3530 i5-1334U/8GB/512GB SSD/15.6″FHD/Dos/Black",
+          "soluong": 1,
+          "price": 14790000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "userId": 4,
+      "orderCode": "ORD-ZZOSC",
+      "customerName": "Phạm Minh Hiếu ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "login@gmail.com",
+      "notes": "",
+      "paymentMethod": "Bank",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 14825000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-07T09:50:32.148Z",
+      "isPaid": true,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 7,
+          "productName": "Dell Vostro 3530 i5-1334U/8GB/512GB SSD/15.6″FHD/Dos/Black",
+          "soluong": 1,
+          "price": 14790000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "userId": 4,
+      "orderCode": "ORD-3G6YK",
+      "customerName": "Phạm Minh Hiếu ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "login@gmail.com",
+      "notes": "",
+      "paymentMethod": "Bank",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 14725000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-07T09:51:41.180Z",
+      "isPaid": true,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 3,
+          "productName": "Laptop Asus Vivobook 15 X1504ZA i5 1235U/16GB/512GB/Win11 (NJ1546W)",
+          "soluong": 1,
+          "price": 14690000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "userId": 4,
+      "orderCode": "ORD-F6RQ1",
+      "customerName": "Phạm Minh Hiếu ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "login@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 14725000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-07T09:52:02.692Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 3,
+          "productName": "Laptop Asus Vivobook 15 X1504ZA i5 1235U/16GB/512GB/Win11 (NJ1546W)",
+          "soluong": 1,
+          "price": 14690000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "userId": 3,
+      "orderCode": "ORD-O4N0C",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 14725000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-07T09:53:58.052Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 3,
+          "productName": "Laptop Asus Vivobook 15 X1504ZA i5 1235U/16GB/512GB/Win11 (NJ1546W)",
+          "soluong": 1,
+          "price": 14690000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "userId": 3,
+      "orderCode": "ORD-BBDVW",
+      "customerName": "Híu đây hẹ hẹ",
+      "phone": "0987654321",
+      "address": "hà nội thứ 7 phải lên đồ",
+      "email": "hiu-fen@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 14825000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-07T09:54:27.957Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 7,
+          "productName": "Dell Vostro 3530 i5-1334U/8GB/512GB SSD/15.6″FHD/Dos/Black",
+          "soluong": 1,
+          "price": 14790000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
     }
   ],
   "news": [
@@ -1132,8 +1294,11 @@
       "password": "$2a$10$BUKc.olsrGk1AT.A0acwpuuavEnN0VYHSS36vEgAvOxbrc9IBpKvi",
       "name": "Híu đây hẹ hẹ",
       "id": 3,
-      "sdt": "Chưa cập nhật0987654321",
-      "address": "Chưa cập nhật 1234",
+      "role": "admin",
+      "active": true,
+      "avatar": "https://img.lovepik.com/free-png/20211204/lovepik-cartoon-avatar-png-image_401302777_wh1200.png",
+      "sdt": "012345678910",
+      "address": "173 C Trường Chinh, Thanh Xuân, Hà Nội",
       "gender": "Nam",
       "dob": "12/12/2000"
     },
@@ -1146,7 +1311,9 @@
       "active": true,
       "avatar": "https://img.lovepik.com/free-png/20211204/lovepik-cartoon-avatar-png-image_401302777_wh1200.png",
       "sdt": "0123456789",
-      "address": "173 C Trường Chinh, Thanh Xuân, Hà Nội"
+      "address": "173 C Trường Chinh, Thanh Xuân, Hà Nội",
+      "gender": "Nam",
+      "dob": "12/12/2000"
     },
     {
       "email": "login2@gmail.com",
@@ -1172,7 +1339,14 @@
     {
       "email": "hiu-fen2@gmail.com",
       "password": "$2a$10$y7iEE7u5Rl7VZIQ5TuIs5.W3YDvkeOuG0UL.LjcWMah8rkqGVWM7u",
-      "id": 8
+      "id": 8,
+      "role": "admin",
+      "active": true,
+      "avatar": "https://img.lovepik.com/free-png/20211204/lovepik-cartoon-avatar-png-image_401302777_wh1200.png",
+      "sdt": "0123456789",
+      "address": "173 C Trường Chinh, Thanh Xuân, Hà Nội",
+      "gender": "Nam",
+      "dob": "12/12/2000"
     },
     {
       "email": "5@gmail.com",

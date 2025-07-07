@@ -221,8 +221,9 @@ const Account = () => {
           <div className="divide-y divide-gray-200">
             <InfoRow label="Tên đăng nhập" name="name" value={user.name} editable={isEditing} onChange={handleChange} />
             <InfoRow label="Email" name="email" value={user.email} editable={isEditing} onChange={handleChange} />
-            <InfoRow label="SĐT" name="sdt" value={user.sdt || "Chưa cập nhật"} editable={isEditing} onChange={handleChange} />
-            <InfoRow label="Địa chỉ" name="address" value={user.address || "Chưa cập nhật"} editable={isEditing} onChange={handleChange} />
+            <InfoRow label="SĐT" name="sdt" value={user.sdt ?? ''} editable={isEditing} onChange={handleChange} />
+
+            <InfoRow label="Địa chỉ" name="address" value={user.address || ""} editable={isEditing} onChange={handleChange} />
             {isEditing ? (
               <div className="flex items-center py-3">
                 <div className="w-32 text-gray-500 text-sm">Giới tính</div>
