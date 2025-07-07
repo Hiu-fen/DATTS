@@ -9,37 +9,34 @@ const GetClient = () => {
   const nav = useNavigate();
   const [searchText, setSearchText] = useState('');
 
-  // Lấy danh sách client (role: user)
-  const { data: users, refetch } = useQuery({
+  const currentUser = JSON.parse(localStorage.getItem("user") || "null");
+
+  // ✅ Lấy danh sách từ JSON Server
+  const { data: users = [], refetch } = useQuery({
     queryKey: ['clients'],
     queryFn: async () =>
-      (await axios.get(`http://localhost:5000/api/users/clients`)).data,
+      (await axios.get(`http://localhost:4000/users`)).data,
   });
 
-  // Mutation cập nhật trạng thái active (tạm dừng / mở lại)
+  // ✅ Cập nhật trạng thái hoạt động
   const updateStatus = useMutation({
     mutationFn: async ({ user, status }: { user: User; status: boolean }) => {
-      return await axios.patch(`http://localhost:5000/api/users/${user._id}`, {
+      return await axios.patch(`http://localhost:4000/users/${user.id}`, {
         active: status,
       });
     },
-    onSuccess: (data, variables) => {
-      const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
-
+    onSuccess: (_, variables) => {
       if (
         variables.status === false &&
         currentUser &&
-        currentUser._id === variables.user._id
+        currentUser.id === variables.user.id
       ) {
-        message.error('Tài khoản của bạn đã bị tạm dừng');
-        localStorage.removeItem('user');
-        nav('/admin/login');
+        message.error("Tài khoản của bạn đã bị tạm dừng");
+        localStorage.removeItem("user");
+        nav("/admin/login");
       }
-
       message.success(
-        variables.status
-          ? 'Mở lại tài khoản thành công'
-          : 'Tạm dừng tài khoản thành công'
+        variables.status ? "Mở lại tài khoản thành công" : "Tạm dừng tài khoản thành công"
       );
       refetch();
     },
@@ -48,10 +45,10 @@ const GetClient = () => {
     },
   });
 
-  // ✅ Mutation cập nhật vai trò (role)
+  // ✅ Cập nhật role
   const updateRole = useMutation({
     mutationFn: async ({ user, role }: { user: User; role: string }) => {
-      return await axios.patch(`http://localhost:5000/api/users/${user._id}`, {
+      return await axios.patch(`http://localhost:4000/users/${user.id}`, {
         role,
       });
     },
@@ -80,7 +77,7 @@ const GetClient = () => {
       key: 'avatar',
       render: (_: any, record: User) => (
         <img
-          src={record.avatar}
+          src={record.avatar || 'https://via.placeholder.com/40'}
           alt="Avatar"
           className="w-10 h-10 rounded-full"
         />
@@ -114,32 +111,31 @@ const GetClient = () => {
           <Tag color="red">Bị tạm dừng</Tag>
         ),
     },
-    // ✅ Cột Tài khoản (role)
-   {
-  title: 'Tài khoản',
-  key: 'role',
-  render: (_: any, record: User) => (
-    <Switch
-      checked={record.role === 'admin'}
-      onChange={(checked) =>
-        updateRole.mutate({
-          user: record,
-          role: checked ? 'admin' : 'user',
-        })
-      }
-      checkedChildren={<span style={{ color: '#fff' }}>Admin</span>}
-      unCheckedChildren="User"
-      style={{
-        backgroundColor: record.role === 'admin' ? '#52c41a' : undefined,
-      }}
-    />
-  ),
-},
+    {
+      title: 'Tài khoản',
+      key: 'role',
+      render: (_: any, record: User) => (
+        <Switch
+          checked={record.role === 'admin'}
+          onChange={(checked) =>
+            updateRole.mutate({
+              user: record,
+              role: checked ? 'admin' : 'user',
+            })
+          }
+          checkedChildren={<span style={{ color: '#fff' }}>Admin</span>}
+          unCheckedChildren="User"
+          style={{
+            backgroundColor: record.role === 'admin' ? '#52c41a' : undefined,
+          }}
+        />
+      ),
+    },
     {
       title: 'Hành động',
       key: 'action',
       render: (_: any, record: User) =>
-        record.active !== false ? (
+        record.id === currentUser?.id ? null : record.active !== false ? (
           <Popconfirm
             title="Bạn có chắc muốn tạm dừng tài khoản này không?"
             onConfirm={() =>
@@ -167,15 +163,16 @@ const GetClient = () => {
     },
   ];
 
- const filteredUsers = users
-  ?.filter((u: User) => {
-    const text = `${u._id} ${u.email} ${u.address ?? ''} ${u.sdt ?? ''}`.toLowerCase();
-    return text.includes(searchText.toLowerCase());
-  })
-  ?.sort((a: User, b: User) => {
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(); // Sắp xếp mới -> cũ
-  });
-
+  // ✅ Lọc người dùng role user
+  const filteredUsers = users
+    ?.filter((user: User) => user.role === 'user')
+    ?.filter((u: User) => {
+      const text = `${u.id} ${u.email} ${u.address ?? ''} ${u.sdt ?? ''}`.toLowerCase();
+      return text.includes(searchText.toLowerCase());
+    })
+    ?.sort((a: User, b: User) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
 
   return (
     <div>
@@ -193,7 +190,7 @@ const GetClient = () => {
       <Table
         dataSource={filteredUsers}
         columns={columns}
-        rowKey="_id"
+        rowKey="id"
         pagination={{
           pageSize: 10,
           showSizeChanger: false,

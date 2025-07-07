@@ -59,8 +59,12 @@ import Categorys from './components/client/page/categorys'
 
 
 import VnpayReturn from './components/client/page/checkout/VnpayReturn'
-import CheckoutProduct from './components/client/page/checkout/checkoutProduct'
 import Account from './components/client/page/account/account';
+import CodReturn from './components/client/page/checkout/CodReturn'
+import GetAdmin from './components/admin/User/ListUserAdmin'
+import GetClient from './components/admin/User/ListUserClient'
+import ProfileAdmin from './components/admin/User/ProfileAdmin'
+
 
 
 type Props = {}
@@ -85,6 +89,7 @@ const App = (props: Props) => {
         { path: '/detail_order/:id', element: <DetailOrders /> },
         { path: '/category/:id', element: <Categorys /> },
         { path: '/vnpay_return', element: <VnpayReturn  /> },
+        { path: '/cod_return', element: <CodReturn /> },
 
         
 
@@ -172,6 +177,10 @@ const App = (props: Props) => {
         { path: 'banner/:id', element: <BannerDetail /> },
         { path: 'dashboard', element: <DashboardAdmin /> },
         { path: 'report', element: <DashboardAdmin /> },
+
+        { path: "user/listadmin", element: <GetAdmin /> },
+         { path: "user/listclient", element: <GetClient /> },
+         { path: "user/profileadmin", element: <ProfileAdmin /> },
       ]
     },
 
