@@ -4,7 +4,7 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { User } from "../../../interface/user";
+import { User } from "../../../interface/user"; // interface có `id`, không phải `_id`
 
 const ProfileAdmin = () => {
   const nav = useNavigate();
@@ -31,27 +31,23 @@ const ProfileAdmin = () => {
     if (!storedUser) return;
 
     const originalData: User = JSON.parse(storedUser);
-    if (!originalData?._id) return;
-const updatedFields: Partial<User> = {};
-    // Chỉ cập nhật các trường đã thay đổi
+    if (!originalData?.id) return;
+
+    const updatedFields: Partial<User> = {};
     Object.entries(form).forEach(([key, value]) => {
       if (value !== originalData[key as keyof User]) {
         updatedFields[key as keyof User] = value;
       }
     });
+
     if (Object.keys(updatedFields).length === 0) {
       message.warning("Không có thay đổi nào để cập nhật.");
       return;
     }
 
-
-
     try {
-      console.log("originalData._id:", originalData._id);
-console.log("updatedFields:", updatedFields);
-      const res = await axios.put(`http://localhost:5000/api/users/profile/${originalData._id}`, updatedFields);
-      localStorage.setItem("admin", JSON.stringify(res.data.user));
-     
+      const res = await axios.patch(`http://localhost:4000/users/${originalData.id}`, updatedFields);
+      localStorage.setItem("admin", JSON.stringify(res.data));
       message.success("Cập nhật thành công!");
       nav("/admin/");
     } catch (error) {
@@ -124,8 +120,6 @@ console.log("updatedFields:", updatedFields);
               {...register("address")}
             />
           </div>
-
-         
         </div>
 
         <div className="mt-6 text-center">

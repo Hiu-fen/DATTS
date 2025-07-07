@@ -6,6 +6,7 @@ import {
   ProductFilled,
   ReadOutlined,
   PlusOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { Menu, MenuProps } from 'antd';
 import React from 'react';
@@ -97,6 +98,15 @@ const AdminSidebar = () => {
       ],
       },
       {
+      key: 'user-manage',
+      icon: <UserOutlined />,
+      label: 'Quản lý người dùng',
+      children: [
+        { key: 'user-listadmin', label: 'Tài khoản quản trị' },
+        { key: 'user-listclient', label: 'Tài khoản khách hàng' },
+      ],
+    },
+      {
         key: 'promotion-manage',
         label: 'Quản lý khuyến mãi',
         icon: <ReadOutlined />,
@@ -132,6 +142,8 @@ const AdminSidebar = () => {
       'banner-add': '/admin/banner/add',
       'promotion-list': '/admin/promotion/list',
       'promotion-add': '/admin/promotion/add',
+      'user-listadmin': '/admin/user/listadmin',
+      'user-listclient': '/admin/user/listclient',
       dashboard: '/admin',
       report: '/admin/report',
     };

@@ -435,6 +435,24 @@
           "quantity": 1
         }
       ]
+    },
+    {
+      "id": 3,
+      "userId": 15,
+      "items": [
+        {
+          "productId": {
+            "id": 2,
+            "name": "Laptop MacBook Air 13 inch M2 16GB/256GB",
+            "price": 20890000,
+            "image": "https://cdn.tgdd.vn/Products/Images/44/289472/apple-macbook-air-m2-2022-16gb-256gb-2-2-750x500.jpg",
+            "description": "Apple M2",
+            "ram": "1T",
+            "color": "Blue"
+          },
+          "quantity": 2
+        }
+      ]
     }
   ],
   "orders": [
@@ -1000,6 +1018,33 @@
           "storage": "1T"
         }
       ]
+    },
+    {
+      "id": 21,
+      "userId": 15,
+      "orderCode": "ORD-05P1P",
+      "customerName": "Vũ Xuân Kiên",
+      "phone": "0987654321",
+      "address": "173 C Trường Chinh, Thanh Xuân, Hà Nội",
+      "email": "kiendeptry123@gmail.com",
+      "notes": "",
+      "paymentMethod": "COD",
+      "shippingProvider": "Giao hàng tiêu chuẩn",
+      "total": 20925000,
+      "status": "Chờ xác nhận",
+      "date": "2025-07-03T09:16:41.536Z",
+      "isPaid": false,
+      "refunded": false,
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Laptop MacBook Air 13 inch M2 16GB/256GB",
+          "soluong": 1,
+          "price": 20890000,
+          "color": "Blue",
+          "storage": "1T"
+        }
+      ]
     }
   ],
   "news": [
@@ -1090,11 +1135,14 @@
     },
     {
       "email": "login@gmail.com",
-      "password": "$2a$10$ZDfjTsut1FN7uRBDB5/w7.ToQN/OL7cy3BH01tHJyITOMp.qWCID6",
+      "password": "$2a$10$kNEmhpyPqd.sdEwLVO/aZ..n12IBQXf4PWiI6sHtr7UfppccEVNa.",
       "name": "Phạm Minh Hiếu ",
       "role": "admin",
       "id": 4,
-      "active": true
+      "active": true,
+      "avatar": "https://img.lovepik.com/free-png/20211204/lovepik-cartoon-avatar-png-image_401302777_wh1200.png",
+      "sdt": "0123456789",
+      "address": "173 C Trường Chinh, Thanh Xuân, Hà Nội"
     },
     {
       "email": "login2@gmail.com",
@@ -1151,6 +1199,7 @@
       "email": "hiuhehe@gmail.com",
       "password": "$2a$10$EAj8jPTVkUS4BoBDqol76OxTyBL/Hwzo4Mv2MdR9U/xlgN8t4Waia",
       "name": "hieu",
+      "role": "user ",
       "id": 13
     },
     {
@@ -1160,6 +1209,26 @@
       "role": "admin",
       "active": true,
       "id": 14
+    },
+    {
+      "email": "kiendeptry123@gmail.com",
+      "password": "$2a$10$t9Lqz3qbn6lom1NUQauGRedYS15SE4O9t.jI0huog6rqyrCHJ.3DC",
+      "name": "Vũ Xuân Kiên",
+      "id": 15
+    },
+    {
+      "email": "client@gmail.com",
+      "password": "$2a$10$mTNMtEpCKZBaH59iP4a3A.zH7C1t9SKk1ZWKST8G2cQapsEMSXX/a",
+      "name": "vũ xuân kiên",
+      "id": 16
+    },
+    {
+      "email": "ok123@gmail.com",
+      "password": "$2a$10$L82C7zPWnWpdKfqEB5mTjupqWbyZeQ1R.GTAwjEKDAsGsy0m.RwEm",
+      "name": "koko",
+      "role": "user",
+      "active": true,
+      "id": 17
     }
   ],
   "banners": [
