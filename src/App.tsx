@@ -65,6 +65,9 @@ import GetAdmin from './components/admin/User/ListUserAdmin'
 import GetClient from './components/admin/User/ListUserClient'
 import ProfileAdmin from './components/admin/User/ProfileAdmin'
 import CheckoutProduct from './components/client/page/checkout/checkoutProduct'
+import NotFound from './components/client/page/notfound'
+
+
 
 
 
@@ -103,6 +106,10 @@ const App = (props: Props) => {
 
       ]
     },
+    {
+    path: "*",
+    element: <NotFound />
+  },
      {
       path: "/admin/login",
       element: <LoginAdmin />,
